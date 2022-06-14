@@ -15,6 +15,11 @@ class HomeTests(TestCase):
         view = resolve('/')
         self.assertEquals(view.func, home)
 
+    def test_home_template_name(self):
+        url = reverse('home')
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, 'quizzes/home.html')
+
 
 class TopicModelTests(TestCase):
     def setUp(self):
