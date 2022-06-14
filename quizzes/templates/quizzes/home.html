@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz: Home</title>
+</head>
+<body>
+<h1>Topics</h1>
+{% for topic in topics %}
+    <h2>{{ topic.name }}</h2>
+    {{ topic.description }} <br>
+    <small>
+        {% for word in topic.words.all %}
+            {{ word.target }} <br>
+        {% endfor %}
+    </small>
+{% endfor %}
+</body>
+</html>
