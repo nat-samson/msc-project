@@ -1,8 +1,8 @@
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 
 
-# most essential model fields to get started
 class Topic(models.Model):
     name = models.CharField(max_length=32)
     description = models.CharField(max_length=100, blank=True)
@@ -11,6 +11,10 @@ class Topic(models.Model):
 
     def __str__(self):
         return self.name
+
+    # provides count of number of words in given topic
+    def word_count(self):
+        return self.words.count()
 
 
 class Word(models.Model):
@@ -21,7 +25,7 @@ class Word(models.Model):
 
     class Meta:
         unique_together = ('origin', 'topic'), ('target', 'topic')
-        ordering = ('topic', 'origin')
+        ordering = ('topic', 'origin',)
 
     def __str__(self):
         return f'{self.origin} -> {self.target}'

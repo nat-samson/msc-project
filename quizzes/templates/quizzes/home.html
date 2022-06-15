@@ -7,15 +7,28 @@
     <link rel="stylesheet" href="{% static 'quizzes/base.css' %}">
 </head>
 <body>
+<header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Progress</a>
+        <a href="#">Dashboard</a>
+        <a href="#">Profile</a>
+        <a href="#">Login/Logout</a>
+    </nav>
+</header>
 <h1>Topics</h1>
 {% for topic in topics %}
+    <div>
     <h2>{{ topic.name }}</h2>
     {{ topic.description }} <br>
+    <a href="#">Revise</a>
+    <a href="#">Quiz</a>
     <small>
         {% for word in topic.words.all %}
             {{ word.target }} <br>
         {% endfor %}
     </small>
+    </div>
 {% endfor %}
 </body>
 </html>
