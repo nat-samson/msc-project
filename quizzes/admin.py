@@ -10,14 +10,14 @@ from .models import Topic, Word
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('name', 'word_count', 'is_hidden', 'link_to_words',)
+    list_display = ('name', 'is_hidden', 'link_to_words',)
     fields = ('name', 'description', 'is_hidden',)
 
     def link_to_words(self, obj):
-        count = obj.word_count()
+        count = obj.words.count()
         url = (
                 reverse("admin:quizzes_word_changelist")
-                + "?" + urlencode({"topic__id": f"{obj.id}"})
+                + "?" + urlencode({"topics__id": f"{obj.id}"})
         )
         return format_html('<a href="{}">{} Words</a>', url, count)
 
@@ -26,7 +26,16 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Word)
 class WordAdmin(admin.ModelAdmin):
-    list_display = ('origin', 'target', 'topic',)
-    list_filter = ('topic',)
+    list_display = ('origin', 'target', 'get_topics_list_str',)
+    list_filter = ('topics',)
     search_fields = ('origin', 'target',)
-    fields = ('origin', 'target', 'topic',)
+    fields = ('origin', 'target', 'topics')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('topics')
+
+    def get_topics_list_str(self, obj):
+        return ', '.join([x.name for x in obj.topics.all()])
+
+    get_topics_list_str.short_description = 'Topics List'

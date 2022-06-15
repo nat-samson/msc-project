@@ -25,8 +25,8 @@ class TopicModelTests(TestCase):
     def setUp(self):
         animals = Topic.objects.create(name='Animals', description='Practice your German words for Animals.')
         Topic.objects.create(name='Colours', description='All the colours of des Regenbogens.')
-        Word.objects.create(origin='Mouse', target='die Maus', topic=animals)
-        Word.objects.create(origin='Fish', target='der Fisch', topic=animals)
+        Word.objects.create(origin='Mouse', target='die Maus').topics.add(animals)
+        Word.objects.create(origin='Fish', target='der Fisch').topics.add(animals)
 
     def test_topics_str(self):
         # test __str__ for Topics
@@ -38,15 +38,15 @@ class TopicModelTests(TestCase):
     def test_topic_word_count(self):
         animals = Topic.objects.get(name="Animals")
         colours = Topic.objects.get(name="Colours")
-        self.assertEqual(animals.word_count(), 2)
-        self.assertEqual(colours.word_count(), 0)
+        self.assertEqual(animals.words.count(), 2)
+        self.assertEqual(colours.words.count(), 0)
 
 
 class WordModelTests(TestCase):
     def setUp(self):
         animals = Topic.objects.create(name='Animals', description='Practice your German words for Animals.')
-        Word.objects.create(origin='Mouse', target='die Maus', topic=animals)
-        Word.objects.create(origin='Fish', target='der Fisch', topic=animals)
+        Word.objects.create(origin='Mouse', target='die Maus').topics.add(animals)
+        Word.objects.create(origin='Fish', target='der Fisch').topics.add(animals)
 
     def test_words_str(self):
         # test __str__ for Words

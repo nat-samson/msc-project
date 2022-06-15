@@ -23,7 +23,7 @@
     {{ topic.description }} <br>
     <a href="#">Revise</a>
     <a href="#">Quiz</a>
-    <small>
+    <small> <br>
         {% for word in topic.words.all %}
             {{ word.target }} <br>
         {% endfor %}
