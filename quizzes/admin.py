@@ -12,14 +12,16 @@ from .models import Topic, Word
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_hidden', 'link_to_words',)
     fields = ('name', 'description', 'is_hidden',)
+    search_fields = ('name',)
 
     def link_to_words(self, obj):
         count = obj.words.count()
         url = (
-                reverse("admin:quizzes_word_changelist")
-                + "?" + urlencode({"topics__id": f"{obj.id}"})
+                reverse('admin:quizzes_word_changelist')
+                + '?' + urlencode({'topics__id': f'{obj.id}'})
         )
-        return format_html('<a href="{}">{} Words</a>', url, count)
+        # extra formatting handles correct pluralisation
+        return format_html('<a href="{}">{} Word{}</a>', url, count, 's'[:count != 1])
 
     link_to_words.short_description = 'Words'
 
@@ -28,8 +30,8 @@ class TopicAdmin(admin.ModelAdmin):
 class WordAdmin(admin.ModelAdmin):
     list_display = ('origin', 'target', 'get_topics_list_str',)
     list_filter = ('topics',)
+    fields = ('origin', 'target', 'topics',)
     search_fields = ('origin', 'target',)
-    fields = ('origin', 'target', 'topics')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
