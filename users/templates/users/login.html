@@ -1,6 +1,6 @@
 {% extends "quizzes/base.html" %}
 {% block title %}{{ block.super }}: Login{% endblock %}
-{% block content %}
+{% block body %}
     <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
@@ -9,4 +9,4 @@
     <small>
         Don't have an account yet? <a href="{% url 'register' %}">Register today</a>
     </small>
-{% endblock content %}
+{% endblock body %}

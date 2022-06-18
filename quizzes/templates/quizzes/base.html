@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'quizzes/base.css' %}">
 </head>
 <body>
+{% block body %}
 <header>
     <nav>
         <a href={% url 'home' %}>Home</a>
@@ -25,5 +26,6 @@
     {% block content %}
     {% endblock content %}
 </div>
+{% endblock body %}
 </body>
 </html>

@@ -1,8 +1,8 @@
 {% extends "quizzes/base.html" %}
 {% block title %}{{ block.super }}: Goodbye!{% endblock %}
-{% block content %}
+{% block body %}
     <h2>You have successfully logged out.</h2>
     <small>
         <a href="{% url 'login' %}">Log in again?</a>
     </small>
-{% endblock content %}
+{% endblock body %}
