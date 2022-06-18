@@ -129,6 +129,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
-
-# alternatively to going to post-logout page, could simply redirect
-# LOGOUT_REDIRECT_URL = 'home'
