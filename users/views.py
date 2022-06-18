@@ -1,11 +1,11 @@
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from quizzes.forms import UserRegistrationForm
 
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
 
         # if the form is looking good, log the user in now
         if form.is_valid():
@@ -13,5 +13,5 @@ def register(request):
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = UserRegistrationForm()
     return render(request, 'users/register.html', {'form': form})

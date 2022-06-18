@@ -1,7 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse, resolve
+
+from quizzes.forms import UserRegistrationForm
 from .views import register
 
 
@@ -13,6 +14,7 @@ class RegisterTests(TestCase):
         # test successful registration
         user_input = {
             'username': 'nathaniel',
+            'email': 'email@email.com',
             'password1': 'djangotest123',
             'password2': 'djangotest123'
         }
@@ -27,7 +29,17 @@ class RegisterTests(TestCase):
 
     def test_register_form(self):
         form = self.response.context.get('form')
-        self.assertIsInstance(form, UserCreationForm)
+        self.assertIsInstance(form, UserRegistrationForm)
+
+    def test_form_has_intended_inputs(self):
+        # form must have exactly these inputs: CSRF token, username, email, password, confirm-password
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+        self.assertContains(self.response, 'type="text"', 1)
+        self.assertContains(self.response, 'type="email"', 1)
+        self.assertContains(self.response, 'type="password"', 2)
+
+        # form must have no extra inputs beyond those specified above
+        self.assertContains(self.response, '<input type=', 5)
 
     def test_user_registration(self):
         self.assertTrue(User.objects.exists())
