@@ -1,5 +1,9 @@
 {% extends "quizzes/base.html" %}
-
+{% block title %}{{ block.super }}: Register{% endblock %}
 {% block content %}
-  <!-- Form is going here -->
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create account</button>
+    </form>
 {% endblock content %}

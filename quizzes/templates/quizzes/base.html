@@ -3,22 +3,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Quizzes{% endblock title %}</title>
+    <title>{% block title %}Quizzes{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'quizzes/base.css' %}">
 </head>
 <body>
 <header>
     <nav>
         <a href="#">Home</a>
-        <a href="#">Progress</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Profile</a>
-        <a href="#">Login/Logout</a>
+        {% if user.is_authenticated %}
+            <a href="#">Progress</a>
+            <a href="#">Dashboard</a>
+            <a href="#">{{ user.username }}'s Profile</a>
+            <a href="#">Logout</a>
+        {% else %}
+            <a href="#">Login</a>
+            <a href={% url 'register' %}>Register</a>
+        {% endif %}
     </nav>
 </header>
 <div>
-{% block content %}
-{% endblock content %}
+    {% block content %}
+    {% endblock content %}
 </div>
 </body>
 </html>
