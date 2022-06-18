@@ -1,4 +1,7 @@
 {% extends "quizzes/base.html" %}
+
+{% block title %}{{ block.super }}: Home{% endblock %}
+
 {% block content %}
 <h1>Topics</h1>
 {% for topic in topics %}
