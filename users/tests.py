@@ -62,3 +62,13 @@ class UnsuccessfulRegisterTests(TestCase):
 
     def test_user_fail_registration(self):
         self.assertFalse(User.objects.exists())
+
+
+class LoginTests(TestCase):
+    def setUp(self):
+        # create a test user
+        self.credentials = {'username': 'testuser', 'password': 'testuser1234', 'email': 'email@email.com'}
+        self.user = User.objects.create_user(**self.credentials)
+
+    def test_successful_login(self):
+        pass
