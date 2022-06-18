@@ -1,21 +1,5 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Quiz: Home</title>
-    <link rel="stylesheet" href="{% static 'quizzes/base.css' %}">
-</head>
-<body>
-<header>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Progress</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Profile</a>
-        <a href="#">Login/Logout</a>
-    </nav>
-</header>
+{% extends "quizzes/base.html" %}
+{% block content %}
 <h1>Topics</h1>
 {% for topic in topics %}
     <div>
@@ -30,5 +14,4 @@
     </small>
     </div>
 {% endfor %}
-</body>
-</html>
+{% endblock content %}
