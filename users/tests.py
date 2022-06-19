@@ -1,5 +1,6 @@
 from django.contrib import auth
 from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.views import PasswordResetView
 from django.test import TestCase
 from django.urls import reverse, resolve
 
@@ -21,7 +22,7 @@ class RegisterTests(TestCase):
         }
         self.response_post = self.client.post(url, user_input)
 
-    def test_register_vew_status(self):
+    def test_register_view_status(self):
         self.assertEquals(200, self.response.status_code)
 
     def test_register_view_url(self):
@@ -88,7 +89,13 @@ class LoginTests(TestCase):
         user = auth.get_user(self.client)
         self.assertTrue(user.is_authenticated)
 
-    def test_unsuccessful_login(self):
+    def test_login_wrong_username(self):
+        self.user_input['username'] = 'wrongusername'
+        self.response = self.client.post(self.url, self.user_input)
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)
+
+    def test_login_wrong_password(self):
         self.user_input['password'] = 'wrongpassword'
         self.response = self.client.post(self.url, self.user_input)
         user = auth.get_user(self.client)
@@ -105,3 +112,24 @@ class LoginTests(TestCase):
         # testuser is no longer authenticated, and the active user in the client is now AnonymousUser instance
         self.assertFalse(user.is_authenticated)
         self.assertEqual(user, AnonymousUser())
+
+
+class PasswordResetTests(TestCase):
+    def setUp(self):
+        url = reverse('password_reset')
+        self.response = self.client.get(url)
+
+    def test_password_reset_view_status(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_password_reset_view_url(self):
+        view = resolve('/password-reset/')
+        self.assertEquals(PasswordResetView, view.func.view_class)
+
+    def test_form_has_intended_inputs(self):
+        # form must have exactly these inputs: CSRF token, email
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+        self.assertContains(self.response, 'type="email"', 1)
+
+        # form must have no extra inputs beyond those specified above
+        self.assertContains(self.response, '<input type=', 2)
