@@ -1,6 +1,7 @@
 from django.contrib import auth
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.views import PasswordResetView
+from django.core import mail
 from django.test import TestCase
 from django.urls import reverse, resolve
 
@@ -133,3 +134,21 @@ class PasswordResetTests(TestCase):
 
         # form must have no extra inputs beyond those specified above
         self.assertContains(self.response, '<input type=', 2)
+
+
+class PasswordResetSuccessTests(TestCase):
+    def setUp(self):
+        User.objects.create_user(username='testuser', email='email@email.com', password='testuser1234')
+        self.url = reverse('password_reset')
+        self.response = self.client.post(self.url, {'email': 'email@email.com'})
+
+    def test_password_reset_redirect(self):
+        url = reverse('password_reset_done')
+        self.assertRedirects(self.response, url)
+
+        # nb page still redirects even if email not recognised (prevents info leaking of registered emails)
+        self.response2 = self.client.post(self.url, {'email': 'notregistered@email.com'})
+        self.assertRedirects(self.response2, url)
+
+    def test_send_password_reset_email(self):
+        self.assertEqual(1, len(mail.outbox))
