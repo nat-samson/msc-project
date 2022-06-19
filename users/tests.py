@@ -136,7 +136,7 @@ class PasswordResetTests(TestCase):
         self.assertContains(self.response, '<input type=', 2)
 
 
-class PasswordResetSuccessTests(TestCase):
+class PasswordResetValidUserTests(TestCase):
     def setUp(self):
         User.objects.create_user(username='testuser', email='email@email.com', password='testuser1234')
         self.url = reverse('password_reset')
@@ -146,9 +146,20 @@ class PasswordResetSuccessTests(TestCase):
         url = reverse('password_reset_done')
         self.assertRedirects(self.response, url)
 
-        # nb page still redirects even if email not recognised (prevents info leaking of registered emails)
-        self.response2 = self.client.post(self.url, {'email': 'notregistered@email.com'})
-        self.assertRedirects(self.response2, url)
-
     def test_send_password_reset_email(self):
         self.assertEqual(1, len(mail.outbox))
+
+
+class PasswordResetInvalidUserTests(TestCase):
+    def setUp(self):
+        self.url = reverse('password_reset')
+        self.response = self.client.post(self.url, {'email': 'notregistered@email.com'})
+
+    def test_password_reset_nonexistent_user(self):
+        # nb page still redirects even if email not recognised in database (prevents info leaking of registered emails)
+        url = reverse('password_reset_done')
+        self.assertRedirects(self.response, url)
+
+    def test_send_password_reset_email(self):
+        # page redirects, but no email actually gets sent
+        self.assertEqual(0, len(mail.outbox))
