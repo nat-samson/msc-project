@@ -129,3 +129,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+# Email settings for sending out password reset links
+# Password resets are sent to the console in debug mode. An SMTP client must be specified in production.
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+    EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
