@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+from django.contrib import auth
+from django.contrib.auth.models import User, AnonymousUser
 from django.test import TestCase
 from django.urls import reverse, resolve
 
@@ -30,6 +31,12 @@ class RegisterTests(TestCase):
     def test_register_form(self):
         form = self.response.context.get('form')
         self.assertIsInstance(form, UserRegistrationForm)
+
+    def test_register_form_fields(self):
+        # this tests the form directly, not the form as part of a rendered view
+        form = UserRegistrationForm()
+        fields = ('username', 'email', 'password1', 'password2')
+        self.assertSequenceEqual(fields, tuple(form.fields))
 
     def test_form_has_intended_inputs(self):
         # form must have exactly these inputs: CSRF token, username, email, password, confirm-password
@@ -69,6 +76,32 @@ class LoginTests(TestCase):
         # create a test user
         self.credentials = {'username': 'testuser', 'password': 'testuser1234', 'email': 'email@email.com'}
         self.user = User.objects.create_user(**self.credentials)
+        self.url = reverse('login')
+        self.user_input = {
+            'username': 'testuser',
+            'password': 'testuser1234'
+        }
 
     def test_successful_login(self):
-        pass
+        self.response = self.client.post(self.url, self.user_input)
+        self.assertIn('_auth_user_id', self.client.session)
+        user = auth.get_user(self.client)
+        self.assertTrue(user.is_authenticated)
+
+    def test_unsuccessful_login(self):
+        self.user_input['password'] = 'wrongpassword'
+        self.response = self.client.post(self.url, self.user_input)
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)
+
+    def test_logout(self):
+        # first, log testuser in
+        self.response = self.client.post(self.url, self.user_input)
+
+        # now log testuser out
+        self.response = self.client.get(reverse('logout'))
+        user = auth.get_user(self.client)
+
+        # testuser is no longer authenticated, and the active user in the client is now AnonymousUser instance
+        self.assertFalse(user.is_authenticated)
+        self.assertEqual(user, AnonymousUser())
