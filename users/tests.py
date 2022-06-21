@@ -138,7 +138,8 @@ class PasswordResetTests(TestCase):
 
 class PasswordResetValidUserTests(TestCase):
     def setUp(self):
-        User.objects.create_user(username='testuser', email='email@email.com', password='testuser1234')
+        User.objects.create_user(username='testuser', email='email@email.com', password='testuser1234',
+                                 first_name='test', last_name='user')
         self.url = reverse('password_reset')
         self.response = self.client.post(self.url, {'email': 'email@email.com'})
 
