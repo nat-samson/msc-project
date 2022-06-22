@@ -1,6 +1,6 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
-from quizzes.forms import UserRegistrationForm
+from .forms import UserRegistrationForm
 
 
 def register(request):

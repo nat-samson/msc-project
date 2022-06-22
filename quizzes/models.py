@@ -1,10 +1,9 @@
 from django.db import models
-from django.db.models import Count
 from django.contrib.auth.models import User
 
 
 class Topic(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, unique=True)
     description = models.CharField(max_length=100, blank=True)
     is_hidden = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)

@@ -1,11 +1,12 @@
 from django.contrib import auth
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import PasswordResetView
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse, resolve
 
-from quizzes.forms import UserRegistrationForm
+from .forms import UserRegistrationForm
+from .models import User
 from .views import register
 
 

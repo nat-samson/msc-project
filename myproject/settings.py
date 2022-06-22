@@ -130,6 +130,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
+AUTH_USER_MODEL = 'users.User'
+
 # Email settings for sending out password reset links
 # Password resets are sent to the console in debug mode. An SMTP client must be specified in production.
 if DEBUG:
