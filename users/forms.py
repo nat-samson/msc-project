@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import Group
 from django.db import transaction
 
 from users.models import User, StudentProfile, TeacherProfile
@@ -38,6 +37,7 @@ class StudentRegistrationForm(CustomUserCreationForm):
 
 class TeacherRegistrationForm(CustomUserCreationForm):
     # add fields relevant only to teachers
+    # TODO: Mechanism for checking a key, so students can't register as teachers
 
     def save(self):
         user = super().save(commit=False)

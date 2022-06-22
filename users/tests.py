@@ -7,7 +7,7 @@ from django.urls import reverse, resolve
 
 from .forms import StudentRegistrationForm, TeacherRegistrationForm
 from .models import User
-from .views import StudentRegisterView, TeacherRegisterView
+from .views import RegisterView, StudentRegisterView, TeacherRegisterView
 
 # set up some common variables
 good_user_input = {
@@ -18,6 +18,19 @@ good_user_input = {
             'password1': 'djangotest123',
             'password2': 'djangotest123'
         }
+
+
+class RegisterLandingPageTests(TestCase):
+    def setUp(self):
+        url = reverse('register')
+        self.response = self.client.get(url)
+
+    def test_register_view_status(self):
+        self.assertEquals(200, self.response.status_code)
+
+    def test_register_view_url(self):
+        view = resolve('/register/')
+        self.assertIs(view.func.view_class, RegisterView)
 
 
 class StudentRegisterTests(TestCase):
