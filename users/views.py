@@ -1,17 +1,20 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
+from django.views.generic import CreateView, TemplateView
+
+from .forms import StudentRegistrationForm
+from .models import User
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+class RegisterView(TemplateView):
+    template_name = 'users/register.html'
 
-        # if the form is looking good, log the user in now
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'users/register.html', {'form': form})
+
+class StudentRegisterView(CreateView):
+    model = User
+    form_class = StudentRegistrationForm
+    template_name = 'users/register_form.html'
+
+
+class TeacherRegisterView(CreateView):
+    pass
