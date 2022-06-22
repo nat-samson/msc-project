@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from .models import Topic, Word
-from .views import home
+from .views import TopicListView
 
 
 class HomeTests(TestCase):
@@ -14,7 +14,7 @@ class HomeTests(TestCase):
 
     def test_home_view_url(self):
         view = resolve('/')
-        self.assertEquals(home, view.func)
+        self.assertIs(view.func.view_class, TopicListView)
 
     def test_home_template_name(self):
         self.assertTemplateUsed(self.response, 'quizzes/home.html')
