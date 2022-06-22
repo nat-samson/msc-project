@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from .models import Topic, Word
-from .views import TopicListView
+from .views import TopicListView, TopicDetailView
 
 
 class HomeTests(TestCase):
@@ -18,6 +18,16 @@ class HomeTests(TestCase):
 
     def test_home_template_name(self):
         self.assertTemplateUsed(self.response, 'quizzes/home.html')
+
+
+class TopicPageTests(TestCase):
+    def setUp(self):
+        animals = Topic.objects.create(name='Animals', description='Practice your German words for Animals.')
+        path = '/topic/' + str(animals.pk) + '/'
+        self.view = resolve(path)
+
+    def test_home_view_url(self):
+        self.assertIs(self.view.func.view_class, TopicDetailView)
 
 
 class TopicModelTests(TestCase):

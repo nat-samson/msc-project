@@ -8,13 +8,8 @@
     <div>
     <h2>{{ topic.name }}</h2>
     {{ topic.description }} <br>
-    <a href="#">Revise</a>
+    <a href="{% url 'topic_detail' topic.id %}">Revise</a>
     <a href="#">Quiz</a>
-    <small> <br>
-        {% for word in topic.words.all %}
-            {{ word.target }} <br>
-        {% endfor %}
-    </small>
     </div>
 {% endfor %}
 {% endblock content %}

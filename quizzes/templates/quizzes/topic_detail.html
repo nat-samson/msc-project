@@ -1,0 +1,13 @@
+{% extends "quizzes/base.html" %}
+
+{% block title %}{{ block.super }}: Home{% endblock %}
+
+{% block content %}
+    <h1>{{ object.name }}</h1>
+    <h2>{{ object.description }}</h2>
+    {% for word in object.words.all %}
+        {{ word }} <br>
+    {% endfor %}
+    <a href="#">Quiz</a>
+
+{% endblock content %}
