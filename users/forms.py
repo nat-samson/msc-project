@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from django.db import transaction
 
-from users.models import User, StudentProfile
+from users.models import User, StudentProfile, TeacherProfile
 
 
 # add email as an additional field to the register form
@@ -36,8 +37,17 @@ class StudentRegistrationForm(CustomUserCreationForm):
 
 
 class TeacherRegistrationForm(CustomUserCreationForm):
-    email = forms.EmailField()
+    # add fields relevant only to teachers
 
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+    def save(self):
+        user = super().save(commit=False)
+        user.is_teacher = True
+        user.is_staff = True
+        user.save()
+
+        # auto-create the connected teacher profile
+        teacher = TeacherProfile.objects.create(user=user)
+
+        # here's where you'd add extra info to the teacher profile
+
+        return user
