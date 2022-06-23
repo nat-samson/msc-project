@@ -7,7 +7,7 @@
 {% for topic in topics %}
     <div>
     <h2>{{ topic.name }}</h2>
-    {{ topic.description }} <br>
+    {{ topic.short_desc }} <br>
     <a href="{% url 'topic_detail' topic.id %}">Revise</a>
     <a href="#">Quiz</a>
     </div>
