@@ -45,3 +45,11 @@ class WordScore(models.Model):
 
     class Meta:
         unique_together = ('word', 'student')
+
+
+class QuizResults(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    date_created = models.DateField(auto_now_add=True)
+    correct_answers = models.PositiveSmallIntegerField(default=0)
+    incorrect_answers = models.PositiveSmallIntegerField(default=0)
