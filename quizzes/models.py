@@ -53,3 +53,6 @@ class QuizResults(models.Model):
     date_created = models.DateField(auto_now_add=True)
     correct_answers = models.PositiveSmallIntegerField(default=0)
     incorrect_answers = models.PositiveSmallIntegerField(default=0)
+
+    def get_points(self):
+        return max(self.correct_answers * 10 - self.incorrect_answers * 2, 0)

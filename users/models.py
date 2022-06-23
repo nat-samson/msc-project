@@ -3,13 +3,14 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    # fields common to both students and teachers go here
     is_student = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
+    # courses = models.ManyToManyField(Course, related_name='courses')
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # enrollments = models.ManyToManyField(Course, related_name='enrolled_students')
     # Todo: profile picture implementation
 
     class Meta:
