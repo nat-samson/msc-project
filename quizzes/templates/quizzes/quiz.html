@@ -1,0 +1,12 @@
+{% extends "quizzes/base.html" %}
+
+{% block title %}{{ block.super }}: Home{% endblock %}
+
+{% block content %}
+<h1>Quiz</h1>
+{% for word in words %}
+    <div>
+    <h2>{{ word }}</h2>
+    </div>
+{% endfor %}
+{% endblock content %}

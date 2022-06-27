@@ -1,7 +1,6 @@
 from django.db.models import FilteredRelation, Q
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView, FormView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, TemplateView
 
 from quizzes.models import Topic, Word
 
@@ -39,42 +38,22 @@ class TopicDetailView(DetailView):
         return context
 
 
-class QuizDataView(FormView):
-    model = Topic
-    template_name = 'quizzes/quiz.html'
-
-
-def quiz_data(request, pk):
-    # some function call here to get quiz data
-    # quiz_data = getQuizData(pk, user)
-
-    # dummy data for now
-    data = {
-        'questions': [
-            {
-                'word_id': 3,
-                'target_to_origin': True,
-                'question': 'Mouse',
-                'correct_answer': 'Die Maus',
-                'incorrect_answers': ['Der Bär', 'Der Hund', 'Die Katze']
-            },
-            {
-                'word_id': 2,
-                'target_to_origin': True,
-                'question': 'Dog',
-                'correct_answer': 'Der Hund',
-                'incorrect_answers': ['Die Maus', 'Der Hund', 'Die Katze']
-            },
-            {
-                'word_id': 1,
-                'target_to_origin': False,
-                'question': 'Die Katze',
-                'correct_answer': 'Cat',
-                'incorrect_answers': ['Dog', 'Bear', 'Mouse']
-            }
-        ]
-    }
-    return JsonResponse(data)
+def quiz(request, pk):
+    if request.method == 'POST':
+        # TODO: processing the results of the quiz
+        # get the quiz results data out of request.POST
+        # process the data
+        # redirect user to results page (currently using home as placeholder)
+        return redirect('home')
+    else:
+        # get the data needed to build the form in the template
+        # pass it to a view
+        context = {
+            'topic': Topic.objects.filter(pk=pk),
+            'words': Word.objects.filter(topics=pk)
+        }
+        print(context['words'])
+        return render(request, 'quizzes/quiz.html', context)
 
 
 class QuizResultsView(TemplateView):
