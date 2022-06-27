@@ -3,10 +3,25 @@
 {% block title %}{{ block.super }}: Home{% endblock %}
 
 {% block content %}
-<h1>Quiz</h1>
-{% for word in words %}
-    <div>
-    <h2>{{ word }}</h2>
-    </div>
-{% endfor %}
+    <h1>Quiz</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div>
+                <h3>{{ question.word }}</h3>
+                <input type="hidden" id="correct" name={{ question.word_id }} value={{ question.correct_answer }}>
+                {% for option in question.options %}<br>
+
+                    <input type="radio" id={{ forloop.counter0 }} name={{ question.word_id }} value={{ forloop.counter0 }}>
+                    <label for={{ forloop.counter0 }}>{{ option }}</label>
+                {% endfor %}
+            {% if forloop.last %}
+                <input type="submit" value="See Your Results">
+            {% else %}
+                <button>Next</button>
+            {% endif %}
+            </div>
+        {% endfor %}
+    </form>
+
 {% endblock content %}

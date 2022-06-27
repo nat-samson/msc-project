@@ -2,6 +2,7 @@ from django.db.models import FilteredRelation, Q
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView
 
+from quizzes import quiz_builder
 from quizzes.models import Topic, Word
 
 
@@ -38,22 +39,23 @@ class TopicDetailView(DetailView):
         return context
 
 
-def quiz(request, pk):
+def quiz(request, topic_pk):
     if request.method == 'POST':
         # TODO: processing the results of the quiz
         # get the quiz results data out of request.POST
         # process the data
         # redirect user to results page (currently using home as placeholder)
+        results = request.POST.items()
+        for k,v in results:
+            # process
+            pass
         return redirect('home')
     else:
         # get the data needed to build the form in the template
         # pass it to a view
-        context = {
-            'topic': Topic.objects.filter(pk=pk),
-            'words': Word.objects.filter(topics=pk)
-        }
-        print(context['words'])
-        return render(request, 'quizzes/quiz.html', context)
+        questions = quiz_builder.get_quiz(request.user, topic_pk)
+
+        return render(request, 'quizzes/quiz.html', {'questions': questions})
 
 
 class QuizResultsView(TemplateView):
