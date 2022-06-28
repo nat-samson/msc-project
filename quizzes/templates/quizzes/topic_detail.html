@@ -11,17 +11,16 @@
         <th>Origin</th>
         <th>Target</th>
         <th>Score</th>
-        <th>Score</th>
         </thead>
         {% for word in words_with_scores %}
             <tr>
-                <td>{{word.origin}}</td>
-                <td>{{word.target}}</td>
-                <td>{{word.score}}</td>
+                <td>{{word.0}}</td>
+                <td>{{word.1}}</td>
+                <td>{{word.2|default_if_none:0}}</td>
             </tr>
         {% endfor %}
     </table>
 
-    <a href="#">Quiz</a>
+    <a href="{% url 'quiz' topic.id %}">Quiz</a>
 
 {% endblock content %}

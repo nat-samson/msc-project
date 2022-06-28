@@ -9,7 +9,7 @@
     <h2>{{ topic.name }}</h2>
     {{ topic.short_desc }} <br>
     <a href="{% url 'topic_detail' topic.id %}">Revise</a>
-    <a href="#">Quiz</a>
+    <a href="{% url 'quiz' topic.id %}">Quiz</a>
     </div>
 {% endfor %}
 {% endblock content %}

@@ -1,9 +1,11 @@
-from django.db.models import FilteredRelation, Q
+import datetime
+
+from django.db.models import FilteredRelation, Q, F
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView
 
 from quizzes import quiz_builder
-from quizzes.models import Topic, Word
+from quizzes.models import Topic, Word, WordScore, QuizResults
 
 
 # temporary basic home view - INACTIVE
@@ -31,10 +33,10 @@ class TopicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # get the current user's word scores for the given topic
+        # get the current user's word scores for the given topic (using an outer join with WordScore)
         context['words_with_scores'] = Word.objects.filter(topics=context['topic']).annotate(
-            score=FilteredRelation('wordscore', condition=Q(wordscore__student=self.request.user)),
-        ).values('origin', 'target', 'score')
+            joinscore=FilteredRelation('wordscore', condition=Q(wordscore__student=self.request.user)),
+        ).values_list('origin', 'target', 'joinscore__score')
 
         return context
 
@@ -42,13 +44,36 @@ class TopicDetailView(DetailView):
 def quiz(request, topic_pk):
     if request.method == 'POST':
         # TODO: processing the results of the quiz
+
         # get the quiz results data out of request.POST
+        results = dict(request.POST.lists())
+        results.pop('csrfmiddlewaretoken')
+
+        correct = 0
+        incorrect = 0
+
         # process the data
+        for question, answer in results.items():
+            # exclude unanswered questions
+            if len(answer) == 2:
+                if answer[0] == answer[1]:  # correct
+                    correct += 1
+                    WordScore.objects.update_or_create(word_id=question, student=request.user,
+                                                       consecutive_correct=F('consecutive_correct') + 1,
+                                                       times_seen=F('times_seen') + 1,
+                                                       next_review=datetime.date.today() + datetime.timedelta(days=1),
+                                                       score=F('score') + 1)
+                else:  # incorrect
+                    incorrect += 1
+                    WordScore.objects.update_or_create(word_id=question, student=request.user,
+                                                       consecutive_correct=0, times_seen=F('times_seen') + 1,
+                                                       next_review=datetime.date.today() + datetime.timedelta(days=1),
+                                                       score=F('score') - 1)
+
+        # store results of quiz
+        QuizResults.objects.create(student=request.user, topic_id=topic_pk, correct_answers=correct, incorrect_answers=incorrect)
+
         # redirect user to results page (currently using home as placeholder)
-        results = request.POST.items()
-        for k,v in results:
-            # process
-            pass
         return redirect('home')
     else:
         # get the data needed to build the form in the template
