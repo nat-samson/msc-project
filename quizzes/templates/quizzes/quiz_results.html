@@ -1,0 +1,25 @@
+{% extends "quizzes/base.html" %}
+
+{% block title %}{{ block.super }}: Results{% endblock %}
+
+{% block content %}
+
+    You got {{ correct }} / {{ total }}!
+
+    <table>
+        <thead>
+        <th>Word</th>
+        <th>Target</th>
+        <th>Result</th>
+        </thead>
+        {% for word, result in words.items %}
+            <tr>
+                <td>{{ word.origin }}</td>
+                <td>{{ word.target }}</td>
+                <td>{% if result %}✅{% else %}❌{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'home' %}">Done</a>
+{% endblock content %}

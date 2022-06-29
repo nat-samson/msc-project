@@ -1,7 +1,9 @@
 import datetime
+from json import dumps
 
 from django.db.models import FilteredRelation, Q, F
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView, TemplateView
 
 from quizzes import quiz_builder
@@ -49,6 +51,7 @@ def quiz(request, topic_pk):
         results = dict(request.POST.lists())
         results.pop('csrfmiddlewaretoken')
 
+        results_page_data = {'words': {}}
         correct = 0
         incorrect = 0
 
@@ -71,7 +74,7 @@ def quiz(request, topic_pk):
                         word_score.times_seen = F('times_seen') + 1
                         word_score.times_correct = F('times_correct') + 1
                         word_score.next_review = datetime.date.today() + datetime.timedelta(days=1)
-                        word_score.score= F('score') + 1
+                        word_score.score = F('score') + 1
                         word_score.save(update_fields=['consecutive_correct', 'times_seen', 'times_correct', 'next_review', 'score'])
 
                 # answer is incorrect
@@ -82,16 +85,19 @@ def quiz(request, topic_pk):
                         word_id=question, student=request.user)
                     if not created:
                         word_score.consecutive_correct = 0
-                        word_score.times_seen= F('times_seen') + 1
+                        word_score.times_seen = F('times_seen') + 1
                         word_score.next_review = datetime.date.today() + datetime.timedelta(days=1)
-                        word_score.score = score=F('score') - 1 # for now just deducting one from the score
-                        word_score.save(update_fields=['consecutive_correct', 'times_seen', 'next_review', 'score'])
+                        word_score.save(update_fields=['consecutive_correct', 'times_seen', 'next_review'])
 
+                results_page_data['words'][word_score.word] = answer[0] == answer[1]
         # store results of quiz
-        results = QuizResults.objects.create(student=request.user, topic_id=topic_pk, correct_answers=correct, incorrect_answers=incorrect)
 
-        # redirect user to results page (currently using home as placeholder)
-        return redirect('home')
+        if correct + incorrect > 0:
+            obj = QuizResults.objects.create(student=request.user, topic_id=topic_pk, correct_answers=correct, incorrect_answers=incorrect)
+        results_page_data['correct'] = correct
+        results_page_data['total'] = len(results)
+
+        return render(request, 'quizzes/quiz_results.html', results_page_data)
     else:
         # get the data needed to build the form in the template
         # pass it to a view
@@ -100,5 +106,11 @@ def quiz(request, topic_pk):
         return render(request, 'quizzes/quiz.html', {'questions': questions})
 
 
-class QuizResultsView(TemplateView):
-    pass
+#def results(request):
+
+    #return render(request, 'quizzes/quiz_results.html', results)
+
+
+#class QuizResultsView(DetailView):
+ #   model = QuizResults
+  #  template_name = 'quizzes/quiz_results.html'

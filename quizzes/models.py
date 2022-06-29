@@ -4,6 +4,8 @@ from django.db import models
 
 from users.models import User
 
+MAX_SCORE = 5
+
 
 class Topic(models.Model):
     name = models.CharField(max_length=32, unique=True)
@@ -38,13 +40,18 @@ class WordScore(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     consecutive_correct = models.PositiveSmallIntegerField(default=0)
-    times_seen = models.PositiveSmallIntegerField(default=0)
+    times_seen = models.PositiveSmallIntegerField(default=1)
     times_correct = models.PositiveSmallIntegerField(default=0)
     next_review = models.DateField(default=date.today)
     score = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
         unique_together = ('word', 'student')
+
+    @property
+    def real_score(self):
+        # enforces a maximum score for each word
+        return min(self.consecutive_correct, MAX_SCORE)
 
 
 class QuizResults(models.Model):
