@@ -8,6 +8,13 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
     # courses = models.ManyToManyField(Course, related_name='courses')
 
+    def __str__(self):
+        if self.is_superuser:
+            role = "Admin"
+        else:
+            role = "Teacher" if self.is_teacher else "Student"
+        return f'{self.first_name} {self.last_name} ({role})'
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

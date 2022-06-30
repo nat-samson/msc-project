@@ -1,3 +1,4 @@
+import datetime
 from datetime import date
 
 from django.db import models
@@ -5,6 +6,7 @@ from django.db import models
 from users.models import User
 
 MAX_SCORE = 5
+QUIZ_INTERVALS = (0, 1, 3, 6, 10, 15)  # please note MAX_SCORE must be < len(QUIZ_INTERVALS)
 
 
 class Topic(models.Model):
@@ -26,7 +28,8 @@ class Word(models.Model):
     origin = models.CharField(max_length=100, unique=True)
     target = models.CharField(max_length=100, unique=True)
     topics = models.ManyToManyField(Topic, related_name='words')
-    students = models.ManyToManyField(User, through='WordScore', through_fields=('word', 'student'), related_name='words')
+    students = models.ManyToManyField(User, through='WordScore',
+                                      through_fields=('word', 'student'), related_name='words')
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -43,15 +46,22 @@ class WordScore(models.Model):
     times_seen = models.PositiveSmallIntegerField(default=1)
     times_correct = models.PositiveSmallIntegerField(default=0)
     next_review = models.DateField(default=date.today)
-    score = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
         unique_together = ('word', 'student')
 
+    def __str__(self):
+        return f'{self.student} / {self.word}: {self.score}'
+
     @property
-    def real_score(self):
-        # enforces a maximum score for each word
+    def score(self):
+        # enforce a maximum score for each word
         return min(self.consecutive_correct, MAX_SCORE)
+
+    def set_next_review(self):
+        self.refresh_from_db()
+        days_to_add = QUIZ_INTERVALS[self.score]
+        self.next_review = datetime.date.today() + datetime.timedelta(days=days_to_add)
 
 
 class QuizResults(models.Model):

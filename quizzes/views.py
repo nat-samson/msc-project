@@ -1,10 +1,8 @@
 import datetime
-from json import dumps
 
 from django.db.models import FilteredRelation, Q, F
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic import ListView, DetailView, TemplateView
+from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 
 from quizzes import quiz_builder
 from quizzes.models import Topic, Word, WordScore, QuizResults
@@ -45,8 +43,6 @@ class TopicDetailView(DetailView):
 
 def quiz(request, topic_pk):
     if request.method == 'POST':
-        # TODO: processing the results of the quiz
-
         # get the quiz results data out of request.POST
         results = dict(request.POST.lists())
         results.pop('csrfmiddlewaretoken')
@@ -56,6 +52,7 @@ def quiz(request, topic_pk):
         incorrect = 0
 
         # process the data
+        # TODO: Make quiz disregard returned results for words that weren't due to be quizzed
         for question, answer in results.items():
             # exclude unanswered questions
             if len(answer) == 2:
@@ -67,15 +64,13 @@ def quiz(request, topic_pk):
                     word_score, created = WordScore.objects.get_or_create(
                         word_id=question, student=request.user,
                         defaults={'consecutive_correct': 1, 'times_correct': 1,
-                                  'next_review': datetime.date.today() + datetime.timedelta(days=1),
-                                  'score': 1})
+                                  'next_review': datetime.date.today() + datetime.timedelta(days=1)})
                     if not created:
                         word_score.consecutive_correct = F('consecutive_correct') + 1
                         word_score.times_seen = F('times_seen') + 1
                         word_score.times_correct = F('times_correct') + 1
-                        word_score.next_review = datetime.date.today() + datetime.timedelta(days=1)
-                        word_score.score = F('score') + 1
-                        word_score.save(update_fields=['consecutive_correct', 'times_seen', 'times_correct', 'next_review', 'score'])
+                        word_score.save(update_fields=['consecutive_correct', 'times_seen', 'times_correct'])
+                        word_score.set_next_review()
 
                 # answer is incorrect
                 else:
@@ -87,16 +82,18 @@ def quiz(request, topic_pk):
                         word_score.consecutive_correct = 0
                         word_score.times_seen = F('times_seen') + 1
                         word_score.next_review = datetime.date.today() + datetime.timedelta(days=1)
-                        word_score.save(update_fields=['consecutive_correct', 'times_seen', 'next_review'])
+                        word_score.save(update_fields=['consecutive_correct', 'times_seen'])
+                        word_score.set_next_review()
 
                 results_page_data['words'][word_score.word] = answer[0] == answer[1]
-        # store results of quiz
 
+        # store results of quiz
         if correct + incorrect > 0:
-            obj = QuizResults.objects.create(student=request.user, topic_id=topic_pk, correct_answers=correct, incorrect_answers=incorrect)
+            QuizResults.objects.create(student=request.user, topic_id=topic_pk, correct_answers=correct, incorrect_answers=incorrect)
+
+        # generate and render results page
         results_page_data['correct'] = correct
         results_page_data['total'] = len(results)
-
         return render(request, 'quizzes/quiz_results.html', results_page_data)
     else:
         # get the data needed to build the form in the template
@@ -104,13 +101,3 @@ def quiz(request, topic_pk):
         questions = quiz_builder.get_quiz(request.user, topic_pk)
 
         return render(request, 'quizzes/quiz.html', {'questions': questions})
-
-
-#def results(request):
-
-    #return render(request, 'quizzes/quiz_results.html', results)
-
-
-#class QuizResultsView(DetailView):
- #   model = QuizResults
-  #  template_name = 'quizzes/quiz_results.html'
