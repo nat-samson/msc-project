@@ -21,6 +21,7 @@ class TopicListView(ListView):
     template_name = 'quizzes/home.html'
     context_object_name = 'topics'
     ordering = ['date_created']
+
     #paginate_by = 6  # TODO: Pagination
     # TODO: only show topics that are 'quizzable', i.e. have enough words, aren't hidden
 
@@ -52,7 +53,8 @@ def quiz(request, topic_pk):
         incorrect = 0
 
         # process the data
-        # TODO: Make quiz disregard returned results for words that weren't due to be quizzed
+        # likely more efficient to cache all the WordScores of the relevant topic here, use that going forward
+
         for question, answer in results.items():
             # exclude unanswered questions
             if len(answer) == 2:
@@ -66,11 +68,13 @@ def quiz(request, topic_pk):
                         defaults={'consecutive_correct': 1, 'times_correct': 1,
                                   'next_review': datetime.date.today() + datetime.timedelta(days=1)})
                     if not created:
-                        word_score.consecutive_correct = F('consecutive_correct') + 1
+                        # only update score if it was due for review
+                        if word_score.next_review <= datetime.date.today():
+                            word_score.consecutive_correct = F('consecutive_correct') + 1
+                            word_score.set_next_review()
                         word_score.times_seen = F('times_seen') + 1
                         word_score.times_correct = F('times_correct') + 1
                         word_score.save(update_fields=['consecutive_correct', 'times_seen', 'times_correct'])
-                        word_score.set_next_review()
 
                 # answer is incorrect
                 else:
@@ -81,15 +85,16 @@ def quiz(request, topic_pk):
                     if not created:
                         word_score.consecutive_correct = 0
                         word_score.times_seen = F('times_seen') + 1
-                        word_score.next_review = datetime.date.today() + datetime.timedelta(days=1)
+                        word_score.next_review = datetime.date.today()
                         word_score.save(update_fields=['consecutive_correct', 'times_seen'])
                         word_score.set_next_review()
 
-                results_page_data['words'][word_score.word] = answer[0] == answer[1]
+                results_page_data['words'][word_score] = answer[0] == answer[1]
 
         # store results of quiz
         if correct + incorrect > 0:
-            QuizResults.objects.create(student=request.user, topic_id=topic_pk, correct_answers=correct, incorrect_answers=incorrect)
+            QuizResults.objects.create(student=request.user, topic_id=topic_pk,
+                                       correct_answers=correct, incorrect_answers=incorrect)
 
         # generate and render results page
         results_page_data['correct'] = correct

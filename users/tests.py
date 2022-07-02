@@ -122,7 +122,7 @@ class TeacherRegisterTests(TestCase):
     def test_form_has_intended_inputs(self):
         # form must have exactly these inputs:
         # CSRF token, username, email, firstname, lastname, password, confirm-password
-        self.assertContains(self.response, 'csrfmiddlewaretoken')
+        self.assertContains(self.response, 'csrfmiddlewaretoken', 1)
         self.assertContains(self.response, 'type="text"', 3)
         self.assertContains(self.response, 'type="email"', 1)
         self.assertContains(self.response, 'type="password"', 2)

@@ -22,14 +22,26 @@ class HomeTests(TestCase):
         self.assertTemplateUsed(self.response, 'quizzes/home.html')
 
 
-class TopicPageTests(TestCase):
+class TopicDetailPageTests(TestCase):
     def setUp(self):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+
+        # Create a user and log them in (topic detail pages require user-specific information)
+        student = User.objects.create_user(username='testuser', password='testuser1234', is_student=True)
+        self.client.force_login(student)
+
         path = '/topic/' + str(animals.pk) + '/'
+        self.response = self.client.get(path)
         self.view = resolve(path)
 
-    def test_home_view_url(self):
+    def test_topic_detail_view_status(self):
+        self.assertEquals(200, self.response.status_code)
+
+    def test_topic_detail_view_url(self):
         self.assertIs(self.view.func.view_class, TopicDetailView)
+
+    def test_topic_detail_view_template(self):
+        self.assertTemplateUsed(self.response, 'quizzes/topic_detail.html')
 
 
 class TopicModelTests(TestCase):
@@ -73,8 +85,7 @@ class WordScoreModelTests(TestCase):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
         self.mouse = Word.objects.create(origin='Mouse', target='die Maus')
         self.mouse.topics.add(animals)
-        self.student = User.objects.create_user(username='testuser', password='testuser1234',
-                                                first_name='test', last_name='user')
+        self.student = User.objects.create_user(username='testuser', password='testuser1234')
         self.mouse_score = WordScore.objects.create(word=self.mouse, student=self.student)
 
     def test_word_score_str(self):
@@ -88,3 +99,30 @@ class WordScoreModelTests(TestCase):
             self.mouse_score.consecutive_correct = num
             expected = min(num, MAX_SCORE)
             self.assertEqual(expected, self.mouse_score.score)
+
+
+class QuizTests(TestCase):
+    def setUp(self):
+        # Create a user and log them in (quizzes are constructed with user-specific information)
+        student = User.objects.create_user(username='testuser', password='testuser1234', is_student=True)
+        self.client.force_login(student)
+
+        animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+        path = '/topic/' + str(animals.pk) + '/quiz/'
+        self.response = self.client.get(path)
+
+    def test_quiz_view_status(self):
+        self.assertEquals(200, self.response.status_code)
+
+    def test_quiz_template_name(self):
+        self.assertTemplateUsed(self.response, 'quizzes/quiz.html')
+
+    def test_quiz_form_inputs(self):
+        number_of_questions = len(self.response.context['questions'])  # number of questions varies
+        self.assertContains(self.response, 'csrfmiddlewaretoken', 1)
+        self.assertContains(self.response, 'type="radio"', number_of_questions * 4)  # 4 for each question
+        self.assertContains(self.response, 'type="hidden"', number_of_questions + 1)  # 1 for each question + 1 token
+        self.assertContains(self.response, 'type="submit"', 1)  # the button to submit answers at the end
+
+        # form must have no extra inputs beyond those specified above
+        self.assertContains(self.response, '<input type=', number_of_questions * 5 + 2)
