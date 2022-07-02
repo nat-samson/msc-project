@@ -5,11 +5,13 @@
 {% block content %}
 <h1>Topics</h1>
 {% for topic in topics %}
+    {% if not topic.is_hidden %}
     <div>
     <h2>{{ topic.name }}</h2>
     {{ topic.short_desc }} <br>
     <a href="{% url 'topic_detail' topic.id %}">Revise</a>
     <a href="{% url 'quiz' topic.id %}">Quiz</a>
     </div>
+    {% endif %}
 {% endfor %}
 {% endblock content %}

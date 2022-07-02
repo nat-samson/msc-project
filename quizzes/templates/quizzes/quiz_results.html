@@ -14,9 +14,10 @@
         </thead>
         {% for word, result in words.items %}
             <tr>
-                <td>{{ word.origin }}</td>
-                <td>{{ word.target }}</td>
+                <td>{{ word.word.origin }}</td>
+                <td>{{ word.word.target }}</td>
                 <td>{% if result %}✅{% else %}❌{% endif %}</td>
+                <td>{{ word.next_review }}</td>
             </tr>
         {% endfor %}
     </table>
