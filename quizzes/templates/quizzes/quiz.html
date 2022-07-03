@@ -1,4 +1,5 @@
 {% extends "quizzes/base.html" %}
+{% load static %}
 
 {% block title %}{{ block.super }}: Quiz{% endblock %}
 
@@ -39,5 +40,6 @@
         </div>
         <a href="{% url 'home' %}">Quit</a>
     </div>
+    <script src={% static 'quizzes/js/quiz.js' %}></script>
 
 {% endblock content %}
