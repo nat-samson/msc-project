@@ -7,28 +7,28 @@ def get_dummy_data():
 
     data = [{
                 'word_id': 3,
-                'target_to_origin': True,
+                'origin_to_target': True,
                 'word': 'Mouse',
                 'correct_answer': 0,
                 'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
             },
             {
                 'word_id': 2,
-                'target_to_origin': True,
+                'origin_to_target': True,
                 'word': 'Dog',
                 'correct_answer': 1,
                 'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
             },
             {
                 'word_id': 1,
-                'target_to_origin': False,
+                'origin_to_target': False,
                 'word': 'Die Katze',
                 'correct_answer': 1,
                 'options': ['Dog', 'Cat', 'Bear', 'Mouse']
             },
             {
                 'word_id': 7,
-                'target_to_origin': False,
+                'origin_to_target': False,
                 'word': 'Der Fisch',
                 'correct_answer': 3,
                 'options': ['Cat', 'Mouse', 'Bear', 'Fish']

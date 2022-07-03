@@ -1,7 +1,6 @@
 {% extends "quizzes/base.html" %}
 
 {% block title %}{{ block.super }}: Quiz{% endblock %}
-{% block scripts %}<script src="{% static "quizzes/js/script.js" %}" type="text/javascript"></script>{% endblock %}
 
 {% block content %}
     {{ questions|json_script:"questions-data" }}
@@ -9,27 +8,36 @@
         const value = JSON.parse(document.getElementById('questions-data').textContent);
         console.log(value)
     </script>
-
-    <h1>Quiz</h1>
-    <form method="post">
-        {% csrf_token %}
-        {% for question in questions %}
-            <div>
-                <h3>{{ question.word }}</h3>
-                <input type="hidden" id="correct" name={{ question.word_id }} value={{ question.correct_answer }}>
-                {% for option in question.options %}<br>
-
-                    <input type="radio" id={{ forloop.counter0 }} name={{ question.word_id }} value={{ forloop.counter0 }}>
-                    <label for={{ forloop.counter0 }}>{{ option }}</label>
+    <div class="container">
+        <h1>Quiz</h1>
+        <div id="quiz">
+            <form method="post">
+                {% csrf_token %}
+                {% for question in questions %}
+                    <div class="question-header">
+                        <h3>{% if question.origin_to_target %}🇬🇧 → 🇩🇪
+                            {% else %}🇩🇪 → 🇬🇧
+                        {% endif %}</h3>
+                    <h2 id="question">{{ question.word }}</h2>
+                    </div>
+                    <div class="options-list">
+                        <input type="hidden" id="correct" name={{ question.word_id }} value={{ question.correct_answer }}>
+                        {% for option in question.options %}
+                            <div class="option" data-word_id={{ question.word_id }}>
+                            <p class="option-num">{{ forloop.counter0|add:1 }}</p>
+                                <p class="option-detail">{{ option }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if forloop.last %}
+                        <input type="submit" value="See Your Results">
+                    {% else %}
+                        <button>Next</button>
+                    {% endif %}
                 {% endfor %}
-            {% if forloop.last %}
-                <input type="submit" value="See Your Results">
-            {% else %}
-                <button>Next</button>
-            {% endif %}
-            </div>
-        {% endfor %}
-    </form>
-    <a href="{% url 'home' %}">Quit</a>
+            </form>
+        </div>
+        <a href="{% url 'home' %}">Quit</a>
+    </div>
 
 {% endblock content %}
