@@ -1,8 +1,15 @@
 {% extends "quizzes/base.html" %}
 
 {% block title %}{{ block.super }}: Quiz{% endblock %}
+{% block scripts %}<script src="{% static "quizzes/js/script.js" %}" type="text/javascript"></script>{% endblock %}
 
 {% block content %}
+    {{ questions|json_script:"questions-data" }}
+    <script>
+        const value = JSON.parse(document.getElementById('questions-data').textContent);
+        console.log(value)
+    </script>
+
     <h1>Quiz</h1>
     <form method="post">
         {% csrf_token %}
