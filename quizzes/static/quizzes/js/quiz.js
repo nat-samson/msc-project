@@ -1,10 +1,11 @@
 const question = document.getElementById("question");
-const options = Array.from(document.getElementsByClassName("option"));
-console.log(options)
+const options = Array.from(document.getElementsByClassName("option-detail"));
+//console.log(options)
 
 let currentQuestion = {};
 let score = 0;
 let questionCounter = 0;
+let results = {};
 
 // dummy questions
 // TODO: replace with a Jquery call
@@ -44,8 +45,32 @@ const CORRECT_ANSWER_PTS = 10;
 const INCORRECT_ANSWER_PTS = -2;
 
 startQuiz = () => {
-    availableQuestions = [... questions]
-    console.log(availableQuestions)
-}
+    availableQuestions = [... questions];
+    //console.log(availableQuestions);
+    getNextQuestion();
+};
+
+getNextQuestion = () => {
+    questionCounter++;
+
+    // question order is shuffled on the client side
+    let questionIndex = Math.floor(Math.random() * availableQuestions.length);
+    //currentQuestion = availableQuestions.splice(questionIndex, 1);
+    currentQuestion = availableQuestions[questionIndex];
+
+    // update the question in the DOM
+    question.innerText = currentQuestion.word;
+
+    options.forEach(option => {
+        const optionNum = option.dataset['num'];
+        option.innerText = currentQuestion['options'][optionNum];
+    }
+    )
+    console.log(currentQuestion)
+
+    // track quiz results in order to send back to Django View (update later to include actual user answer)
+    results[currentQuestion['word_id']] = false;
+
+};
 
 startQuiz();
