@@ -27,4 +27,17 @@ p {
 
 .option-detail {
   padding: 1rem;
+  width: 100%;
+}
+
+.correct {
+  background-color: forestgreen;
+}
+
+.incorrect {
+  background-color: crimson;
+}
+
+#continue {
+  float: right;
 }

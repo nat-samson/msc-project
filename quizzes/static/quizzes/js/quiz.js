@@ -1,6 +1,6 @@
 const question = document.getElementById("question");
-const options = Array.from(document.getElementsByClassName("option"));
-//console.log(options)
+const options = Array.from(document.getElementsByClassName("option-detail"));
+const button = document.getElementById("continue")
 
 let currentQuestion = {};
 let score = 0;
@@ -13,34 +13,34 @@ let allowUserAnswer = false;
 // TODO: replace with a Jquery call
 let questions = [
     {
-                'word_id': 3,
-                'origin_to_target': true,
-                'word': 'Mouse',
-                'correct_answer': 0,
-                'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
-            },
-            {
-                'word_id': 2,
-                'origin_to_target': true,
-                'word': 'Dog',
-                'correct_answer': 1,
-                'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
-            },
-            {
-                'word_id': 1,
-                'origin_to_target': false,
-                'word': 'Die Katze',
-                'correct_answer': 1,
-                'options': ['Dog', 'Cat', 'Bear', 'Mouse']
-            },
-            {
-                'word_id': 7,
-                'origin_to_target': false,
-                'word': 'Der Fisch',
-                'correct_answer': 3,
-                'options': ['Cat', 'Mouse', 'Bear', 'Fish']
-            }
-    ]
+        'word_id': 3,
+        'origin_to_target': true,
+        'word': 'Mouse',
+        'correct_answer': 0,
+        'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
+    },
+    {
+        'word_id': 2,
+        'origin_to_target': true,
+        'word': 'Dog',
+        'correct_answer': 1,
+        'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
+    },
+    {
+        'word_id': 1,
+        'origin_to_target': false,
+        'word': 'Die Katze',
+        'correct_answer': 1,
+        'options': ['Dog', 'Cat', 'Bear', 'Mouse']
+    },
+    {
+        'word_id': 7,
+        'origin_to_target': false,
+        'word': 'Der Fisch',
+        'correct_answer': 3,
+        'options': ['Cat', 'Mouse', 'Bear', 'Fish']
+    }
+]
 
 // TODO: replace with data from settings
 const CORRECT_ANSWER_PTS = 10;
@@ -48,11 +48,15 @@ const INCORRECT_ANSWER_PTS = -2;
 
 startQuiz = () => {
     availableQuestions = [... questions];
-    //console.log(availableQuestions);
     getNextQuestion();
 };
 
 getNextQuestion = () => {
+    if(availableQuestions.length === 0) {
+        console.log(results);
+        return;
+    }
+    button.style.display = "none";
     questionCounter++;
 
     // question order is shuffled on the client side
@@ -64,29 +68,57 @@ getNextQuestion = () => {
     question.innerText = currentQuestion.word;
 
     options.forEach(option => {
-        const optionNum = option.lastElementChild.dataset['num'];
-        option.lastElementChild.innerText = currentQuestion['options'][optionNum];
-    }
+            const optionNum = option.dataset['num'];
+            option.innerText = currentQuestion['options'][optionNum];
+        }
     )
     availableQuestions.splice(questionIndex, 1);
 
     allowUserAnswer = true;
-
-    // track quiz results in order to send back to Django View (update later to include actual user answer)
-    results[currentQuestion['word_id']] = false;
-
 };
 
+resetState = () => {
+    options.forEach(option => {
+        option.parentElement.classList.remove('correct', 'incorrect');
+    })
+}
+
+button.addEventListener("click", event => {
+    // TODO: end of quiz logic
+    if(availableQuestions.length === 0) {
+        console.log(results);
+        return;
+    }
+    resetState()
+    getNextQuestion()
+});
+
 options.forEach(option => {
-    option.parentNode.addEventListener("click", event => {
+    option.addEventListener("click", event => {
         if(!allowUserAnswer) return;
 
-            allowUserAnswer = false;
+        allowUserAnswer = false;
 
-            const selectedAnswer = event.target.lastElementChild.dataset["num"];
-            console.log(selectedAnswer);
-            getNextQuestion()
+        // track quiz results in order to send back to Django View
+        const selectedOption = event.target;
+        const selectedAnswer = selectedOption.dataset["num"];
+        const isCorrect = parseInt(selectedAnswer) === currentQuestion.correct_answer;
+        results[currentQuestion['word_id']] = isCorrect;
 
+        // indicate to user if they were correct
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        selectedOption.parentElement.classList.add(resultClass);
+
+        // if user was incorrect, highlight the correct answer
+        if(!isCorrect) {
+            options.forEach(option => {
+                if(parseInt(option.dataset["num"]) === currentQuestion.correct_answer) {
+                    option.parentElement.classList.add('correct');
+                }
+            })
+        }
+        button.style.display = "block";
+        button.innerText = availableQuestions.length > 0 ? "Continue" : "Submit Your Results";
     });
 });
 
