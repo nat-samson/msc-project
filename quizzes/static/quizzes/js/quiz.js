@@ -1,12 +1,13 @@
 const question = document.getElementById("question");
-const options = Array.from(document.getElementsByClassName("option-detail"));
+const options = Array.from(document.getElementsByClassName("option"));
 //console.log(options)
 
 let currentQuestion = {};
 let score = 0;
 let questionCounter = 0;
 let results = {};
-let availableQuestions = []
+let availableQuestions = [];
+let allowUserAnswer = false;
 
 // dummy questions
 // TODO: replace with a Jquery call
@@ -63,15 +64,30 @@ getNextQuestion = () => {
     question.innerText = currentQuestion.word;
 
     options.forEach(option => {
-        const optionNum = option.dataset['num'];
-        option.innerText = currentQuestion['options'][optionNum];
+        const optionNum = option.lastElementChild.dataset['num'];
+        option.lastElementChild.innerText = currentQuestion['options'][optionNum];
     }
     )
-    console.log(currentQuestion)
+    availableQuestions.splice(questionIndex, 1);
+
+    allowUserAnswer = true;
 
     // track quiz results in order to send back to Django View (update later to include actual user answer)
     results[currentQuestion['word_id']] = false;
 
 };
+
+options.forEach(option => {
+    option.parentNode.addEventListener("click", event => {
+        if(!allowUserAnswer) return;
+
+            allowUserAnswer = false;
+
+            const selectedAnswer = event.target.lastElementChild.dataset["num"];
+            console.log(selectedAnswer);
+            getNextQuestion()
+
+    });
+});
 
 startQuiz();
