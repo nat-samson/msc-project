@@ -24,7 +24,7 @@
                         <input type="hidden" id="correct" name={{ question.word_id }} value={{ question.correct_answer }}>
                         {% for option in question.options %}
                             <div class="option" data-word_id={{ question.word_id }}>
-                            <p class="option-num">{{ forloop.counter0|add:1 }}</p>
+                            <p class="option-num">{{ forloop.counter0|add:1 }}.)</p>
                                 <p class="option-detail">{{ option }}</p>
                             </div>
                         {% endfor %}
