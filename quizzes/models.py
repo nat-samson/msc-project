@@ -2,6 +2,7 @@ import datetime
 from datetime import date
 
 from django.db import models
+from django.utils.functional import cached_property
 
 from users.models import User
 
@@ -45,6 +46,7 @@ class WordScore(models.Model):
     consecutive_correct = models.PositiveSmallIntegerField(default=0)
     times_seen = models.PositiveSmallIntegerField(default=1)
     times_correct = models.PositiveSmallIntegerField(default=0)
+    last_updated = models.DateTimeField(auto_now=True)
     next_review = models.DateField(default=date.today)
 
     class Meta:
@@ -53,7 +55,7 @@ class WordScore(models.Model):
     def __str__(self):
         return f'{self.student} / {self.word}: {self.score}'
 
-    @property
+    @cached_property
     def score(self):
         # enforce a maximum score for each word
         return min(self.consecutive_correct, MAX_SCORE)

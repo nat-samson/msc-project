@@ -25,15 +25,21 @@ def get_dummy_data():
                 'word': 'Die Katze',
                 'correct_answer': 1,
                 'options': ['Dog', 'Cat', 'Bear', 'Mouse']
-            }]
+            },
+            {
+                'word_id': 7,
+                'target_to_origin': False,
+                'word': 'Der Fisch',
+                'correct_answer': 3,
+                'options': ['Cat', 'Mouse', 'Bear', 'Fish']
+            }
+    ]
 
     return data
 
 
 def get_quiz(user, topic_pk):
     # create quiz for given topic
-
-    # TODO: check user is actually registered for the course containing the topic
 
     #words_in_topic = Word.objects.filter(topics=topic_pk)
     #user_word_scores = WordScore.objects.filter(student=user, word__topics=topic_pk)
