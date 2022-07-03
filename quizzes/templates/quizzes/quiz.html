@@ -10,33 +10,37 @@
         console.log(value)
     </script>
     <div class="container">
-        <h1>Quiz</h1>
         <div id="quiz">
-            <form method="post">
-                {% csrf_token %}
-                {% for question in questions %}
                     <div class="question-header">
-                        <h3>{% if question.origin_to_target %}🇬🇧 → 🇩🇪
-                            {% else %}🇩🇪 → 🇬🇧
-                        {% endif %}</h3>
-                    <h2 id="question">{{ question.word }}</h2>
+                        <!-- >logic here for showing origin-to-target detail </-->
+                        <h3 id="question-direction"></h3>
+                        <h2 id="question"></h2>
                     </div>
-                    <div class="options-list">
-                        <input type="hidden" id="correct" name={{ question.word_id }} value={{ question.correct_answer }}>
-                        {% for option in question.options %}
-                            <div class="option" data-word_id={{ question.word_id }}>
-                            <p class="option-num">{{ forloop.counter0|add:1 }}.)</p>
-                                <p class="option-detail">{{ option }}</p>
+                    <div class="option-list">
+                            <div class="option">
+                                <p class="option-num">1</p>
+                                <p class="option-detail" data-num="0"></p>
                             </div>
-                        {% endfor %}
                     </div>
-                    {% if forloop.last %}
-                        <input type="submit" value="See Your Results">
-                    {% else %}
+                        <div class="option-list">
+                            <div class="option">
+                                <p class="option-num">2</p>
+                                <p class="option-detail" data-num="1"></p>
+                            </div>
+                    </div>
+            <div class="option-list">
+                            <div class="option">
+                                <p class="option-num">3</p>
+                                <p class="option-detail" data-num="2"></p>
+                            </div>
+                    </div>
+            <div class="option-list">
+                            <div class="option">
+                                <p class="option-num">4</p>
+                                <p class="option-detail" data-num="3"></p>
+                            </div>
+                    </div>
                         <button>Next</button>
-                    {% endif %}
-                {% endfor %}
-            </form>
         </div>
         <a href="{% url 'home' %}">Quit</a>
     </div>
