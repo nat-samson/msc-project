@@ -1,6 +1,11 @@
-const question = document.getElementById("question");
+const question = document.getElementById("question-header");
 const options = Array.from(document.getElementsByClassName("option-detail"));
 const button = document.getElementById("continue")
+
+// TODO: replace with data from settings
+// TODO: ensure document is ready
+const CORRECT_ANSWER_PTS = 10;
+const INCORRECT_ANSWER_PTS = -2;
 
 let currentQuestion = {};
 let score = 0;
@@ -42,9 +47,22 @@ let questions = [
     }
 ]
 
-// TODO: replace with data from settings
-const CORRECT_ANSWER_PTS = 10;
-const INCORRECT_ANSWER_PTS = -2;
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
 
 startQuiz = () => {
     availableQuestions = [... questions];
@@ -61,11 +79,14 @@ getNextQuestion = () => {
 
     // question order is shuffled on the client side
     let questionIndex = Math.floor(Math.random() * availableQuestions.length);
-    //currentQuestion = availableQuestions.splice(questionIndex, 1);
     currentQuestion = availableQuestions[questionIndex];
 
     // update the question in the DOM
-    question.innerText = currentQuestion.word;
+    if(currentQuestion.origin_to_target) {
+        console.log('English to German!')
+    }
+    question.firstElementChild.innerText = currentQuestion.origin_to_target
+    question.lastElementChild.innerText = currentQuestion.word;
 
     options.forEach(option => {
             const optionNum = option.dataset['num'];
@@ -83,10 +104,26 @@ resetState = () => {
     })
 }
 
-button.addEventListener("click", event => {
+submitResults = () => {
+    $.ajax({
+        type: "POST",
+        headers: {'X-CSRFToken': csrftoken},
+        dataType: "json",
+        data: results,
+        success: function (data) {
+            // any process in data
+            alert("success")
+        },
+        failure: function () {
+            alert("failure");
+        }
+    });
+}
+
+button.addEventListener("click", () => {
     // TODO: end of quiz logic
     if(availableQuestions.length === 0) {
-        console.log(results);
+        submitResults();
         return;
     }
     resetState()

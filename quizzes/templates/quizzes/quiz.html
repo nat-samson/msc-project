@@ -11,10 +11,14 @@
     </script>
     <div class="container">
         <div id="quiz">
-            <div class="question-header">
+            <div class="quiz-progress">
+                <h1>60 pts</h1>
+                <progress>70</progress>
+            </div>
+            <div id="question-header">
                 <!-- >logic here for showing origin-to-target detail </-->
                 <h3 id="question-direction"></h3>
-                <h2 id="question"></h2>
+                <h2 id="question-detail"></h2>
             </div>
             <div class="option-list">
                 <div class="option">
@@ -40,10 +44,9 @@
                     <p class="option-detail" data-num="3"></p>
                 </div>
             </div>
+            <a href="{% url 'home' %}">Quit</a>
             <button id="continue">Continue</button>
         </div>
-        <a href="{% url 'home' %}">Quit</a>
     </div>
     <script src={% static 'quizzes/js/quiz.js' %}></script>
-
 {% endblock content %}

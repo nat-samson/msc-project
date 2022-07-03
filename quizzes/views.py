@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from django.db.models import FilteredRelation, Q, F
 from django.shortcuts import render
@@ -45,8 +46,8 @@ class TopicDetailView(DetailView):
 def quiz(request, topic_pk):
     if request.method == 'POST':
         # get the quiz results data out of request.POST
-        results = dict(request.POST.lists())
-        results.pop('csrfmiddlewaretoken')
+
+        results = dict(request.POST)
 
         results_page_data = {'words': {}}
         correct = 0
@@ -54,7 +55,6 @@ def quiz(request, topic_pk):
 
         # process the data
         # likely more efficient to cache all the WordScores of the relevant topic here, use that going forward
-
         for question, answer in results.items():
             # exclude unanswered questions
             if len(answer) == 2:
