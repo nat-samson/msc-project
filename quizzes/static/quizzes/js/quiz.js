@@ -3,7 +3,6 @@ const options = Array.from(document.getElementsByClassName("option-detail"));
 const button = document.getElementById("continue")
 
 // TODO: replace with data from settings
-// TODO: ensure document is ready
 const CORRECT_ANSWER_PTS = 10;
 const INCORRECT_ANSWER_PTS = -2;
 
@@ -46,7 +45,10 @@ let questions = [
         'options': ['Cat', 'Mouse', 'Bear', 'Fish']
     }
 ]
+questions = value123;
 
+
+// getCookie() taken from Django docs, see https://docs.djangoproject.com/en/4.0/ref/csrf/
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -63,6 +65,7 @@ function getCookie(name) {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
+// const alsotoken = $("input[name=csrfmiddlewaretoken]").val() jQuery version if also using CSRF in template
 
 startQuiz = () => {
     availableQuestions = [... questions];
@@ -71,7 +74,7 @@ startQuiz = () => {
 
 getNextQuestion = () => {
     if(availableQuestions.length === 0) {
-        console.log(results);
+        console.log("Shouldn't be able to get here! Quiz tried to run with no questions");
         return;
     }
     button.style.display = "none";
@@ -82,9 +85,6 @@ getNextQuestion = () => {
     currentQuestion = availableQuestions[questionIndex];
 
     // update the question in the DOM
-    if(currentQuestion.origin_to_target) {
-        console.log('English to German!')
-    }
     question.firstElementChild.innerText = currentQuestion.origin_to_target
     question.lastElementChild.innerText = currentQuestion.word;
 
@@ -106,10 +106,11 @@ resetState = () => {
 
 submitResults = () => {
     $.ajax({
+        url: '',
         type: "POST",
         headers: {'X-CSRFToken': csrftoken},
         dataType: "json",
-        data: results,
+        data: {results: JSON.stringify(results)},
         success: function (data) {
             // any process in data
             alert("success")
@@ -159,4 +160,7 @@ options.forEach(option => {
     });
 });
 
-startQuiz();
+// once the DOM is fully loaded, let's go!
+$( document ).ready(function() {
+    startQuiz();
+});

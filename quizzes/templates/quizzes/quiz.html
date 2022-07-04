@@ -4,11 +4,6 @@
 {% block title %}{{ block.super }}: Quiz{% endblock %}
 
 {% block content %}
-    {{ questions|json_script:"questions-data" }}
-    <script>
-        const value = JSON.parse(document.getElementById('questions-data').textContent);
-        console.log(value)
-    </script>
     <div class="container">
         <div id="quiz">
             <div class="quiz-progress">
@@ -48,5 +43,13 @@
             <button id="continue">Continue</button>
         </div>
     </div>
-    <script src={% static 'quizzes/js/quiz.js' %}></script>
 {% endblock content %}
+{% block scripts %}
+{{ questions|json_script:"questions-data" }}
+    <script>
+    //
+        const value123 = JSON.parse(document.getElementById('questions-data').textContent);
+        //console.log(value123)
+    </script>
+    <script src={% static 'quizzes/js/quiz.js' %}></script>
+{% endblock scripts %}

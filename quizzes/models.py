@@ -7,7 +7,7 @@ from django.utils.functional import cached_property
 from users.models import User
 
 MAX_SCORE = 5
-QUIZ_INTERVALS = (0, 1, 3, 6, 10, 15)  # please note MAX_SCORE must be < len(QUIZ_INTERVALS)
+QUIZ_INTERVALS = (1, 3, 7, 13, 21, 30)  # please note MAX_SCORE must be < len(QUIZ_INTERVALS)
 
 
 class Topic(models.Model):
@@ -61,7 +61,6 @@ class WordScore(models.Model):
         return min(self.consecutive_correct, MAX_SCORE)
 
     def set_next_review(self):
-        self.refresh_from_db()
         days_to_add = QUIZ_INTERVALS[self.score]
         self.next_review = datetime.date.today() + datetime.timedelta(days=days_to_add)
 
