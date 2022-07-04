@@ -6,6 +6,8 @@ const button = document.getElementById("continue")
 
 // TODO: replace with data from settings
 const CORRECT_ANSWER_PTS = 10;
+const origin_icon = "🇬🇧";
+const target_icon = "🇩🇪";
 
 let currentQuestion = {};
 let score = 0;
@@ -14,7 +16,7 @@ let results = {};
 let availableQuestions = [];
 let allowUserAnswer = false;
 
-// dummy questions
+// TODO: quiz landing page and results page
 // TODO: replace with a Jquery call
 /*
 let questions = [
@@ -87,7 +89,7 @@ getNextQuestion = () => {
     currentQuestion = availableQuestions[questionIndex];
 
     // update the question in the DOM
-    question.firstElementChild.innerText = currentQuestion["origin_to_target"];
+    question.firstElementChild.innerText = getDirectionStr(currentQuestion["origin_to_target"]);
     question.lastElementChild.innerText = currentQuestion["word"];
 
     options.forEach(option => {
@@ -169,6 +171,10 @@ options.forEach(option => {
 updateScore = num => {
     score += num;
     scoreData.innerText = `${score} pts`;
+}
+
+getDirectionStr = is_forwards => {
+    return is_forwards ? `${origin_icon} → ${target_icon}`: `${target_icon} → ${origin_icon}`;
 }
 
 // once the DOM is fully loaded, let's go!
