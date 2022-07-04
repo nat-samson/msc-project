@@ -1,10 +1,11 @@
+const questionCounterData = document.getElementById("quiz-progress");
+const scoreData = document.getElementById("score");
 const question = document.getElementById("question-header");
 const options = Array.from(document.getElementsByClassName("option-detail"));
 const button = document.getElementById("continue")
 
 // TODO: replace with data from settings
 const CORRECT_ANSWER_PTS = 10;
-const INCORRECT_ANSWER_PTS = -2;
 
 let currentQuestion = {};
 let score = 0;
@@ -15,6 +16,7 @@ let allowUserAnswer = false;
 
 // dummy questions
 // TODO: replace with a Jquery call
+/*
 let questions = [
     {
         'word_id': 3,
@@ -44,9 +46,9 @@ let questions = [
         'correct_answer': 3,
         'options': ['Cat', 'Mouse', 'Bear', 'Fish']
     }
-]
-questions = value123;
-
+] */
+let questions = JSON.parse(document.getElementById('questions-data').textContent);
+const totalQuestions = questions.length;
 
 // getCookie() taken from Django docs, see https://docs.djangoproject.com/en/4.0/ref/csrf/
 function getCookie(name) {
@@ -78,15 +80,15 @@ getNextQuestion = () => {
         return;
     }
     button.style.display = "none";
-    questionCounter++;
+    questionCounterData.innerText = `${++questionCounter}/${totalQuestions}`;
 
     // question order is shuffled on the client side
     let questionIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionIndex];
 
     // update the question in the DOM
-    question.firstElementChild.innerText = currentQuestion.origin_to_target
-    question.lastElementChild.innerText = currentQuestion.word;
+    question.firstElementChild.innerText = currentQuestion["origin_to_target"];
+    question.lastElementChild.innerText = currentQuestion["word"];
 
     options.forEach(option => {
             const optionNum = option.dataset['num'];
@@ -140,7 +142,7 @@ options.forEach(option => {
         // track quiz results in order to send back to Django View
         const selectedOption = event.target;
         const selectedAnswer = selectedOption.dataset["num"];
-        const isCorrect = parseInt(selectedAnswer) === currentQuestion.correct_answer;
+        const isCorrect = parseInt(selectedAnswer) === currentQuestion["correct_answer"];
         results[currentQuestion['word_id']] = isCorrect;
 
         // indicate to user if they were correct
@@ -150,15 +152,24 @@ options.forEach(option => {
         // if user was incorrect, highlight the correct answer
         if(!isCorrect) {
             options.forEach(option => {
-                if(parseInt(option.dataset["num"]) === currentQuestion.correct_answer) {
+                if(parseInt(option.dataset["num"]) === currentQuestion["correct_answer"]) {
                     option.parentElement.classList.add('correct');
                 }
             })
         }
+        else {
+            updateScore(CORRECT_ANSWER_PTS);
+        }
+
         button.style.display = "block";
         button.innerText = availableQuestions.length > 0 ? "Continue" : "Submit Your Results";
     });
 });
+
+updateScore = num => {
+    score += num;
+    scoreData.innerText = `${score} pts`;
+}
 
 // once the DOM is fully loaded, let's go!
 $( document ).ready(function() {

@@ -3,6 +3,29 @@ p {
   margin: 0;
 }
 
+/* QUIZ */
+
+#quiz-status {
+  display: flex;
+  justify-content: space-between;
+}
+
+#quiz-status-item {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.quiz-status-text {
+  text-align: center;
+}
+
+#question-header {
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+}
+
 .option {
   display: flex;
   margin-bottom: 0.5rem;
@@ -16,7 +39,7 @@ p {
 .option:hover {
   cursor: pointer;
   box-shadow: 0 0.4rem 1.4rem 0 rgba(36, 115, 19, 0.5);
-  transition: transform 150ms;
+  transition: 150ms;
 }
 
 .option-num {

@@ -6,9 +6,15 @@
 {% block content %}
     <div class="container">
         <div id="quiz">
-            <div class="quiz-progress">
-                <h1>60 pts</h1>
-                <progress>70</progress>
+            <div id="quiz-status">
+                <div id="quiz-status-item">
+                    <h1 class="quiz-status-text" id="quiz-progress">
+                        1/4
+                    </h1>
+                </div>
+                <div id="quiz-status-item">
+                    <h1 class="quiz-status-text" id="score"></h1>
+                </div>
             </div>
             <div id="question-header">
                 <!-- >logic here for showing origin-to-target detail </-->
@@ -46,10 +52,5 @@
 {% endblock content %}
 {% block scripts %}
 {{ questions|json_script:"questions-data" }}
-    <script>
-    //
-        const value123 = JSON.parse(document.getElementById('questions-data').textContent);
-        //console.log(value123)
-    </script>
     <script src={% static 'quizzes/js/quiz.js' %}></script>
 {% endblock scripts %}
