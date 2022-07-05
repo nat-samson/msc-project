@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from quizzes.models import Word, WordScore
+from quizzes.models import Word, WordScore, Topic
 
 
 def get_dummy_data():
@@ -41,7 +41,8 @@ def get_dummy_data():
 def get_quiz(user, topic_pk):
     # create quiz for given topic
 
-    #words_in_topic = Word.objects.filter(topics=topic_pk)
-    #user_word_scores = WordScore.objects.filter(student=user, word__topics=topic_pk)
+    topic = Topic.objects.get(pk=topic_pk)
+    words = topic.words_due_revision(user)
+    print(words)
 
     return get_dummy_data()

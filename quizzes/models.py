@@ -1,5 +1,4 @@
 import datetime
-from datetime import date
 
 from django.db import models
 from django.utils.functional import cached_property
@@ -20,9 +19,17 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
-    """# provides count of number of words in given topic
-    def word_count(self):
-        return self.words.count()"""
+    def is_due_revision(self, user):
+        return self.words_due_revision(user).exists()
+
+    def words_due_revision(self, user):
+        # words due revision = all words in given topic - those words NOT due revision by given user
+        today = datetime.date.today()
+        words_in_topic = Word.objects.filter(topics=self).order_by()
+        words_not_due = Word.objects.filter(topics=self, wordscore__next_review__gt=today, wordscore__student=user).order_by()
+        # perhaps more efficient to do single query: topic AND student but not due review
+
+        return words_in_topic.difference(words_not_due)
 
 
 class Word(models.Model):
@@ -47,7 +54,7 @@ class WordScore(models.Model):
     times_seen = models.PositiveSmallIntegerField(default=1)
     times_correct = models.PositiveSmallIntegerField(default=0)
     last_updated = models.DateTimeField(auto_now=True)
-    next_review = models.DateField(default=date.today)
+    next_review = models.DateField(default=datetime.date.today)
 
     class Meta:
         unique_together = ('word', 'student')
