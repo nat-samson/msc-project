@@ -3,6 +3,8 @@ const scoreData = document.getElementById("score");
 const question = document.getElementById("question-header");
 const options = Array.from(document.getElementsByClassName("option-detail"));
 const button = document.getElementById("continue")
+const resultsForm = document.getElementById("results-form")
+const resultsData = document.getElementById("results-data")
 
 // TODO: replace with data from settings
 const CORRECT_ANSWER_PTS = 10;
@@ -108,6 +110,7 @@ resetState = () => {
     })
 }
 
+// INACTIVE
 submitResults = () => {
     $.ajax({
         url: '',
@@ -115,9 +118,9 @@ submitResults = () => {
         headers: {'X-CSRFToken': csrftoken},
         dataType: "json",
         data: {results: JSON.stringify(results)},
-        success: function (data) {
+        success: function () {
             // any process in data
-            alert("success")
+            //alert("success")
         },
         failure: function () {
             alert("failure");
@@ -126,9 +129,13 @@ submitResults = () => {
 }
 
 button.addEventListener("click", () => {
-    // TODO: end of quiz logic
+
+    // check if the quiz has ended
     if(availableQuestions.length === 0) {
-        submitResults();
+        //submitResults();
+        resultsData.value = JSON.stringify(results)
+        resultsForm.submit();
+        //showResults();
         return;
     }
     resetState()

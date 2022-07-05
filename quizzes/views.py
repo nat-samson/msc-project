@@ -91,13 +91,13 @@ def quiz(request, topic_pk):
             results_page_data['words'][word_score] = is_correct
 
         # Log the quiz in the database
-        res = QuizResults.objects.create(student=request.user, topic_id=topic_pk,
+        QuizResults.objects.create(student=request.user, topic_id=topic_pk,
                                    correct_answers=correct, incorrect_answers=incorrect)
-        print(res)
 
         # generate and render results page
         results_page_data['correct'] = correct
         results_page_data['total'] = len(results)
+
         return render(request, 'quizzes/quiz_results.html', results_page_data)
 
     else:
@@ -106,3 +106,4 @@ def quiz(request, topic_pk):
         questions = quiz_builder.get_quiz(request.user, topic_pk)
 
         return render(request, 'quizzes/quiz.html', {'questions': questions})
+

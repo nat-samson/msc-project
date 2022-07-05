@@ -8,12 +8,12 @@
         <div id="quiz">
             <div id="quiz-status">
                 <div id="quiz-status-item">
-                    <h1 class="quiz-status-text" id="quiz-progress">
+                    <p class="quiz-status-text" id="quiz-progress">
                         1/4
-                    </h1>
+                    </p>
                 </div>
                 <div id="quiz-status-item">
-                    <h1 class="quiz-status-text" id="score"></h1>
+                    <p class="quiz-status-text" id="score">0 pts</p>
                 </div>
             </div>
             <div id="question-header">
@@ -47,10 +47,14 @@
             </div>
             <a href="{% url 'home' %}">Quit</a>
             <button id="continue">Continue</button>
+            <form method="post" id="results-form">
+                {% csrf_token %}
+                <input type="hidden" id="results-data" name="results">
+            </form>
         </div>
     </div>
 {% endblock content %}
 {% block scripts %}
-{{ questions|json_script:"questions-data" }}
+    {{ questions|json_script:"questions-data" }}
     <script src={% static 'quizzes/js/quiz.js' %}></script>
 {% endblock scripts %}
