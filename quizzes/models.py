@@ -19,17 +19,21 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
-    def is_due_revision(self, user):
-        return self.words_due_revision(user).exists()
-
     def words_due_revision(self, user):
         # words due revision = all words in given topic - those words NOT due revision by given user
         today = datetime.date.today()
         words_in_topic = Word.objects.filter(topics=self).order_by()
         words_not_due = Word.objects.filter(topics=self, wordscore__next_review__gt=today, wordscore__student=user).order_by()
-        # perhaps more efficient to do single query: topic AND student but not due review
 
         return words_in_topic.difference(words_not_due)
+
+    @staticmethod
+    def all_topics_words_due_revision(user):
+        today = datetime.date.today()
+        all_words = Word.objects.all()
+        words_not_due = Word.objects.filter(wordscore__next_review__gt=today, wordscore__student=user).order_by()
+
+        return all_words.difference(words_not_due)
 
 
 class Word(models.Model):
@@ -39,9 +43,6 @@ class Word(models.Model):
     students = models.ManyToManyField(User, through='WordScore',
                                       through_fields=('word', 'student'), related_name='words')
     date_created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ('origin',)
 
     def __str__(self):
         return f'{self.origin} -> {self.target}'

@@ -42,7 +42,29 @@ def get_quiz(user, topic_pk):
     # create quiz for given topic
 
     topic = Topic.objects.get(pk=topic_pk)
-    words = topic.words_due_revision(user)
-    print(words)
+    words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')
+    incorrect_answer_pool = topic.words
 
+    questions = set()
+
+    for word in words_to_revise:
+        question = word
+        question['origin_to_target'] = True
+        question['correct_answer'] = 0
+        question['options'] = []
+        questions.add(question)
+
+    print(questions)
     return get_dummy_data()
+
+
+def get_options():
+    pass
+
+
+def get_incorrect_answers():
+    pass
+
+
+def set_direction():
+    pass

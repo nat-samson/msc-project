@@ -98,6 +98,7 @@ class WordScoreModelTests(TestCase):
         for num in range(MAX_SCORE + 2):
             self.mouse_score.consecutive_correct = num
             expected = min(num, MAX_SCORE)
+            print(self.mouse_score.score)
             self.assertEqual(expected, self.mouse_score.score)
 
 
@@ -108,7 +109,7 @@ class QuizTests(TestCase):
         self.client.force_login(student)
 
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
-        path = '/topic/' + str(animals.pk) + '/quiz/'
+        path = f'/quiz/{animals.pk}/'
         self.response = self.client.get(path)
 
     def test_quiz_view_status(self):
@@ -118,11 +119,8 @@ class QuizTests(TestCase):
         self.assertTemplateUsed(self.response, 'quizzes/quiz.html')
 
     def test_quiz_form_inputs(self):
-        number_of_questions = len(self.response.context['questions'])  # number of questions varies
         self.assertContains(self.response, 'csrfmiddlewaretoken', 1)
-        self.assertContains(self.response, 'type="radio"', number_of_questions * 4)  # 4 for each question
-        self.assertContains(self.response, 'type="hidden"', number_of_questions + 1)  # 1 for each question + 1 token
-        self.assertContains(self.response, 'type="submit"', 1)  # the button to submit answers at the end
+        self.assertContains(self.response, 'type="hidden"', 2)  # includes the CSRF token and the hidden JSON field
 
         # form must have no extra inputs beyond those specified above
-        self.assertContains(self.response, '<input type=', number_of_questions * 5 + 2)
+        self.assertContains(self.response, '<input type=', 2)
