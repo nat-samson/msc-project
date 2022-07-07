@@ -4,52 +4,59 @@ from django.urls import reverse, resolve
 from users.models import User
 from .models import Topic, Word, WordScore, MAX_SCORE
 from .views import TopicListView, TopicDetailView
+from .quiz_builder import choose_direction, get_quiz, get_options
 
 
 class HomeTests(TestCase):
-    def setUp(self):
-        url = reverse('home')
-        self.response = self.client.get(url)
+    @classmethod
+    def setUpTestData(cls):
+        cls.url = reverse('home')
 
     def test_home_view_status(self):
-        self.assertEquals(200, self.response.status_code)
+        response = self.client.get(self.url)
+        self.assertEquals(200, response.status_code)
 
     def test_home_view_url(self):
         view = resolve('/')
         self.assertIs(view.func.view_class, TopicListView)
 
     def test_home_template_name(self):
-        self.assertTemplateUsed(self.response, 'quizzes/home.html')
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'quizzes/home.html')
 
 
 class TopicDetailPageTests(TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
+        # create the topic
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+        cls.path = '/topic/' + str(animals.pk) + '/'
 
-        # Create a user and log them in (topic detail pages require user-specific information)
-        student = User.objects.create_user(username='testuser', password='testuser1234', is_student=True)
-        self.client.force_login(student)
-
-        path = '/topic/' + str(animals.pk) + '/'
-        self.response = self.client.get(path)
-        self.view = resolve(path)
+        # Create a user to be logged in by each test (topic detail pages require user-specific information)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
 
     def test_topic_detail_view_status(self):
-        self.assertEquals(200, self.response.status_code)
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertEquals(200, response.status_code)
 
     def test_topic_detail_view_url(self):
-        self.assertIs(self.view.func.view_class, TopicDetailView)
+        view = resolve(self.path)
+        self.assertIs(view.func.view_class, TopicDetailView)
 
     def test_topic_detail_view_template(self):
-        self.assertTemplateUsed(self.response, 'quizzes/topic_detail.html')
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertTemplateUsed(response, 'quizzes/topic_detail.html')
 
 
 class TopicModelTests(TestCase):
-    def setUp(self):
-        self.animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
-        self.colours = Topic.objects.create(name='Colours', long_desc='All the colours of des Regenbogens.')
-        Word.objects.create(origin='Mouse', target='die Maus').topics.add(self.animals)
-        Word.objects.create(origin='Fish', target='der Fisch').topics.add(self.animals)
+    @classmethod
+    def setUpTestData(cls):
+        cls.animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+        cls.colours = Topic.objects.create(name='Colours', long_desc='All the colours of des Regenbogens.')
+        Word.objects.create(origin='Mouse', target='die Maus').topics.add(cls.animals)
+        Word.objects.create(origin='Fish', target='der Fisch').topics.add(cls.animals)
 
     def test_topic_str(self):
         # test __str__ for Topic model
@@ -62,12 +69,13 @@ class TopicModelTests(TestCase):
 
 
 class WordModelTests(TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
         Word.objects.create(origin='Mouse', target='die Maus').topics.add(animals)
         Word.objects.create(origin='Fish', target='der Fisch').topics.add(animals)
-        self.mouse = Word.objects.get(origin="Mouse")
-        self.fish = Word.objects.get(origin="Fish")
+        cls.mouse = Word.objects.get(origin="Mouse")
+        cls.fish = Word.objects.get(origin="Fish")
 
     def test_word_str(self):
         # test __str__ for Word model
@@ -81,12 +89,13 @@ class WordModelTests(TestCase):
 
 
 class WordScoreModelTests(TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
-        self.mouse = Word.objects.create(origin='Mouse', target='die Maus')
-        self.mouse.topics.add(animals)
-        self.student = User.objects.create_user(username='testuser', password='testuser1234')
-        self.mouse_score = WordScore.objects.create(word=self.mouse, student=self.student)
+        cls.mouse = Word.objects.create(origin='Mouse', target='die Maus')
+        cls.mouse.topics.add(animals)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
+        cls.mouse_score = WordScore.objects.create(word=cls.mouse, student=cls.student)
 
     def test_word_score_str(self):
         # test __str__ for WordScore
@@ -97,30 +106,105 @@ class WordScoreModelTests(TestCase):
         # maximum possible score is capped by whatever is set as MAX_SCORE
         for num in range(MAX_SCORE + 2):
             self.mouse_score.consecutive_correct = num
+            self.mouse_score.save()
             expected = min(num, MAX_SCORE)
-            print(self.mouse_score.score)
             self.assertEqual(expected, self.mouse_score.score)
 
 
 class QuizTests(TestCase):
-    def setUp(self):
-        # Create a user and log them in (quizzes are constructed with user-specific information)
-        student = User.objects.create_user(username='testuser', password='testuser1234', is_student=True)
-        self.client.force_login(student)
-
+    @classmethod
+    def setUpTestData(cls):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
-        path = f'/quiz/{animals.pk}/'
-        self.response = self.client.get(path)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.path = f'/quiz/{animals.pk}/'
 
     def test_quiz_view_status(self):
-        self.assertEquals(200, self.response.status_code)
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertEquals(200, response.status_code)
 
     def test_quiz_template_name(self):
-        self.assertTemplateUsed(self.response, 'quizzes/quiz.html')
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertTemplateUsed(response, 'quizzes/quiz.html')
 
     def test_quiz_form_inputs(self):
-        self.assertContains(self.response, 'csrfmiddlewaretoken', 1)
-        self.assertContains(self.response, 'type="hidden"', 2)  # includes the CSRF token and the hidden JSON field
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertContains(response, 'csrfmiddlewaretoken', 1)
+        self.assertContains(response, 'type="hidden"', 2)  # includes the CSRF token and the hidden JSON field
 
         # form must have no extra inputs beyond those specified above
-        self.assertContains(self.response, '<input type=', 2)
+        self.assertContains(response, '<input type=', 2)
+
+
+class QuizBuilderTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+        Word.objects.create(origin='Mouse', target='die Maus').topics.add(animals)
+        Word.objects.create(origin='Fish', target='der Fisch').topics.add(animals)
+        Word.objects.create(origin='Cat', target='die Katze').topics.add(animals)
+        Word.objects.create(origin='Dog', target='der Hund').topics.add(animals)
+        cls.all_topic_words = Word.objects.filter(topics=animals)
+
+    def test_choose_direction(self):
+        self.assertIsInstance(choose_direction(), bool)
+
+    def test_get_quiz_empty_topic(self):
+        empty_topic = Topic.objects.create(name='Empty')
+        quiz = get_quiz(self.student, empty_topic.pk)
+        self.assertIsInstance(quiz, list)
+        self.assertEquals(len(quiz), 0)
+
+    def test_get_quiz_topic_with_words(self):
+        quiz = get_quiz(self.student, 1)
+        self.assertIsInstance(quiz, list)
+        self.assertEquals(len(quiz), 4)
+
+    def test_get_quiz_output_format(self):
+        quiz = get_quiz(self.student, 1)
+        question_keys = {'origin_to_target', 'word', 'options', 'correct_answer', 'word_id'}
+        target_words = self.all_topic_words.values_list('target', flat=True)
+        origin_words = self.all_topic_words.values_list('origin', flat=True)
+
+        for question in quiz:
+            # all expected keys in place
+            self.assertEquals(question_keys, set(question))
+
+            # ensure word is valid
+            word = Word.objects.get(pk=question['word_id'])
+
+            # ensure 4 unique multiple choice options were generated
+            options = question['options']
+            self.assertEquals(4, len(set(options)))
+
+            # other elements depend on the question 'direction'
+            direction = question['origin_to_target']
+            self.assertIsInstance(direction, bool)
+
+            correct_index = question['correct_answer']
+
+            if direction:
+                self.assertEquals(word.origin, question['word'])
+
+                # checks that all multiple choice options are valid
+                for option in options:
+                    self.assertIn(option, target_words)
+
+                # check that 'correct_answer' does lead to correct answer
+                self.assertEquals(word.target, options[correct_index])
+
+            # as above but when word is being quizzed in opposite direction
+            else:
+                self.assertEquals(word.target, question['word'])
+                for option in options:
+                    self.assertIn(option, origin_words)
+                self.assertEquals(word.origin, options[correct_index])
+
+    def test_get_options(self):
+        options_pool = list(self.all_topic_words.values('id', 'origin', 'target'))
+        print(self.all_topic_words.values('id', 'origin', 'target'))
+        options = get_options(options_pool, 1, True)
+        self.assertIsInstance(options, list)
