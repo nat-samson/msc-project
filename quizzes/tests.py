@@ -205,6 +205,5 @@ class QuizBuilderTests(TestCase):
 
     def test_get_options(self):
         options_pool = list(self.all_topic_words.values('id', 'origin', 'target'))
-        print(self.all_topic_words.values('id', 'origin', 'target'))
         options = get_options(options_pool, 1, True)
         self.assertIsInstance(options, list)

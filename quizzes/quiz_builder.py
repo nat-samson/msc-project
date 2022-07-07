@@ -1,39 +1,39 @@
-import itertools
 import random
 
 from quizzes.models import Topic
 
+MAX_QUESTIONS_IN_QUIZ = 12
+
 
 def get_dummy_data():
-
     data = [{
-                'word_id': 3,
-                'origin_to_target': True,
-                'word': 'Mouse',
-                'correct_answer': 0,
-                'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
-            },
-            {
-                'word_id': 2,
-                'origin_to_target': True,
-                'word': 'Dog',
-                'correct_answer': 1,
-                'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
-            },
-            {
-                'word_id': 1,
-                'origin_to_target': False,
-                'word': 'Die Katze',
-                'correct_answer': 1,
-                'options': ['Dog', 'Cat', 'Bear', 'Mouse']
-            },
-            {
-                'word_id': 7,
-                'origin_to_target': False,
-                'word': 'Der Fisch',
-                'correct_answer': 3,
-                'options': ['Cat', 'Mouse', 'Bear', 'Fish']
-            }
+        'word_id': 3,
+        'origin_to_target': True,
+        'word': 'Mouse',
+        'correct_answer': 0,
+        'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
+    },
+        {
+            'word_id': 2,
+            'origin_to_target': True,
+            'word': 'Dog',
+            'correct_answer': 1,
+            'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
+        },
+        {
+            'word_id': 1,
+            'origin_to_target': False,
+            'word': 'Die Katze',
+            'correct_answer': 1,
+            'options': ['Dog', 'Cat', 'Bear', 'Mouse']
+        },
+        {
+            'word_id': 7,
+            'origin_to_target': False,
+            'word': 'Der Fisch',
+            'correct_answer': 3,
+            'options': ['Cat', 'Mouse', 'Bear', 'Fish']
+        }
     ]
     return data
 
@@ -49,14 +49,16 @@ def get_quiz(user, topic_pk):
         return []
 
     results = []
-    words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')
+    words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')[:MAX_QUESTIONS_IN_QUIZ]
 
     for question in words_to_revise:
         direction = choose_direction()
         question['origin_to_target'] = direction
 
         options = get_options(options_pool, question['id'], direction)
+
         correct_answer = random.randrange(4)
+        question['correct_answer'] = correct_answer
 
         if direction:
             options.insert(correct_answer, question.pop('target'))
@@ -66,13 +68,12 @@ def get_quiz(user, topic_pk):
             question['word'] = question.pop('target')
 
         question['options'] = options
-        question['correct_answer'] = correct_answer
         question['word_id'] = question.pop('id')
 
         results.append(question)
 
     return results
-    #return get_dummy_data()
+    # return get_dummy_data()
 
 
 def get_options(options_pool, word_id, direction):
@@ -81,11 +82,11 @@ def get_options(options_pool, word_id, direction):
     else:
         option_text = 'target'
 
-    options = random.sample(options_pool, 4)  # pick 4 in case one of those is the correct answer
+    raw_options = random.sample(options_pool, 4)  # pick 4 in case one of those is the correct answer
 
     # remove the correct answer if selected
-    options = [w[option_text] for w in options if w['id'] != word_id]
-    return options[:3]
+    options = (opt[option_text] for opt in raw_options if opt['id'] != word_id)
+    return [next(options) for _ in range(3)]
 
 
 def choose_direction():
