@@ -72,7 +72,7 @@ def quiz(request, topic_pk):
                     if word_score.next_review <= today:
                         word_score.set_next_review()
                         word_score.consecutive_correct = F('consecutive_correct') + 1
-                        word_score.times_seen = F('times_seen') + 1
+                        word_score.times_seen = F('times_seen') + 1  # TODO fix!
                         word_score.times_correct = F('times_correct') + 1
                         word_score.save(update_fields=['consecutive_correct', 'times_seen', 'times_correct'])
 
@@ -101,8 +101,7 @@ def quiz(request, topic_pk):
         return render(request, 'quizzes/quiz_results.html', results_page_data)
 
     else:
-        # get the data needed to build the form in the template
-        # pass it to a view
+        # get the quiz and pass it to the template
         questions = quiz_builder.get_quiz(request.user, topic_pk)
 
         return render(request, 'quizzes/quiz.html', {'questions': questions})

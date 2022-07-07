@@ -63,7 +63,6 @@ class WordScore(models.Model):
     def __str__(self):
         return f'{self.student} / {self.word}: {self.score}'
 
-    @cached_property
     def score(self):
         # enforce a maximum score for each word
         return min(self.consecutive_correct, MAX_SCORE)

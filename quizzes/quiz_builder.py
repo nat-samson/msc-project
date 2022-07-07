@@ -1,6 +1,7 @@
-from django.http import JsonResponse
+import itertools
+import random
 
-from quizzes.models import Word, WordScore, Topic
+from quizzes.models import Topic
 
 
 def get_dummy_data():
@@ -34,37 +35,58 @@ def get_dummy_data():
                 'options': ['Cat', 'Mouse', 'Bear', 'Fish']
             }
     ]
-
     return data
 
 
 def get_quiz(user, topic_pk):
     # create quiz for given topic
-
     topic = Topic.objects.get(pk=topic_pk)
+
+    # pool for incorrect multiple-choice options
+    options_pool = list(topic.words.values('id', 'origin', 'target'))
+
+    if len(options_pool) < 4:
+        return []
+
+    results = []
     words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')
-    incorrect_answer_pool = topic.words
 
-    questions = set()
+    for question in words_to_revise:
+        direction = choose_direction()
+        question['origin_to_target'] = direction
 
-    for word in words_to_revise:
-        question = word
-        question['origin_to_target'] = True
-        question['correct_answer'] = 0
-        question['options'] = []
-        questions.add(question)
+        options = get_options(options_pool, question['id'], direction)
+        correct_answer = random.randrange(4)
 
-    print(questions)
-    return get_dummy_data()
+        if direction:
+            options.insert(correct_answer, question.pop('target'))
+            question['word'] = question.pop('origin')
+        else:
+            options.insert(correct_answer, question.pop('origin'))
+            question['word'] = question.pop('target')
+
+        question['options'] = options
+        question['correct_answer'] = correct_answer
+        question['word_id'] = question.pop('id')
+
+        results.append(question)
+
+    return results
+    #return get_dummy_data()
 
 
-def get_options():
-    pass
+def get_options(options_pool, word_id, direction):
+    if not direction:
+        option_text = 'origin'
+    else:
+        option_text = 'target'
+
+    options = random.sample(options_pool, 4)  # pick 4 in case one of those is the correct answer
+
+    # remove the correct answer if selected
+    options = [w[option_text] for w in options if w['id'] != word_id]
+    return options[:3]
 
 
-def get_incorrect_answers():
-    pass
-
-
-def set_direction():
-    pass
+def choose_direction():
+    return bool(random.randrange(2))
