@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from users import views as users_views
+from charts import views as charts_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +30,8 @@ urlpatterns = [
     path('password-reset/',
          auth_views.PasswordResetView.as_view(template_name='users/password-reset.html',
                                               email_template_name='users/email/password_reset_email.html',
-                                              subject_template_name='users/email/password_reset_subject.txt'), name='password_reset'),
+                                              subject_template_name='users/email/password_reset_subject.txt'),
+         name='password_reset'),
     path('password-reset/done/',
          auth_views.PasswordResetDoneView.as_view(template_name='users/password-reset-done.html'),
          name='password_reset_done'),
@@ -39,5 +41,6 @@ urlpatterns = [
     path('password-reset-complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password-reset-complete.html'),
          name='password_reset_complete'),
+    path('dashboard/', charts_views.dashboard, name='dashboard'),
     path('', include('quizzes.urls')),
 ]
