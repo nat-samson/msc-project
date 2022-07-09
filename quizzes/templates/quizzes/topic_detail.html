@@ -5,18 +5,20 @@
 {% block content %}
     <h1>{{ object.name }}</h1>
     <h2>{{ object.long_desc }}</h2>
-
+    {% now "DATE_FORMAT" as current_year %}
     <table>
         <thead>
         <th>Origin</th>
         <th>Target</th>
         <th>Score</th>
+        <th>Next Review</th>
         </thead>
         {% for word in words_with_scores %}
             <tr>
                 <td>{{word.0}}</td>
                 <td>{{word.1}}</td>
                 <td>{{word.2|default_if_none:0}}</td>
+                <td>{{word.3|default_if_none:current_year}}</td>
             </tr>
         {% endfor %}
     </table>

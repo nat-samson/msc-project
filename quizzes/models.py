@@ -1,7 +1,6 @@
 import datetime
 
 from django.db import models
-from django.utils.functional import cached_property
 
 from users.models import User
 

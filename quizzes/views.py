@@ -24,7 +24,6 @@ class TopicListView(ListView):
     ordering = ['date_created']
 
     #paginate_by = 6  # TODO: Pagination
-    # TODO: only show topics that are 'quizzable', i.e. have enough words, aren't hidden
 
 
 class TopicDetailView(DetailView):
@@ -38,7 +37,7 @@ class TopicDetailView(DetailView):
         # get the current user's word scores for the given topic (using an outer join with WordScore)
         context['words_with_scores'] = Word.objects.filter(topics=context['topic']).annotate(
             joinscore=FilteredRelation('wordscore', condition=Q(wordscore__student=self.request.user)),
-        ).values_list('origin', 'target', 'joinscore__consecutive_correct')
+        ).values_list('origin', 'target', 'joinscore__consecutive_correct', 'joinscore__next_review')
 
         return context
 
@@ -72,9 +71,10 @@ def quiz(request, topic_pk):
                     if word_score.next_review <= today:
                         word_score.set_next_review()
                         word_score.consecutive_correct = F('consecutive_correct') + 1
-                        word_score.times_seen = F('times_seen') + 1  # TODO fix!
+                        word_score.times_seen = F('times_seen') + 1
                         word_score.times_correct = F('times_correct') + 1
-                        word_score.save(update_fields=['consecutive_correct', 'times_seen', 'times_correct'])
+                        word_score.save(update_fields=['consecutive_correct', 'times_seen',
+                                                       'times_correct', 'next_review'])
 
             # answer is incorrect
             else:
@@ -105,4 +105,3 @@ def quiz(request, topic_pk):
         questions = quiz_builder.get_quiz(request.user, topic_pk)
 
         return render(request, 'quizzes/quiz.html', {'questions': questions})
-
