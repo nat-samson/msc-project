@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from django.db.models import FilteredRelation, Q, F
 from django.shortcuts import render
@@ -23,7 +24,6 @@ class TopicListView(ListView):
     ordering = ['date_created']
 
     #paginate_by = 6  # TODO: Pagination
-    # TODO: only show topics that are 'quizzable', i.e. have enough words, aren't hidden
 
 
 class TopicDetailView(DetailView):
@@ -37,7 +37,7 @@ class TopicDetailView(DetailView):
         # get the current user's word scores for the given topic (using an outer join with WordScore)
         context['words_with_scores'] = Word.objects.filter(topics=context['topic']).annotate(
             joinscore=FilteredRelation('wordscore', condition=Q(wordscore__student=self.request.user)),
-        ).values_list('origin', 'target', 'joinscore__consecutive_correct')
+        ).values_list('origin', 'target', 'joinscore__consecutive_correct', 'joinscore__next_review')
 
         return context
 
@@ -45,64 +45,63 @@ class TopicDetailView(DetailView):
 def quiz(request, topic_pk):
     if request.method == 'POST':
         # get the quiz results data out of request.POST
-        results = dict(request.POST.lists())
-        results.pop('csrfmiddlewaretoken')
+        data = request.POST.get('results')
+        results = json.loads(data)
 
         results_page_data = {'words': {}}
+        today = datetime.date.today()
         correct = 0
         incorrect = 0
 
-        # process the data
+        # process the results
         # likely more efficient to cache all the WordScores of the relevant topic here, use that going forward
+        for word_id, is_correct in results.items():
 
-        for question, answer in results.items():
-            # exclude unanswered questions
-            if len(answer) == 2:
+            # answer is correct
+            if is_correct:
+                correct += 1
 
-                # answer is correct
-                if answer[0] == answer[1]:  # correct
-                    correct += 1
+                word_score, is_newly_created = WordScore.objects.get_or_create(
+                    word_id=word_id, student=request.user,
+                    defaults={'consecutive_correct': 1, 'times_correct': 1,
+                              'next_review': today + datetime.timedelta(days=1)})
 
-                    word_score, created = WordScore.objects.get_or_create(
-                        word_id=question, student=request.user,
-                        defaults={'consecutive_correct': 1, 'times_correct': 1,
-                                  'next_review': datetime.date.today() + datetime.timedelta(days=1)})
-                    if not created:
-                        # only update score if it was due for review
-                        if word_score.next_review <= datetime.date.today():
-                            word_score.consecutive_correct = F('consecutive_correct') + 1
-                            word_score.set_next_review()
+                # only update score if it was due for review
+                if not is_newly_created:
+                    if word_score.next_review <= today:
+                        word_score.set_next_review()
+                        word_score.consecutive_correct = F('consecutive_correct') + 1
                         word_score.times_seen = F('times_seen') + 1
                         word_score.times_correct = F('times_correct') + 1
-                        word_score.save(update_fields=['consecutive_correct', 'times_seen', 'times_correct'])
+                        word_score.save(update_fields=['consecutive_correct', 'times_seen',
+                                                       'times_correct', 'next_review'])
 
-                # answer is incorrect
-                else:
-                    incorrect += 1
+            # answer is incorrect
+            else:
+                incorrect += 1
 
-                    word_score, created = WordScore.objects.get_or_create(
-                        word_id=question, student=request.user)
-                    if not created:
-                        word_score.consecutive_correct = 0
-                        word_score.times_seen = F('times_seen') + 1
-                        word_score.next_review = datetime.date.today()
-                        word_score.save(update_fields=['consecutive_correct', 'times_seen'])
-                        word_score.set_next_review()
+                word_score, is_newly_created = WordScore.objects.get_or_create(word_id=word_id, student=request.user)
 
-                results_page_data['words'][word_score] = answer[0] == answer[1]
+                if not is_newly_created:
+                    word_score.consecutive_correct = 0
+                    word_score.times_seen = F('times_seen') + 1
+                    word_score.next_review = datetime.date.today()
+                    word_score.save(update_fields=['consecutive_correct', 'times_seen'])
 
-        # store results of quiz
-        if correct + incorrect > 0:
-            QuizResults.objects.create(student=request.user, topic_id=topic_pk,
-                                       correct_answers=correct, incorrect_answers=incorrect)
+            results_page_data['words'][word_score] = is_correct
+
+        # Log the quiz in the database
+        QuizResults.objects.create(student=request.user, topic_id=topic_pk,
+                                   correct_answers=correct, incorrect_answers=incorrect)
 
         # generate and render results page
         results_page_data['correct'] = correct
         results_page_data['total'] = len(results)
+
         return render(request, 'quizzes/quiz_results.html', results_page_data)
+
     else:
-        # get the data needed to build the form in the template
-        # pass it to a view
+        # get the quiz and pass it to the template
         questions = quiz_builder.get_quiz(request.user, topic_pk)
 
         return render(request, 'quizzes/quiz.html', {'questions': questions})

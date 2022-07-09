@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Quizzes{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'quizzes/base.css' %}">
-    {% block scripts %}<!-- some default content here -->{% endblock %}
+    <link rel="stylesheet" href="{% static 'quizzes/css/base.css' %}">
 </head>
 <body>
 {% block body %}
@@ -28,5 +27,7 @@
     {% endblock content %}
 </div>
 {% endblock body %}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+{% block scripts %}{% load static %}<!-- page specific scripts can be added here -->{% endblock %}
 </body>
 </html>

@@ -1,13 +1,11 @@
 import datetime
-from datetime import date
 
 from django.db import models
-from django.utils.functional import cached_property
 
 from users.models import User
 
 MAX_SCORE = 5
-QUIZ_INTERVALS = (0, 1, 3, 6, 10, 15)  # please note MAX_SCORE must be < len(QUIZ_INTERVALS)
+QUIZ_INTERVALS = (1, 3, 7, 13, 21, 30)  # please note MAX_SCORE must be < len(QUIZ_INTERVALS)
 
 
 class Topic(models.Model):
@@ -20,9 +18,21 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
-    """# provides count of number of words in given topic
-    def word_count(self):
-        return self.words.count()"""
+    def words_due_revision(self, user):
+        # words due revision = all words in given topic - those words NOT due revision by given user
+        today = datetime.date.today()
+        words_in_topic = Word.objects.filter(topics=self).order_by()
+        words_not_due = Word.objects.filter(topics=self, wordscore__next_review__gt=today, wordscore__student=user).order_by()
+
+        return words_in_topic.difference(words_not_due)
+
+    @staticmethod
+    def all_topics_words_due_revision(user):
+        today = datetime.date.today()
+        all_words = Word.objects.all()
+        words_not_due = Word.objects.filter(wordscore__next_review__gt=today, wordscore__student=user).order_by()
+
+        return all_words.difference(words_not_due)
 
 
 class Word(models.Model):
@@ -32,9 +42,6 @@ class Word(models.Model):
     students = models.ManyToManyField(User, through='WordScore',
                                       through_fields=('word', 'student'), related_name='words')
     date_created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ('origin',)
 
     def __str__(self):
         return f'{self.origin} -> {self.target}'
@@ -47,7 +54,7 @@ class WordScore(models.Model):
     times_seen = models.PositiveSmallIntegerField(default=1)
     times_correct = models.PositiveSmallIntegerField(default=0)
     last_updated = models.DateTimeField(auto_now=True)
-    next_review = models.DateField(default=date.today)
+    next_review = models.DateField(default=datetime.date.today)
 
     class Meta:
         unique_together = ('word', 'student')
@@ -55,13 +62,11 @@ class WordScore(models.Model):
     def __str__(self):
         return f'{self.student} / {self.word}: {self.score}'
 
-    @cached_property
     def score(self):
         # enforce a maximum score for each word
         return min(self.consecutive_correct, MAX_SCORE)
 
     def set_next_review(self):
-        self.refresh_from_db()
         days_to_add = QUIZ_INTERVALS[self.score]
         self.next_review = datetime.date.today() + datetime.timedelta(days=days_to_add)
 
