@@ -62,4 +62,5 @@ def get_data(request):
         "labels": labels_and_data[0],
         "data": labels_and_data[1],
     }
+    print(colours[1])
     return JsonResponse(chart_data)
