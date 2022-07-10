@@ -1,10 +1,11 @@
 import datetime
 
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.http import JsonResponse
 from django.shortcuts import render
 
 from quizzes.models import Topic, QuizResults, Word
+from users.models import User
 
 
 def dashboard(request):
@@ -35,8 +36,22 @@ def dashboard(request):
 
 
 def get_data(request):
+    student_results = QuizResults.objects.filter(student=request.user)
+
+    #points per topic
+    points_per_topic = student_results.values('topic__name').annotate(Sum('points'))
+
+    # quizzes taken per topic
+    quizzes_per_topic = student_results.values('topic__name').annotate(quizzes_taken=Count('id'))
+
+    # topics ranked by correct v incorrect answers
+    correct_v_incorrect = student_results.values('topic__name').annotate(mistakes=Sum('correct_answers')-Sum('incorrect_answers')).order_by('-mistakes')
+
+    labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+    qs_count = User.objects.all().count()
+    default_items = [qs_count, 12, 19, 3, 5, 2, 3]
     data = {
-        "sales": 50,
-        "customers": 5,
+        "labels": labels,
+        "default": default_items,
     }
     return JsonResponse(data)
