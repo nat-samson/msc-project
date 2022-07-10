@@ -3,27 +3,52 @@
 {% block title %}{{ block.super }}: Dashboard{% endblock %}
 
 {% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                method: "GET",
+                url: "{% url "api-data" %}",
+                success: function(data) {
+                    console.log(data)
+                },
+                error: function(error_data){
+                    console.log("error!")
+                    console.log(error_data)
+                }
+            })
+        })
+    </script>
 
     <h1>User Dashboard</h1>
     <div id="boxes">
         <div class="box">
-            # Topics Available
-        </div>
-        <div class="box">
-            Words due for revision: num / total
-        </div>
-        <div class="box">
-            Quizzes taken this week
-        </div>
-        <div class="box">
-            % Correct this week
+            Words due for revision:
+            {{ words_due_revision|default:0 }} /
+            {{ total_words|default:0 }}
         </div>
         <div class="box">
             All-time points
+            {{ all_time_points.total|default:0 }}
         </div>
         <div class="box">
-            Topic most in need of attention (average lowest word strength) + link to it
+            Topics Available
+            {{ topics_count|default:0 }}
         </div>
+        <span>This Week</span>
+        <div class="box">
+            Quizzes taken this week
+            {{ quizzes_this_week|default:0 }}
+        </div>
+        <div class="box">
+            Points this week
+            {{ weekly_points.total|default:0}}
+        </div>
+        <div class="box">
+            % Weekly correct
+            {{weekly_correct_pc|default:"0%"}}
+        </div>
+
     </div>
     <div id="charts">
         <div class="chart">

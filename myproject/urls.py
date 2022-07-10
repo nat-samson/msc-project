@@ -42,5 +42,6 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password-reset-complete.html'),
          name='password_reset_complete'),
     path('dashboard/', charts_views.dashboard, name='dashboard'),
+    path('api/data/', charts_views.get_data, name='api-data'),
     path('', include('quizzes.urls')),
 ]

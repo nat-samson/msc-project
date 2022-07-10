@@ -21,8 +21,8 @@ class Topic(models.Model):
     def words_due_revision(self, user):
         # words due revision = all words in given topic - those words NOT due revision by given user
         today = datetime.date.today()
-        words_in_topic = Word.objects.filter(topics=self).order_by()
-        words_not_due = Word.objects.filter(topics=self, wordscore__next_review__gt=today, wordscore__student=user).order_by()
+        words_in_topic = Word.objects.filter(topics=self)
+        words_not_due = Word.objects.filter(topics=self, wordscore__next_review__gt=today, wordscore__student=user)
 
         return words_in_topic.difference(words_not_due)
 
@@ -67,7 +67,7 @@ class WordScore(models.Model):
         return min(self.consecutive_correct, MAX_SCORE)
 
     def set_next_review(self):
-        days_to_add = QUIZ_INTERVALS[self.score]
+        days_to_add = QUIZ_INTERVALS[self.score()]
         self.next_review = datetime.date.today() + datetime.timedelta(days=days_to_add)
 
 
@@ -77,6 +77,4 @@ class QuizResults(models.Model):
     date_created = models.DateField(auto_now_add=True)
     correct_answers = models.PositiveSmallIntegerField(default=0)
     incorrect_answers = models.PositiveSmallIntegerField(default=0)
-
-    def get_points(self):
-        return max(self.correct_answers * 10 - self.incorrect_answers * 2, 0)
+    points = models.PositiveIntegerField(default=0)
