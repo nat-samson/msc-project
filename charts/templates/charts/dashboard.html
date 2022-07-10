@@ -75,8 +75,8 @@
                 dataType: "json",
                 url: url,
                 success: (chartData) => {
-                    console.log(chartData)
                     // extract chart data
+                    let title = chartData.title;
                     let label = chartData.label;
                     let backgroundColor = chartData.backgroundColor;
                     let borderColor = chartData.borderColor;
@@ -90,7 +90,8 @@
                     });
 
                     // update the chart with the received JSON data
-                    chart.data.labels = labels
+                    chart.data.labels = labels;
+                    chart.options.plugins.title.text = title;
                     chart.data.datasets.forEach((dataset) => {
                         dataset.label = label;
                         dataset.data = data;
@@ -107,7 +108,7 @@
         }
 
         function getChartDefaults(chartType){
-            return {
+            let chartDefaults =  {
                 type: chartType,
                 data: {
                     labels: [],
@@ -116,20 +117,44 @@
                     }]
                 },
                 options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Chart title'
+                        },
+                        legend: {
+                            display: false,
+                        },
+                    },
                     scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                            },
+                        },
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                            },
                         }
                     },
                     responsive: false,
                 }
             };
+            if(chartType==='pie'){
+                chartDefaults.options.plugins.legend.display = true;
+                chartDefaults.options.scales.x.display = false;
+                chartDefaults.options.scales.y.display = false;
+            }
+            return chartDefaults;
         }
 
         function updateAllCharts() {
-            updateChart(topicPointsChart, "{% url "api-data" %}");
-            updateChart(topicsQuizzesChart, "{% url "api-data" %}");
-            updateChart(wordsToReviewChart, "{% url "api-data" %}");
+            updateChart(topicPointsChart, "{% url "data-topic-points" %}");
+            updateChart(topicsQuizzesChart, "{% url "data-topic-quizzes" %}");
+            updateChart(wordsToReviewChart, "{% url "data-topic-words" %}");
         }
 
         $(document).ready(function(){

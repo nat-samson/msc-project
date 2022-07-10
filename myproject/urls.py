@@ -18,7 +18,6 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from users import views as users_views
-from charts import views as charts_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,7 +40,6 @@ urlpatterns = [
     path('password-reset-complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password-reset-complete.html'),
          name='password_reset_complete'),
-    path('dashboard/', charts_views.dashboard, name='dashboard'),
-    path('api/data/', charts_views.get_data, name='api-data'),
+    path('dashboard/', include('charts.urls')),
     path('', include('quizzes.urls')),
 ]

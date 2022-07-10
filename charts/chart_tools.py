@@ -19,7 +19,7 @@ def get_colours(count):
             colour = CHART_COLOURS[rolling_index]
             colours.append((colour[0], colour[1]))
 
-    return colours
+    return unzip(colours)
 
 
 def unzip(zipped):

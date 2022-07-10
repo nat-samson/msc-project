@@ -1,6 +1,4 @@
 import datetime
-from collections import Counter
-
 
 from django.db.models import Sum, Count
 from django.http import JsonResponse
@@ -8,7 +6,6 @@ from django.shortcuts import render
 
 from charts.chart_tools import unzip, get_colours
 from quizzes.models import Topic, QuizResults, Word
-from users.models import User
 
 
 def dashboard(request):
@@ -38,29 +35,65 @@ def dashboard(request):
     return render(request, 'charts/dashboard.html', context)
 
 
-def get_data(request):
+def chart_topic_points(request):
     student_results = QuizResults.objects.filter(student=request.user)
-
-    #points per topic
     points_per_topic = student_results.values('topic__name').annotate(Sum('points')).values_list("topic__name", "points__sum")
-    #thing = Counter([topic[0] for topic in points_per_topic])
-
-    # quizzes taken per topic
-    quizzes_per_topic = student_results.values('topic__name').annotate(quizzes_taken=Count('id'))
-
-    # topics ranked by correct v incorrect answers
-    correct_v_incorrect = student_results.values('topic__name').annotate(mistakes=Sum('correct_answers')-Sum('incorrect_answers')).order_by('-mistakes')
 
     labels_and_data = unzip(points_per_topic)
-    colours = unzip(get_colours(len(labels_and_data)))
+    colours = get_colours(len(labels_and_data[0]))
 
     chart_data = {
-        "type": "bar",
+        "title": "Points Per Topic",
         "backgroundColor": colours[0],
         "borderColor": colours[1],
-        "label": "All-time Points Per Topic",
+        "label": "Points",
         "labels": labels_and_data[0],
         "data": labels_and_data[1],
     }
-    print(colours[1])
+    return JsonResponse(chart_data)
+
+
+def chart_topic_quizzes(request):
+    student_results = QuizResults.objects.filter(student=request.user)
+
+    # quizzes taken per topic
+    quizzes_per_topic = student_results.values('topic__name').annotate(quizzes_taken=Count('id')).values_list("topic__name", "quizzes_taken")
+
+    labels_and_data = unzip(quizzes_per_topic)
+    colours = get_colours(len(labels_and_data[0]))
+
+    chart_data = {
+        "title": "Quizzes Taken Per Topic",
+        "backgroundColor": colours[0],
+        "borderColor": colours[1],
+        "label": "Quizzes",
+        "labels": labels_and_data[0],
+        "data": labels_and_data[1],
+    }
+    return JsonResponse(chart_data)
+
+
+def chart_topic_words(request):
+    student_results = QuizResults.objects.filter(student=request.user)
+
+    # topics by ratio correct v incorrect answers
+    correct_v_incorrect = student_results.values('topic__name').annotate(Sum('correct_answers'), Sum('incorrect_answers'))
+    results = []
+    for topic in correct_v_incorrect:
+        key = topic['topic__name']
+        value = topic['correct_answers__sum'] / (topic['correct_answers__sum'] + topic['incorrect_answers__sum'])
+        results.append((key, value))
+    results.sort(reverse=True, key=lambda x: x[1])
+
+    labels_and_data = unzip(results)
+    colours = get_colours(len(labels_and_data[0]))
+
+    chart_data = {
+        "title": "Proportion of Correct to Incorrect Answers",
+        "backgroundColor": colours[0],
+        "borderColor": colours[1],
+        "label": "Ratio Correct:Incorrect",
+        "labels": labels_and_data[0],
+        "data": labels_and_data[1],
+    }
     return JsonResponse(chart_data)
