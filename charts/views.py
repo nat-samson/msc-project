@@ -1,9 +1,12 @@
 import datetime
+from collections import Counter
+
 
 from django.db.models import Sum, Count
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from charts.chart_tools import unzip, get_colours
 from quizzes.models import Topic, QuizResults, Word
 from users.models import User
 
@@ -39,7 +42,8 @@ def get_data(request):
     student_results = QuizResults.objects.filter(student=request.user)
 
     #points per topic
-    points_per_topic = student_results.values('topic__name').annotate(Sum('points'))
+    points_per_topic = student_results.values('topic__name').annotate(Sum('points')).values_list("topic__name", "points__sum")
+    #thing = Counter([topic[0] for topic in points_per_topic])
 
     # quizzes taken per topic
     quizzes_per_topic = student_results.values('topic__name').annotate(quizzes_taken=Count('id'))
@@ -47,11 +51,15 @@ def get_data(request):
     # topics ranked by correct v incorrect answers
     correct_v_incorrect = student_results.values('topic__name').annotate(mistakes=Sum('correct_answers')-Sum('incorrect_answers')).order_by('-mistakes')
 
-    labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
-    qs_count = User.objects.all().count()
-    default_items = [qs_count, 12, 19, 3, 5, 2, 3]
-    data = {
-        "labels": labels,
-        "default": default_items,
+    labels_and_data = unzip(points_per_topic)
+    colours = unzip(get_colours(len(labels_and_data)))
+
+    chart_data = {
+        "type": "bar",
+        "backgroundColor": colours[0],
+        "borderColor": colours[1],
+        "label": "All-time Points Per Topic",
+        "labels": labels_and_data[0],
+        "data": labels_and_data[1],
     }
-    return JsonResponse(data)
+    return JsonResponse(chart_data)

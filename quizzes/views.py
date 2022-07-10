@@ -9,6 +9,10 @@ from quizzes import quiz_builder
 from quizzes.models import Topic, Word, WordScore, QuizResults
 
 
+# TODO: replace with settings object
+CORRECT_ANSWER_PTS = 10
+
+
 # temporary basic home view - INACTIVE
 def home(request):
     context = {
@@ -91,8 +95,10 @@ def quiz(request, topic_pk):
             results_page_data['words'][word_score] = is_correct
 
         # Log the quiz in the database
+        quiz_score = correct * CORRECT_ANSWER_PTS
         QuizResults.objects.create(student=request.user, topic_id=topic_pk,
-                                   correct_answers=correct, incorrect_answers=incorrect)
+                                   correct_answers=correct, incorrect_answers=incorrect,
+                                   points=quiz_score)
 
         # generate and render results page
         results_page_data['correct'] = correct
