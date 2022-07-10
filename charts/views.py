@@ -77,15 +77,18 @@ def chart_topic_words(request):
     student_results = QuizResults.objects.filter(student=request.user)
 
     # topics by ratio correct v incorrect answers
-    correct_v_incorrect = student_results.values('topic__name').annotate(Sum('correct_answers'), Sum('incorrect_answers'))
-    results = []
-    for topic in correct_v_incorrect:
-        key = topic['topic__name']
-        value = topic['correct_answers__sum'] / (topic['correct_answers__sum'] + topic['incorrect_answers__sum'])
-        results.append((key, value))
-    results.sort(reverse=True, key=lambda x: x[1])
+    correct_v_incorrect = student_results.values('topic__name').annotate(Sum('correct_answers'),
+                                                                         Sum('incorrect_answers'))
 
-    labels_and_data = unzip(results)
+    # calculate ratio correct:incorrect by topic and rank by highest to lowest
+    correct_v_incorrect_list = []
+    for topic in correct_v_incorrect:
+        topic_name = topic['topic__name']
+        value = topic['correct_answers__sum'] / (topic['correct_answers__sum'] + topic['incorrect_answers__sum'])
+        correct_v_incorrect_list.append((topic_name, value))
+    correct_v_incorrect_list.sort(reverse=True, key=lambda x: x[1])
+
+    labels_and_data = unzip(correct_v_incorrect_list)
     colours = get_colours(len(labels_and_data[0]))
 
     chart_data = {
