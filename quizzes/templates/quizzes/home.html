@@ -23,24 +23,19 @@
                             <div class="content">
                                 <div class="has-text-centered">
                                     <div class="title is-1">{{ topic.short_desc }}</div>
-
                                     <div class="tags are-medium has-addons is-centered">
                                         <span class="tag">Words due:</span>
                                         <span class="tag is-danger">{{ topic|to_revise:request.user}}</span>
                                     </div>
 
                                     <div class="buttons is-centered">
-    <a class="button is-link is-primary is-fullwidth" href="{% url 'topic_detail' topic.id %}">Revise</a>
-    <a class="button is-link is-success is-fullwidth" href="{% url 'quiz' topic.id %}">Quiz</a>
+    <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}"><strong>Words</strong></a>
+    <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}"><strong>Quiz</strong></a>
 </div>
 
                                 </div>
                             </div>
                         </div>
-                        <footer class="card-footer">
-                            <a class="card-footer-item" href="{% url 'topic_detail' topic.id %}">Revise</a>
-                            <a class="card-footer-item" href="{% url 'quiz' topic.id %}">Quiz</a>
-                        </footer>
                     </div>
 
                 </div>

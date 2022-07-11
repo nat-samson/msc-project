@@ -13,13 +13,13 @@ def dashboard(request):
     current_week = datetime.datetime.now().isocalendar()[1]
 
     # calculate weekly correct percentage
-    weekly_pc = student_results.filter(date_created__week=current_week)\
-        .aggregate(total_correct=Sum('correct_answers'), total_incorrect=Sum('incorrect_answers'))
-    total_questions = weekly_pc['total_correct'] + weekly_pc['total_incorrect']
-    if total_questions == 0:
-        pc = "0%"
-    else:
+    try:
+        weekly_pc = student_results.filter(date_created__week=current_week)\
+            .aggregate(total_correct=Sum('correct_answers'), total_incorrect=Sum('incorrect_answers'))
+        total_questions = weekly_pc['total_correct'] + weekly_pc['total_incorrect']
         pc = "{:.0%}".format(weekly_pc['total_correct'] / total_questions)
+    except:
+        pc = "0%"
 
     # initial data for dashboard
     context = {

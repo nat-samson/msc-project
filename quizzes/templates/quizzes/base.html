@@ -38,6 +38,9 @@
             </div>
             <!-- right-hand side -->
             <div class="navbar-end">
+                <a class="navbar-item">
+                    {{ request.user }}
+                </a>
                 <div class="navbar-item">
                     <div class="buttons">
                         {% if user.is_authenticated %}
