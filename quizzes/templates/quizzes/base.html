@@ -12,8 +12,9 @@
     <title>{% block title %}Quizzes{% endblock %}</title>
 </head>
 
-<body class="has-navbar-fixed-top">
+<!-- Extend the body block to avoid inheriting the navbar -->
 {% block body %}
+    <body class="has-navbar-fixed-top">
     <!-- Navbar configuration -->
     <nav class="navbar is-fixed-top is-success" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -34,7 +35,7 @@
         <div id="navbarElements" class="navbar-menu">
             <!-- left-hand side -->
             <div class="navbar-start">
-                <!-- items are in navbar brand so they always display on small screens -->
+                <!-- items are in navbar brand so that they always display on small screens -->
             </div>
             <!-- right-hand side -->
             <div class="navbar-end">
@@ -65,7 +66,7 @@
     <section class="section">
         <div class="container">
             {% block content %}
-                <!-- Page-specific body content goes here -->
+                <!-- Page-specific body content goes here, while keeping the navbar -->
             {% endblock content %}
         </div>
     </section>
