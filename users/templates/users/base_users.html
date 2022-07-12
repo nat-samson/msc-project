@@ -2,9 +2,9 @@
 {% block title %}{{ block.super }}: Register{% endblock %}
 {% block body %}
     <body>
-    <section class="hero is-success is-fullheight">
+    <section class="hero is-fullheight {% if "/teacher/" in request.path %}is-info{% else %}is-success{% endif %}">
         <div class="hero-body">
-            <div class="container has-text-centered">
+            <div class="container">
                 <div class="columns is-centered">
                     <div class="column is-half">
                         <div class="box">

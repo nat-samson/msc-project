@@ -1,11 +1,13 @@
 {% extends "users/base_users.html" %}
 {% block box %}
-                            <p class="title is-3 has-text-dark">I am a...</p>
-                            <div class="level is-mobile">
-                                <a class="button is-success is-large is-rounded is-outlined level-item" href="{% url 'register_student' %}">Student</a>
-                                <a class="button is-info is-large is-rounded is-outlined level-item" href="{% url 'register_teacher' %}">Teacher</a>
-                            </div>
-                            <small>
-                                Already have an account? <a class="is-underlined" href="{% url 'login' %}">Log in</a>
-                            </small>
+    <div class="has-text-centered">
+        <p class="title is-3 has-text-dark">I am a...</p>
+        <div class="level is-mobile">
+            <a class="button is-success is-large is-rounded is-outlined level-item" href="{% url 'register_student' %}">Student</a>
+            <a class="button is-info is-large is-rounded is-outlined level-item" href="{% url 'register_teacher' %}">Teacher</a>
+        </div>
+        <small>
+            Already have an account? <a class="is-underlined" href="{% url 'login' %}">Log in</a>
+        </small>
+    </div>
 {% endblock box %}

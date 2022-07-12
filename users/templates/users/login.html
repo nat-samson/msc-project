@@ -1,15 +1,18 @@
-{% extends "quizzes/base.html" %}
-{% block title %}{{ block.super }}: Login{% endblock %}
-{% block body %}
+{% extends "users/base_users.html" %}
+{% load crispy_forms_filters %}
+{% block box %}
     <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="control">
+            <button class="button is-link" type="submit">Log in</button>
+        </div>
     </form>
-    <small>
-        <a href="{% url 'password_reset' %}">Forgotten your password?</a>
-    </small>
-    <small>
-        Don't have an account yet? <a href="{% url 'register' %}">Register today</a>
-    </small>
-{% endblock body %}
+    <br>
+    <footer>
+        <small>
+            <a class="is-underlined" href="{% url 'password_reset' %}">Forgotten your password?</a><br>
+            Need an account? <a class="is-underlined" href="{% url 'register' %}">Register today!</a>
+        </small>
+    </footer>
+{% endblock box %}
