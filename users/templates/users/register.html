@@ -1,13 +1,5 @@
-{% extends "quizzes/base.html" %}
-{% block title %}{{ block.super }}: Register{% endblock %}
-{% block body %}
-    <body>
-    <section class="hero is-success is-fullheight">
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <div class="columns is-centered">
-                    <div class="column is-half">
-                        <div class="box">
+{% extends "users/base_users.html" %}
+{% block box %}
                             <p class="title is-3 has-text-dark">I am a...</p>
                             <div class="level is-mobile">
                                 <a class="button is-success is-large is-rounded is-outlined level-item" href="{% url 'register_student' %}">Student</a>
@@ -16,10 +8,4 @@
                             <small>
                                 Already have an account? <a class="is-underlined" href="{% url 'login' %}">Log in</a>
                             </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endblock body %}
+{% endblock box %}

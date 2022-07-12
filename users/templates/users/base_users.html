@@ -1,0 +1,19 @@
+{% extends "quizzes/base.html" %}
+{% block title %}{{ block.super }}: Register{% endblock %}
+{% block body %}
+    <body>
+    <section class="hero is-success is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-centered">
+                    <div class="column is-half">
+                        <div class="box">
+                            {% block box %}
+                            {% endblock box %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock body %}
