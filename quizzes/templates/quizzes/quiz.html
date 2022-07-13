@@ -4,54 +4,36 @@
 {% block title %}{{ block.super }}: Quiz{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div id="quiz">
-            <div id="quiz-status">
-                <div id="quiz-status-item">
-                    <p class="quiz-status-text" id="quiz-progress">
-                        1/4
-                    </p>
-                </div>
-                <div id="quiz-status-item">
-                    <p class="quiz-status-text" id="score">0 pts</p>
-                </div>
+
+    <div id="quiz">
+
+        <span id="score" class="tag is-warning is-large is-pulled-right quiz-status-text">0 pts</span>
+        <div class="box content" id="quiz-status">
+            <div id="quiz-status-item block">
+                <progress id="quiz-progress" class="progress is-success quiz-progress mt-6 mb-4" value="0" max="100">0%</progress>
             </div>
-            <div id="question-header">
-                <!-- >logic here for showing origin-to-target detail </-->
-                <h3 id="question-direction"></h3>
-                <h2 id="question-detail"></h2>
+
+            <div id="question-header" class="is-centered has-text-centered">
+                <span id="question-direction" class="tag is-success is-light is-large"></span>
+                <p id="question-detail" class="title is-size-3 mt-4">Title</p>
             </div>
-            <div class="option-list">
-                <div class="option">
-                    <p class="option-num">1</p>
-                    <p class="option-detail" data-num="0"></p>
-                </div>
-            </div>
-            <div class="option-list">
-                <div class="option">
-                    <p class="option-num">2</p>
-                    <p class="option-detail" data-num="1"></p>
-                </div>
-            </div>
-            <div class="option-list">
-                <div class="option">
-                    <p class="option-num">3</p>
-                    <p class="option-detail" data-num="2"></p>
-                </div>
-            </div>
-            <div class="option-list">
-                <div class="option">
-                    <p class="option-num">4</p>
-                    <p class="option-detail" data-num="3"></p>
-                </div>
-            </div>
-            <a href="{% url 'home' %}">Quit</a>
-            <button id="continue">Continue</button>
-            <form method="post" id="results-form">
-                {% csrf_token %}
-                <input type="hidden" id="results-data" name="results">
-            </form>
         </div>
+
+        {% for x in "FOUR" %}
+            {#          <button class="button is-outlined is-fullwidth option-detail wrap-button-text is-justify-content-flex-start" data-num="{{ forloop.counter0 }}">{{ forloop.counter }}) </button>#}
+            <div class="field has-addons has-addons-fullwidth">
+                <a class="button is-static">{{ forloop.counter }}</a>
+                <button class="button has-text-left is-outlined is-fullwidth option-text wrap-button-text has-text-weight-semibold" data-num="{{ forloop.counter0 }}">
+                </button>
+            </div>
+        {% endfor %}
+
+        <a href="{% url 'home' %}">Quit</a>
+        <button id="continue">Continue</button>
+        <form method="post" id="results-form">
+            {% csrf_token %}
+            <input type="hidden" id="results-data" name="results">
+        </form>
     </div>
 {% endblock content %}
 {% block scripts %}

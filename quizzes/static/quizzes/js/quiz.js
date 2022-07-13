@@ -1,7 +1,7 @@
 const questionCounterData = document.getElementById("quiz-progress");
 const scoreData = document.getElementById("score");
 const question = document.getElementById("question-header");
-const options = Array.from(document.getElementsByClassName("option-detail"));
+const options = Array.from(document.getElementsByClassName("option-text"));
 const button = document.getElementById("continue")
 const resultsForm = document.getElementById("results-form")
 const resultsData = document.getElementById("results-data")
@@ -10,6 +10,9 @@ const resultsData = document.getElementById("results-data")
 const CORRECT_ANSWER_PTS = 10;
 const origin_icon = "🇬🇧";
 const target_icon = "🇩🇪";
+const initial_class = "is-outlined";
+const correct_class = "is-success";
+const incorrect_class = "is-danger";
 
 let currentQuestion = {};
 let score = 0;
@@ -75,6 +78,7 @@ const csrftoken = getCookie('csrftoken');
 
 startQuiz = () => {
     availableQuestions = [... questions];
+    questionCounterData.setAttribute("max", totalQuestions)
     getNextQuestion();
 };
 
@@ -84,7 +88,7 @@ getNextQuestion = () => {
         return;
     }
     button.style.display = "none";
-    questionCounterData.innerText = `${++questionCounter}/${totalQuestions}`;
+
 
     // question order is shuffled on the client side
     let questionIndex = Math.floor(Math.random() * availableQuestions.length);
@@ -106,7 +110,7 @@ getNextQuestion = () => {
 
 resetState = () => {
     options.forEach(option => {
-        option.parentElement.classList.remove('correct', 'incorrect');
+        option.classList.remove(correct_class, incorrect_class);
     })
 }
 
@@ -134,6 +138,7 @@ button.addEventListener("click", () => {
     if(availableQuestions.length === 0) {
         //submitResults();
         resultsData.value = JSON.stringify(results)
+        console.log(results)
         resultsForm.submit();
         //showResults();
         return;
@@ -155,20 +160,26 @@ options.forEach(option => {
         results[currentQuestion['word_id']] = isCorrect;
 
         // indicate to user if they were correct
-        const resultClass = isCorrect ? 'correct' : 'incorrect';
-        selectedOption.parentElement.classList.add(resultClass);
+        const resultClass = isCorrect ? correct_class : incorrect_class;
+        selectedOption.classList.remove(initial_class);
+        selectedOption.classList.add(resultClass);
 
         // if user was incorrect, highlight the correct answer
         if(!isCorrect) {
             options.forEach(option => {
                 if(parseInt(option.dataset["num"]) === currentQuestion["correct_answer"]) {
-                    option.parentElement.classList.add('correct');
+                    option.classList.remove(initial_class);
+                    option.classList.add(correct_class);
                 }
             })
         }
         else {
             updateScore(CORRECT_ANSWER_PTS);
         }
+
+        // update progress bar
+        questionCounterData.innerText = (questionCounter++).toString();
+        questionCounterData.setAttribute("value", (questionCounter).toString())
 
         button.style.display = "block";
         button.innerText = availableQuestions.length > 0 ? "Continue" : "Submit Your Results";

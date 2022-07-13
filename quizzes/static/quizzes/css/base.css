@@ -1,66 +1,72 @@
-/*p {*/
-/*  padding: 0;*/
-/*  margin: 0;*/
+/*!*p {*!*/
+/*!*  padding: 0;*!*/
+/*!*  margin: 0;*!*/
+/*!*}*!*/
+
+/*!* QUIZ *!*/
+
+/*#quiz-status {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
 /*}*/
 
-/* QUIZ */
+/*#quiz-status-item {*/
+/*  text-align: center;*/
+/*  font-size: 2rem;*/
+/*}*/
 
-#quiz-status {
-  display: flex;
-  justify-content: space-between;
-}
+/*.quiz-status-text {*/
+/*  text-align: center;*/
+/*}*/
 
-#quiz-status-item {
-  text-align: center;
-  font-size: 2rem;
-}
+/*#question-header {*/
+/*  padding: 1rem;*/
+/*  width: 100%;*/
+/*  text-align: center;*/
+/*  font-size: 2rem;*/
+/*}*/
 
-.quiz-status-text {
-  text-align: center;
-}
+/*.option {*/
+/*  display: flex;*/
+/*  margin-bottom: 0.5rem;*/
+/*  width: 100%;*/
+/*  font-size: 1.5rem;*/
+/*  border: 0.2rem solid rgba(50, 200, 30, 0.5);*/
+/*  background-color: white;*/
+/*  border-radius: 1rem;*/
+/*}*/
 
-#question-header {
-  padding: 1rem;
-  width: 100%;
-  text-align: center;
-  font-size: 2rem;
-}
+/*.option:hover {*/
+/*  cursor: pointer;*/
+/*  box-shadow: 0 0.4rem 1.4rem 0 rgba(36, 115, 19, 0.5);*/
+/*  transition: 150ms;*/
+/*}*/
 
-.option {
-  display: flex;
-  margin-bottom: 0.5rem;
-  width: 100%;
-  font-size: 1.5rem;
-  border: 0.2rem solid rgba(50, 200, 30, 0.5);
-  background-color: white;
-  border-radius: 1rem;
-}
+/*.option-num {*/
+/*  padding: 1rem 2rem;*/
+/*  !*background-color: rgba(50, 200, 30, 0.5);*!*/
+/*  color: black;*/
+/*}*/
 
-.option:hover {
-  cursor: pointer;
-  box-shadow: 0 0.4rem 1.4rem 0 rgba(36, 115, 19, 0.5);
-  transition: 150ms;
-}
+/*.option-detail {*/
+/*  padding: 1rem;*/
+/*  width: 100%;*/
+/*}*/
 
-.option-num {
-  padding: 1rem 2rem;
-  /*background-color: rgba(50, 200, 30, 0.5);*/
-  color: black;
-}
+/*.correct {*/
+/*  background-color: forestgreen;*/
+/*}*/
 
-.option-detail {
-  padding: 1rem;
-  width: 100%;
-}
+/*.incorrect {*/
+/*  background-color: crimson;*/
+/*}*/
 
-.correct {
-  background-color: forestgreen;
-}
+/*#continue {*/
+/*  float: right;*/
+/*}*/
 
-.incorrect {
-  background-color: crimson;
-}
-
-#continue {
-  float: right;
+.wrap-button-text {
+    height: max-content;
+    white-space: inherit;
+    text-align: left;
 }
