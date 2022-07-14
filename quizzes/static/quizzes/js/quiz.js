@@ -1,5 +1,5 @@
-const questionCounterData = document.getElementById("quiz-progress");
-const scoreData = document.getElementById("score");
+const progressBar = document.getElementById("quiz-progress");
+const scoreBar = document.getElementById("score");
 const question = document.getElementById("question-header");
 const options = Array.from(document.getElementsByClassName("option-text"));
 const button = document.getElementById("continue")
@@ -8,11 +8,13 @@ const resultsData = document.getElementById("results-data")
 
 // TODO: replace with data from settings
 const CORRECT_ANSWER_PTS = 10;
-const origin_icon = "🇬🇧";
-const target_icon = "🇩🇪";
-const initial_class = "is-outlined";
-const correct_class = "is-success";
-const incorrect_class = "is-danger";
+const originIcon = "🇬🇧";
+const targetIcon = "🇩🇪";
+
+// class names for styling unanswered/correct/incorrect questions
+const initialClass = "is-outlined";
+const correctClass = "is-success";
+const incorrectClass = "is-danger";
 
 let currentQuestion = {};
 let score = 0;
@@ -21,39 +23,6 @@ let results = {};
 let availableQuestions = [];
 let allowUserAnswer = false;
 
-// TODO: quiz landing page and results page
-// TODO: replace with a Jquery call
-/*
-let questions = [
-    {
-        'word_id': 3,
-        'origin_to_target': true,
-        'word': 'Mouse',
-        'correct_answer': 0,
-        'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
-    },
-    {
-        'word_id': 2,
-        'origin_to_target': true,
-        'word': 'Dog',
-        'correct_answer': 1,
-        'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
-    },
-    {
-        'word_id': 1,
-        'origin_to_target': false,
-        'word': 'Die Katze',
-        'correct_answer': 1,
-        'options': ['Dog', 'Cat', 'Bear', 'Mouse']
-    },
-    {
-        'word_id': 7,
-        'origin_to_target': false,
-        'word': 'Der Fisch',
-        'correct_answer': 3,
-        'options': ['Cat', 'Mouse', 'Bear', 'Fish']
-    }
-] */
 let questions = JSON.parse(document.getElementById('questions-data').textContent);
 const totalQuestions = questions.length;
 
@@ -78,7 +47,7 @@ const csrftoken = getCookie('csrftoken');
 
 startQuiz = () => {
     availableQuestions = [... questions];
-    questionCounterData.setAttribute("max", totalQuestions)
+    progressBar.setAttribute("max", totalQuestions)
     getNextQuestion();
 };
 
@@ -88,7 +57,6 @@ getNextQuestion = () => {
         return;
     }
     button.style.display = "none";
-
 
     // question order is shuffled on the client side
     let questionIndex = Math.floor(Math.random() * availableQuestions.length);
@@ -110,7 +78,7 @@ getNextQuestion = () => {
 
 resetState = () => {
     options.forEach(option => {
-        option.classList.remove(correct_class, incorrect_class);
+        option.classList.remove(correctClass, incorrectClass);
     })
 }
 
@@ -160,16 +128,16 @@ options.forEach(option => {
         results[currentQuestion['word_id']] = isCorrect;
 
         // indicate to user if they were correct
-        const resultClass = isCorrect ? correct_class : incorrect_class;
-        selectedOption.classList.remove(initial_class);
+        const resultClass = isCorrect ? correctClass : incorrectClass;
+        selectedOption.classList.remove(initialClass);
         selectedOption.classList.add(resultClass);
 
         // if user was incorrect, highlight the correct answer
         if(!isCorrect) {
             options.forEach(option => {
                 if(parseInt(option.dataset["num"]) === currentQuestion["correct_answer"]) {
-                    option.classList.remove(initial_class);
-                    option.classList.add(correct_class);
+                    option.classList.remove(initialClass);
+                    option.classList.add(correctClass);
                 }
             })
         }
@@ -178,21 +146,21 @@ options.forEach(option => {
         }
 
         // update progress bar
-        questionCounterData.innerText = (questionCounter++).toString();
-        questionCounterData.setAttribute("value", (questionCounter).toString())
+        progressBar.innerText = (questionCounter++).toString();
+        progressBar.setAttribute("value", (questionCounter).toString())
 
         button.style.display = "block";
-        button.innerText = availableQuestions.length > 0 ? "Continue" : "Submit Your Results";
+        button.innerText = availableQuestions.length > 0 ? "Continue..." : "Submit Your Results";
     });
 });
 
 updateScore = num => {
     score += num;
-    scoreData.innerText = `${score} pts`;
+    scoreBar.innerText = `${score} pts`;
 }
 
 getDirectionStr = is_forwards => {
-    return is_forwards ? `${origin_icon} → ${target_icon}`: `${target_icon} → ${origin_icon}`;
+    return is_forwards ? `${originIcon} → ${targetIcon}`: `${targetIcon} → ${originIcon}`;
 }
 
 // once the DOM is fully loaded, let's go!

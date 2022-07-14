@@ -60,7 +60,7 @@ class WordScore(models.Model):
         unique_together = ('word', 'student')
 
     def __str__(self):
-        return f'{self.student} / {self.word}: {self.score}'
+        return f'{self.student} / {self.word}: {self.score()}'
 
     def score(self):
         # enforce a maximum score for each word

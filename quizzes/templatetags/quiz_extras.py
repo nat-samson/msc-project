@@ -16,12 +16,10 @@ def is_due_revision(topic, user):
 
 
 @register.simple_tag(name='results_reaction')
-def results_reaction(numerator, denominator):
+def results_reaction(correct, total_qs):
     # enhance the quiz results page with a score-specific response
-    print(numerator)
-    print(denominator)
     try:
-        score = int(numerator) / int(denominator)
+        score = int(correct) / int(total_qs)
         if score >= 0.8:
             return "Congratulations! ", "🏆"
         elif score >= 0.5:

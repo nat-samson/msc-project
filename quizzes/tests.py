@@ -105,7 +105,7 @@ class WordScoreModelTests(TestCase):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
         cls.mouse = Word.objects.create(origin='Mouse', target='die Maus')
         cls.mouse.topics.add(animals)
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
         cls.mouse_score = WordScore.objects.create(word=cls.mouse, student=cls.student)
 
     def test_word_score_str(self):
@@ -119,7 +119,7 @@ class WordScoreModelTests(TestCase):
             self.mouse_score.consecutive_correct = num
             self.mouse_score.save()
             expected = min(num, MAX_SCORE)
-            self.assertEqual(expected, self.mouse_score.score)
+            self.assertEqual(expected, self.mouse_score.score())
 
 
 class QuizTests(TestCase):
