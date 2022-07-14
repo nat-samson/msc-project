@@ -1,8 +1,10 @@
 import datetime
 import json
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import FilteredRelation, Q, F
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 
 from quizzes import quiz_builder
@@ -13,24 +15,16 @@ from quizzes.models import Topic, Word, WordScore, QuizResults
 CORRECT_ANSWER_PTS = 10
 
 
-# temporary basic home view - INACTIVE
-def home(request):
-    context = {
-        'topics': Topic.objects.all()
-    }
-    return render(request, 'quizzes/home.html', context)
-
-
-class TopicListView(ListView):
+class TopicListView(LoginRequiredMixin, ListView):
     model = Topic
     template_name = 'quizzes/home.html'
     context_object_name = 'topics'
     ordering = ['date_created']
 
-    #paginate_by = 6  # TODO: Pagination
+    # TODO: Pagination
 
 
-class TopicDetailView(DetailView):
+class TopicDetailView(LoginRequiredMixin, DetailView):
     # model tells the view which model to use to create the detail view
     model = Topic
     fields = ['name', 'long_desc', 'short_desc']
@@ -46,6 +40,7 @@ class TopicDetailView(DetailView):
         return context
 
 
+@login_required()
 def quiz(request, topic_pk):
     if request.method == 'POST':
         # get the quiz results data out of request.POST
@@ -92,7 +87,11 @@ def quiz(request, topic_pk):
                     word_score.next_review = datetime.date.today()
                     word_score.save(update_fields=['consecutive_correct', 'times_seen'])
 
-            results_page_data['words'][word_score] = is_correct
+            results_page_data['words'][word_score.pk] = {
+                'origin': word_score.word.origin,
+                'target': word_score.word.target,
+                'is_correct': is_correct,
+            }
 
         # Log the quiz in the database
         quiz_score = correct * CORRECT_ANSWER_PTS
@@ -104,10 +103,15 @@ def quiz(request, topic_pk):
         results_page_data['correct'] = correct
         results_page_data['total'] = len(results)
 
-        return render(request, 'quizzes/quiz_results.html', results_page_data)
+        request.session['results'] = results_page_data
+        return redirect(request.path)
 
     else:
         # get the quiz and pass it to the template
-        questions = quiz_builder.get_quiz(request.user, topic_pk)
-
-        return render(request, 'quizzes/quiz.html', {'questions': questions})
+        results = request.session.get('results', False)
+        if results:
+            del request.session['results']
+            return render(request, 'quizzes/quiz_results.html', results)
+        else:
+            questions = quiz_builder.get_quiz(request.user, topic_pk)
+            return render(request, 'quizzes/quiz.html', {'questions': questions})

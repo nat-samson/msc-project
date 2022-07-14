@@ -11,14 +11,13 @@
         <th>Word</th>
         <th>Target</th>
         <th>Result</th>
-        <th>Next Review</th>
         </thead>
+
         {% for word, result in words.items %}
             <tr>
-                <td>{{ word.word.origin }}</td>
-                <td>{{ word.word.target }}</td>
-                <td>{% if result %}✅{% else %}❌{% endif %}</td>
-                <td>{{ word.next_review }}</td>
+                <td>{{ result.origin }}</td>
+                <td>{{ result.target }}</td>
+                <td>{% if result.is_correct %}✅{% else %}❌{% endif %}</td>
             </tr>
         {% endfor %}
     </table>
