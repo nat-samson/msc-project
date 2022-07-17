@@ -7,7 +7,7 @@
     <h2 class="subtitle">Overview:</h2>
 
     <div id="boxes">
-    <!-- row 1 -->
+        <!-- row 1 -->
         <div class="box">
             Words To Revise Today:
             {{ words_due_revision|default:0 }}
@@ -20,20 +20,19 @@
             Current Streak:
             {{ current_streak|default:0 }} days
         </div>
-    <!-- row 2 -->
-        <!-- filter here -->
+        <!-- row 2 -->
         {% crispy date_filter %}
-        <div class="box">
+        <div class="box filter-box" id="points-box">
             Points Earned
-            {{ points_earned|default:0 }}
+            <p></p>
         </div>
-        <div class="box">
+        <div class="box filter-box" id="quizzes-box">
             Quizzes Taken
-            {{ quizzes_taken|default:0 }}
+            <p></p>
         </div>
-        <div class="box">
+        <div class="box filter-box" id="pc-correct-box">
             % Correct Answers
-            {{ correct_pc|default:0 }}%
+            <p></p>
         </div>
 
     </div>
@@ -65,6 +64,10 @@
 
 {% block scripts %}
     <script>
+        // get date filter information
+        const filterButton = document.getElementById("filter-submit");
+        const filterableBoxes = Array.from(document.getElementsByClassName("filter-box"));
+
         // Initial chart set up
         let topicPointsCtx = document.getElementById("topicPointsChart").getContext("2d");
         let topicPointsChart = new Chart(topicPointsCtx, getChartDefaults('bar'));
@@ -72,6 +75,24 @@
         let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartDefaults('pie'));
         let wordsToReviewCtx = document.getElementById("wordsToReviewChart").getContext("2d");
         let wordsToReviewChart = new Chart(wordsToReviewCtx, getChartDefaults('bar'));
+
+        function updateDataBoxes(boxes, url) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                success: (data) => {
+                    // update all the data boxes
+                    const dataArray = Object.values(data)
+                    for (let i = 0; i < dataArray.length; i++) {
+                        boxes[i].lastElementChild.innerText = dataArray[i]
+                    }
+                },
+                error: (error_data) => {
+                    console.log(error_data)
+                }
+            })
+        }
 
         function updateChart(chart, url) {
             $.ajax({
@@ -161,7 +182,17 @@
             updateChart(wordsToReviewChart, "{% url "data-topic-words" %}");
         }
 
+        // trigger data update when Submit is clicked
+        filterButton.addEventListener("click", (e) => {
+            e.preventDefault()
+            let targetForm = $('#date-filter-form');
+            let url = targetForm.attr('action') + "?" + targetForm.serialize();
+            updateDataBoxes(filterableBoxes, url);
+        });
+
         $(document).ready(function(){
+            // populate initial data into boxes and charts
+            filterButton.click();
             updateAllCharts()
         })
     </script>
