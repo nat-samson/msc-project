@@ -1,8 +1,9 @@
+import copy
 import random
 
 from quizzes.models import Topic
 
-MAX_QUESTIONS_IN_QUIZ = 12
+MAX_QUIZ_LENGTH = 12
 
 
 def get_dummy_data():
@@ -39,17 +40,25 @@ def get_dummy_data():
 
 
 def get_quiz(user, topic_pk):
-    # create quiz for given topic
+    """create quiz for given topic """
+
     topic = Topic.objects.get(pk=topic_pk)
 
-    # pool for incorrect multiple-choice options
+    quiz = []
+
+    # gather data needed for the quiz: the words due to be revised, and a pool of possible incorrect options
+    words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')[:MAX_QUIZ_LENGTH]
     options_pool = list(topic.words.values('id', 'origin', 'target'))
+
+    # ensure both word lists have enough content with which to form a quiz
+    if len(words_to_revise) == 0:
+        try:
+            words_to_revise = random.sample(copy.deepcopy(options_pool), MAX_QUIZ_LENGTH)
+        except ValueError:
+            pass
 
     if len(options_pool) < 4:
         return []
-
-    results = []
-    words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')[:MAX_QUESTIONS_IN_QUIZ]
 
     for question in words_to_revise:
         direction = choose_direction()
@@ -70,9 +79,9 @@ def get_quiz(user, topic_pk):
         question['options'] = options
         question['word_id'] = question.pop('id')
 
-        results.append(question)
+        quiz.append(question)
 
-    return results
+    return quiz
     # return get_dummy_data()
 
 

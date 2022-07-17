@@ -16,7 +16,10 @@ class Topic(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        if self.is_hidden:
+            return self.name + " (Hidden)"
+        else:
+            return self.name
 
     def words_due_revision(self, user):
         # words due revision = all words in given topic - those words NOT due revision by given user
@@ -78,3 +81,7 @@ class QuizResults(models.Model):
     correct_answers = models.PositiveSmallIntegerField(default=0)
     incorrect_answers = models.PositiveSmallIntegerField(default=0)
     points = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"Quiz Results: {self.student.get_full_name()} / {self.topic} on {self.date_created}"
+

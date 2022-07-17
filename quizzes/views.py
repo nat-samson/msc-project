@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import FilteredRelation, Q, F
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from quizzes import quiz_builder
@@ -114,4 +115,9 @@ def quiz(request, topic_pk):
             return render(request, 'quizzes/quiz_results.html', results)
         else:
             questions = quiz_builder.get_quiz(request.user, topic_pk)
-            return render(request, 'quizzes/quiz.html', {'questions': questions})
+
+            # handle the race condition if a topic doesn't have enough words after the quiz is requested
+            if len(questions) == 0:
+                return redirect(reverse('home'))
+            else:
+                return render(request, 'quizzes/quiz.html', {'questions': questions})
