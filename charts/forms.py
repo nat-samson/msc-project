@@ -52,9 +52,9 @@ class DatePresetFilterForm(forms.Form):
         self.helper.form_action = reverse_lazy('filter-date')
         self.helper.form_id = 'date-filter-form'
         self.helper.layout = Layout(
-            FormGroup(
+
                 Field('date_range'),
-                Submit('submit', 'Submit', css_class='is-success', css_id='filter-submit'),)
+                Submit('submit', 'Submit', css_class='is-info', css_id='filter-submit')
         )
 
     DATE_CHOICES = (
@@ -63,4 +63,4 @@ class DatePresetFilterForm(forms.Form):
         (30, "Last 30 Days"),
         (None, "All Time"),
     )
-    date_range = forms.ChoiceField(choices=DATE_CHOICES, label="Date Range", required=False)
+    date_range = forms.ChoiceField(choices=DATE_CHOICES, label="Set Date Range:", required=False)

@@ -4,39 +4,72 @@
 {% block content %}
 
     <h1 class="title">My Progress</h1>
-    <h2 class="subtitle">Overview:</h2>
 
-    <div id="boxes">
-        <!-- row 1 -->
-        <div class="box">
-            Words To Revise Today:
-            {{ words_due_revision|default:0 }}
+    <!-- First Row: Data Boxes -->
+    <div class="columns">
+        <div class="column is-one-fifth-desktop">
+            <div class="box has-background-info has-text-centered" style="height: 95px;">
+                <p class="title is-5 has-text-white m-4">Overview:</p>
+            </div>
         </div>
-        <div class="box">
-            Words Fully Memorised:
-            {{ words_memorised|default:0 }}
+        <div class="column">
+            <div class="box" style="height: 100%;">
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Words To Revise Today:</p>
+                            <p class="title">{{ words_due_revision|default:0 }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Words Fully Memorised:</p>
+                            <p class="title">{{ words_memorised|default:0 }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Current Streak:</p>
+                            <p class="title">{{ current_streak|default:0 }} days</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="box">
-            Current Streak:
-            {{ current_streak|default:0 }} days
-        </div>
-        <!-- row 2 -->
-        {% crispy date_filter %}
-        <div class="box filter-box" id="points-box">
-            Points Earned
-            <p></p>
-        </div>
-        <div class="box filter-box" id="quizzes-box">
-            Quizzes Taken
-            <p></p>
-        </div>
-        <div class="box filter-box" id="pc-correct-box">
-            % Correct Answers
-            <p></p>
-        </div>
-
     </div>
 
+    <!-- Second Row: (Filtered) Data Boxes -->
+    <div class="columns">
+        <div class="column is-one-fifth-desktop">
+            <div class="box has-background-warning" style="height: 100%;">
+                <p>{% crispy date_filter %}</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="level box" style="height: 100%;">
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="points-box">
+                        <p class="heading has-text-weight-bold">Points Earned:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="quizzes-box">
+                        <p class="heading has-text-weight-bold">Quizzes Taken:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="pc-correct-box">
+                        <p class="heading has-text-weight-bold">% Correct:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 3: Charts -->
     <div id="charts">
         <div class="chart">
             Bar - Points Per Topic
