@@ -1,0 +1,210 @@
+{% extends "quizzes/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}{{ block.super }}: Progress{% endblock %}
+{% block content %}
+
+    <h1 class="title">My Progress</h1>
+
+    <!-- First Row: Data Boxes -->
+    <div class="columns">
+        <div class="column is-one-fifth-desktop">
+            <div class="box has-background-info has-text-centered" style="height: 95px;">
+                <p class="title is-5 has-text-white m-4">Overview:</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Words To Revise Today:</p>
+                            <p class="title">{{ words_due_revision|default:0 }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Words Fully Memorised:</p>
+                            <p class="title">{{ words_memorised|default:0 }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Current Streak:</p>
+                            <p class="title">{{ current_streak|default:0 }} days</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Row: (Filtered) Data Boxes -->
+    <div class="columns">
+        <div class="column is-one-fifth-desktop">
+            <div class="box has-background-warning" style="height: 100%;">
+                <p>{% crispy date_filter %}</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="level box" style="height: 100%;">
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="points-box">
+                        <p class="heading has-text-weight-bold">Points Earned:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="quizzes-box">
+                        <p class="heading has-text-weight-bold">Quizzes Taken:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="pc-correct-box">
+                        <p class="heading has-text-weight-bold">% Correct:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 3: Charts -->
+    <div class="columns">
+        <div class="column is-half">
+            <div class="box has-background-link-light has-text-centered">
+                <p class="title is-5 m-4">Points Per Topic:</p>
+            <canvas id="topicPointsChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box has-background-primary-light has-text-centered">
+                <p class="title is-5 m-4">Quizzes Per Topic:</p>
+            <canvas id="topicsQuizzesChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 4: Line Chart -->
+    <div class="columns">
+        <div class="column">
+            <div class="box has-background-success-light has-text-centered">
+                <p class="title is-5 m-4">Points Per Day:</p>
+            <canvas id="pointsPerDayChart" width="250" height="150"></canvas>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        // set up Chart.JS defaults
+        Chart.defaults.responsive = true;
+
+        // get date filter information
+        const filterButton = document.getElementById("filter-submit");
+        const filterableBoxes = Array.from(document.getElementsByClassName("filter-box"));
+
+        // Initial chart set up
+        let topicPointsCtx = document.getElementById("topicPointsChart").getContext("2d");
+        let topicPointsChart = new Chart(topicPointsCtx, getChartSettings('bar'));
+        let topicsQuizzesCtx = document.getElementById("topicsQuizzesChart").getContext("2d");
+        let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
+        let pointsPerDayCtx = document.getElementById("pointsPerDayChart").getContext("2d");
+        let pointsPerDayChart = new Chart(pointsPerDayCtx, getChartSettings('line'));
+        const updatableCharts = [topicPointsChart, topicsQuizzesChart];
+
+        function updateDataBoxes(boxes, url) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                success: (data) => {
+                    // update all the data boxes
+                    const dataArray = Object.values(data)
+                    for (let i = 0; i < dataArray.length; i++) {
+                        boxes[i].lastElementChild.innerText = dataArray[i]
+                    }
+                },
+                error: (error_data) => {
+                    console.log(error_data)
+                }
+            })
+        }
+
+        function updateChart(chart, url) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                success: (chartData) => {
+                    chart['data'] = chartData;
+                    chart.update();
+                },
+                error: (error_data) => {
+                    console.log("Failed to fetch chart data.")
+                    console.log(error_data)
+                }
+            })
+        }
+
+        function updateCharts(charts, url) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                success: (chartsData) => {
+                    // update the charts
+                    const dataArray = Object.values(chartsData);
+                    for (let i = 0; i < dataArray.length; i++) {
+                        charts[i]['data'] = dataArray[i]
+                        charts[i].update();
+                    }
+                },
+                error: (error_data) => {
+                    console.log("Failed to fetch chart data.")
+                    console.log(error_data)
+                }
+            })
+        }
+
+        function getChartSettings(chartType){
+            let chartSettings =  {
+                type: chartType,
+                options: {}
+            };
+            // only show the legend for pie charts
+            if(chartType!=='pie'){
+                chartSettings.options['plugins'] = {
+                        legend: {
+                            display: false,
+                        },
+                    };
+            }
+            return chartSettings;
+        }
+
+        function updateAllCharts() {
+            updateCharts(updatableCharts, "{% url "data-student-charts" %}")
+            //updateChart(topicPointsChart, "{% url "data-topic-points" %}");
+            //updateChart(topicsQuizzesChart, "{% url "data-topic-quizzes" %}");
+            updateChart(pointsPerDayChart, "{% url "data-points-day" %}");
+        }
+
+        // trigger data update when Submit is clicked
+        filterButton.addEventListener("click", (e) => {
+            e.preventDefault()
+            let targetForm = $('#date-filter-form');
+            let url = targetForm.attr('action') + "?" + targetForm.serialize();
+            updateDataBoxes(filterableBoxes, url);
+        });
+
+        $(document).ready(function(){
+            // populate initial data into boxes and charts
+            filterButton.click();
+            updateAllCharts()
+        })
+    </script>
+
+{% endblock %}

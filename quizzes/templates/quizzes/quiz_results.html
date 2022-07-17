@@ -3,25 +3,49 @@
 {% block title %}{{ block.super }}: Results{% endblock %}
 
 {% block content %}
+    {% load quiz_extras %}
+    <div class="container is-widescreen">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
 
-    You got {{ correct }} / {{ total }}!
+                    <header class="has-text-centered block">
+                        {% results_reaction correct total as reaction %}
+                        <h1 class="title is-1 block">{{ reaction.1 }}</h1>
+                        <h3 class="subtitle is-3 block">
+                            {{ reaction.0 }} <br>You got {{ correct }}/{{ total }}.
+                        </h3>
+                    </header>
 
-    <table>
-        <thead>
-        <th>Word</th>
-        <th>Target</th>
-        <th>Result</th>
-        <th>Next Review</th>
-        </thead>
-        {% for word, result in words.items %}
-            <tr>
-                <td>{{ word.word.origin }}</td>
-                <td>{{ word.word.target }}</td>
-                <td>{% if result %}✅{% else %}❌{% endif %}</td>
-                <td>{{ word.next_review }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+                    <div class="block">
+                        <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                            <thead>
+                            <th>Word</th>
+                            <th>Target</th>
+                            <th>Result</th>
+                            </thead>
+                            <tbody>
+                            {% for word, result in words.items %}
+                                <tr>
+                                    <td>{{ result.origin }}</td>
+                                    <td>{{ result.target }}</td>
+                                    {% if result.is_correct %}
+                                        <td class="has-background-success has-text-centered">✅</td>
+                                    {% else %}
+                                        <td class="has-background-danger-light has-text-centered">❌</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
-    <a href="{% url 'home' %}">Done</a>
+                    <div class="block">
+                        <a class="button is-success is-pulled-right" href="{% url 'home' %}">Done</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

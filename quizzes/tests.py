@@ -13,10 +13,12 @@ from .quiz_builder import choose_direction, get_quiz, get_options
 class HomeTests(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
         cls.url = reverse('home')
 
     def test_home_view_status(self):
-        response = self.client.get(self.url)
+        self.client.force_login(self.student)
+        response = self.client.get(self.url, follow=True)
         self.assertEquals(200, response.status_code)
 
     def test_home_view_url(self):
@@ -24,8 +26,14 @@ class HomeTests(TestCase):
         self.assertIs(view.func.view_class, TopicListView)
 
     def test_home_template_name(self):
-        response = self.client.get(self.url)
+        self.client.force_login(self.student)
+        response = self.client.get(self.url, follow=True)
         self.assertTemplateUsed(response, 'quizzes/home.html')
+
+    def test_home_login_required(self):
+        response = self.client.get(self.url, follow=False)
+        redirect_url = self.url + 'login/?next=/'
+        self.assertRedirects(response, redirect_url)
 
 
 class TopicDetailPageTests(TestCase):
@@ -97,7 +105,7 @@ class WordScoreModelTests(TestCase):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
         cls.mouse = Word.objects.create(origin='Mouse', target='die Maus')
         cls.mouse.topics.add(animals)
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
         cls.mouse_score = WordScore.objects.create(word=cls.mouse, student=cls.student)
 
     def test_word_score_str(self):
@@ -111,7 +119,7 @@ class WordScoreModelTests(TestCase):
             self.mouse_score.consecutive_correct = num
             self.mouse_score.save()
             expected = min(num, MAX_SCORE)
-            self.assertEqual(expected, self.mouse_score.score)
+            self.assertEqual(expected, self.mouse_score.score())
 
 
 class QuizTests(TestCase):

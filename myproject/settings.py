@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'quizzes.apps.QuizzesConfig',
+    'charts.apps.ChartsConfig',
+    'crispy_forms',
+    'crispy_bulma',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +146,7 @@ else:
     EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
     EMAIL_HOST_USER = config('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+# Settings for Crispy Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bulma"
+CRISPY_TEMPLATE_PACK = "bulma"

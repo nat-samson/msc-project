@@ -3,31 +3,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Quizzes{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bulma and custom CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{% static 'quizzes/css/base.css' %}">
+
+    <title>{% block title %}Quizzes{% endblock %}</title>
 </head>
-<body>
+
+<!-- Extend the body block to avoid inheriting the navbar -->
 {% block body %}
-<header>
-    <nav>
-        <a href={% url 'home' %}>Home</a>
-        {% if user.is_authenticated %}
-            <a href="#">Progress</a>
-            <a href="#">Dashboard</a>
-            <a href="#">{{ user.username }}'s Profile</a>
-            <a href={% url 'logout' %}>Logout</a>
-        {% else %}
-            <a href={% url 'login' %}>Login</a>
-            <a href={% url 'register' %}>Register</a>
-        {% endif %}
+    <body class="has-navbar-fixed-top">
+    <!-- Navbar configuration -->
+    <nav class="navbar is-fixed-top is-success" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item {% if request.path == "/" %}is-active{% endif %}" href="{% url "home" %}">
+                <strong>Home</strong>
+            </a>
+            <a class="navbar-item {% if request.path == "/progress/" %}is-active{% endif %}" href="{% url "progress" %}">
+                <strong>Progress</strong>
+            </a>
+        <a class="navbar-item {% if request.path == "/dashboard/" %}is-active{% endif %}" href="{% url "dashboard" %}">
+                <strong>Dashboard</strong>
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarElements">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarElements" class="navbar-menu">
+            <!-- left-hand side -->
+            <div class="navbar-start">
+                <!-- items are in navbar brand so that they always display on small screens -->
+            </div>
+            <!-- right-hand side -->
+            <div class="navbar-end">
+                <a class="navbar-item">
+                    {{ request.user }}
+                </a>
+                <div class="navbar-item">
+                    <div class="buttons">
+                        {% if user.is_authenticated %}
+                            <a class="button is-light" href="{% url "logout" %}">
+                                <strong>Log out</strong>
+                            </a>
+                        {% else %}
+                            <a class="button is-dark" href="{% url "register" %}">
+                                <strong>Register</strong>
+                            </a>
+                            <a class="button is-light" href="{% url "login" %}">
+                                <strong>Log in</strong>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
-</header>
-<div>
-    {% block content %}
-    {% endblock content %}
-</div>
+
+    <!-- Page content -->
+    <section class="section">
+        <div class="container">
+            {% block content %}
+                <!-- Page-specific body content goes here, while keeping the navbar -->
+            {% endblock content %}
+        </div>
+    </section>
 {% endblock body %}
+
+<!-- Javascript Libraries-->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-{% block scripts %}{% load static %}<!-- page specific scripts can be added here -->{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- The following script is as per the Bulma docs: https://bulma.io/documentation/components/navbar/#navbar-menu -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach( el => {
+            el.addEventListener('click', () => {
+
+                // Get the target from the "data-target" attribute
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
+
+            });
+        });
+    });
+</script>
+
+{% block scripts %}
+    <!-- page specific scripts can be added here -->
+{% endblock scripts %}
+
 </body>
 </html>

@@ -3,17 +3,48 @@
 {% block title %}{{ block.super }}: Home{% endblock %}
 
 {% block content %}
-    {% load quiz_extras %}
-<h1>Topics</h1>
-{% for topic in topics %}
-    {% if not topic.is_hidden %}
-    <div>
-    <h2>{{ topic.name }}</h2>
-    {{ topic.short_desc }} <br>
-        {{ topic|to_revise:request.user}}
-    <a href="{% url 'topic_detail' topic.id %}">Revise</a>
-    <a href="{% url 'quiz' topic.id %}">Quiz</a>
+    {% load quiz_extras  %}
+    <div class="title">Topics</div>
+
+    <!-- Organise page into three columns -->
+    <div class="columns is-multiline">
+        {% for topic in topics %}
+            {% if not topic.is_hidden %}
+                <div class="column is-one-third">
+
+                    <!-- Card configuration -->
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title is-centered">
+                                {{ topic.name }}
+                            </p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <div class="has-text-centered">
+                                    <div class="title is-1">{{ topic.short_desc }}</div>
+                                    <div class="tags are-medium has-addons is-centered">
+                                        {% to_revise topic request.user as words_due %}
+                                        {% if words_due > 0 %}
+                                        <span class="tag">Words due:</span>
+                                        <span class="tag is-danger">{{ words_due }}</span>
+                                            {% else %}
+                                            <span class="tag is-success">Up to date!</span>
+                                            {% endif %}
+                                    </div>
+
+                                    <div class="buttons is-centered">
+                                        <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}"><strong>Words</strong></a>
+                                        <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}"><strong>Quiz</strong></a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
-    {% endif %}
-{% endfor %}
 {% endblock content %}

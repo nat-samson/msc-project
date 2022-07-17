@@ -1,8 +1,5 @@
-{% extends "quizzes/base.html" %}
-{% block title %}{{ block.super }}: Goodbye!{% endblock %}
-{% block body %}
-    <h2>You have successfully logged out.</h2>
-    <small>
-        <a href="{% url 'login' %}">Log in again?</a>
-    </small>
-{% endblock body %}
+{% extends "users/base_users.html" %}
+{% block box %}
+    <p class="title is-4 has-text-dark">You have successfully logged out.</p>
+    <a class="is-underlined" href="{% url 'login' %}">Log in again?</a>
+{% endblock box %}
