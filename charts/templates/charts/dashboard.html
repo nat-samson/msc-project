@@ -1,73 +1,103 @@
 {% extends "quizzes/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{ block.super }}: Dashboard{% endblock %}
 
 {% block content %}
-    <h1>User Dashboard</h1>
-    <div id="boxes">
-        <div class="box">
-            Words due for revision:
-            {{ words_due_revision|default:0 }} /
-            {{ total_words|default:0 }}
-        </div>
-        <div class="box">
-            All-time points
-            {{ all_time_points.total|default:0 }}
-        </div>
-        <div class="box">
-            Topics Available
-            {{ topics_count|default:0 }}
-        </div>
-        <span>This Week</span>
-        <div class="box">
-            Quizzes taken this week
-            {{ quizzes_this_week|default:0 }}
-        </div>
-        <div class="box">
-            Points this week
-            {{ weekly_points.total|default:0}}
-        </div>
-        <div class="box">
-            % Weekly correct
-            {{weekly_correct_pc|default:"0%"}}
-        </div>
+    <h1 class="title">My Progress</h1>
 
-    </div>
-    <div id="charts">
-        <div class="chart">
-            Bar - Points Per Topic
-            <canvas id="topicPointsChart" width="400" height="400"></canvas>
+    <!-- First Row: Data Boxes -->
+    <div class="columns">
+        <div class="column is-one-fifth-desktop">
+            <div class="box has-background-info has-text-centered" style="height: 95px;">
+                <p class="title is-5 has-text-white m-4">Overview:</p>
+            </div>
         </div>
-        <div class="chart">
-            Pie - quizzes taken per topic
-            <canvas id="topicsQuizzesChart" width="400" height="400"></canvas>
-        </div>
-        <div class="chart">
-            Bar - words in need of review by topic
-            <canvas id="wordsToReviewChart" width="400" height="400"></canvas>
-        </div>
-        <div class="chart">
-            Wordcloud - words sized by their strengths
-        </div>
-
-    </div>
-    <div id="tables">
-        <div class="table">
-            Top 10 words to practice (most incorrect attempts)
+        <div class="column">
+            <div class="box">
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Live Topics:</p>
+                            <p class="title">{{ live_topics|default:0 }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Live Words:</p>
+                            <p class="title">{{ live_words|default:0 }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading has-text-weight-bold">Students Registered:</p>
+                            <p class="title">{{ students_registered|default:0 }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Second Row: (Filtered) Data Boxes -->
+    <div class="columns">
+        <div class="column is-one-fifth-desktop">
+            <div class="box has-background-warning" style="height: 100%;">
+                <p>{% crispy date_filter %}</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="level box" style="height: 100%;">
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="points-box">
+                        <p class="heading has-text-weight-bold">Active Students:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="quizzes-box">
+                        <p class="heading has-text-weight-bold">Quizzes Taken:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div class="filter-box" id="pc-correct-box">
+                        <p class="heading has-text-weight-bold">Points Earned:</p>
+                        <p class="title"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
+
 {% block scripts %}
     <script>
-        // Initial chart set up
-        let topicPointsCtx = document.getElementById("topicPointsChart").getContext("2d");
-        let topicPointsChart = new Chart(topicPointsCtx, getChartDefaults('bar'));
-        let topicsQuizzesCtx = document.getElementById("topicsQuizzesChart").getContext("2d");
-        let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartDefaults('pie'));
-        let wordsToReviewCtx = document.getElementById("wordsToReviewChart").getContext("2d");
-        let wordsToReviewChart = new Chart(wordsToReviewCtx, getChartDefaults('bar'));
+    // set up Chart.JS defaults
+        Chart.defaults.responsive = true;
+
+        // get date filter information
+        const filterButton = document.getElementById("filter-submit");
+        const filterableBoxes = Array.from(document.getElementsByClassName("filter-box"));
+
+        function updateDataBoxes(boxes, url) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                success: (data) => {
+                    // update all the data boxes
+                    const dataArray = Object.values(data)
+                    for (let i = 0; i < dataArray.length; i++) {
+                        boxes[i].lastElementChild.innerText = dataArray[i]
+                    }
+                },
+                error: (error_data) => {
+                    console.log(error_data)
+                }
+            })
+        }
 
         function updateChart(chart, url) {
             $.ajax({
@@ -75,29 +105,7 @@
                 dataType: "json",
                 url: url,
                 success: (chartData) => {
-                    // extract chart data
-                    let title = chartData.title;
-                    let label = chartData.label;
-                    let backgroundColor = chartData.backgroundColor;
-                    let borderColor = chartData.borderColor;
-                    let labels = chartData.labels;
-                    let data = chartData.data;
-
-                    // refresh the chart data in case of update
-                    chart.data.labels.pop();
-                    chart.data.datasets.forEach((dataset) => {
-                        dataset.data.pop();
-                    });
-
-                    // update the chart with the received JSON data
-                    chart.data.labels = labels;
-                    chart.options.plugins.title.text = title;
-                    chart.data.datasets.forEach((dataset) => {
-                        dataset.label = label;
-                        dataset.data = data;
-                        dataset.backgroundColor = backgroundColor;
-                        dataset.borderColor = borderColor;
-                    });
+                    chart['data'] = chartData;
                     chart.update();
                 },
                 error: (error_data) => {
@@ -107,57 +115,57 @@
             })
         }
 
-        function getChartDefaults(chartType){
-            let chartDefaults =  {
-                type: chartType,
-                data: {
-                    labels: [],
-                    datasets: [{
-                        borderWidth: 1
-                    }]
+        function updateCharts(charts, url) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                success: (chartsData) => {
+                    // update the charts
+                    const dataArray = Object.values(chartsData);
+                    for (let i = 0; i < dataArray.length; i++) {
+                        charts[i]['data'] = dataArray[i]
+                        charts[i].update();
+                    }
                 },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Chart title'
-                        },
+                error: (error_data) => {
+                    console.log("Failed to fetch chart data.")
+                    console.log(error_data)
+                }
+            })
+        }
+
+        function getChartSettings(chartType){
+            let chartSettings =  {
+                type: chartType,
+                options: {}
+            };
+            // only show the legend for pie charts
+            if(chartType!=='pie'){
+                chartSettings.options['plugins'] = {
                         legend: {
                             display: false,
                         },
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: true,
-                            },
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                display: true,
-                            },
-                        }
-                    },
-                    responsive: true,
-                }
-            };
-            if(chartType==='pie'){
-                chartDefaults.options.plugins.legend.display = true;
-                chartDefaults.options.scales.x.display = false;
-                chartDefaults.options.scales.y.display = false;
+                    };
             }
-            return chartDefaults;
+            return chartSettings;
         }
 
         function updateAllCharts() {
-            updateChart(topicPointsChart, "{% url "data-topic-points" %}");
-            updateChart(topicsQuizzesChart, "{% url "data-topic-quizzes" %}");
-            updateChart(wordsToReviewChart, "{% url "data-topic-words" %}");
+
         }
 
+        // trigger data update when Submit is clicked
+        filterButton.addEventListener("click", (e) => {
+            e.preventDefault()
+            let targetForm = $('#date-filter-form');
+            let url = targetForm.attr('action') + "?" + targetForm.serialize();
+            updateDataBoxes(filterableBoxes, url);
+        });
+
         $(document).ready(function(){
+            // populate initial data into boxes and charts
+            filterButton.click();
             updateAllCharts()
         })
     </script>

@@ -45,11 +45,11 @@ class DashboardFilterForm(forms.Form):
 
 
 class DatePresetFilterForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, action, **kwargs):
+        super().__init__(**kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'GET'
-        self.helper.form_action = reverse_lazy('filter-date')
+        self.helper.form_action = reverse_lazy(action)
         self.helper.form_id = 'date-filter-form'
         self.helper.layout = Layout(
 
