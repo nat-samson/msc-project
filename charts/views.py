@@ -52,7 +52,8 @@ def get_filtered_data_student(request):
 @login_required
 def chart_topic_points(request):
     student_results = QuizResults.objects.filter(student=request.user)
-    points_per_topic = student_results.values('topic__name').annotate(Sum('points')).values_list("topic__name", "points__sum")
+    points_per_topic = student_results.values('topic__name').annotate(Sum('points'))\
+        .values_list("topic__name", "points__sum")
 
     labels_and_data = unzip(points_per_topic)
     colours = get_colours(len(labels_and_data[0]))
@@ -73,7 +74,8 @@ def chart_topic_quizzes(request):
     student_results = QuizResults.objects.filter(student=request.user)
 
     # quizzes taken per topic
-    quizzes_per_topic = student_results.values('topic__name').annotate(quizzes_taken=Count('id')).values_list("topic__name", "quizzes_taken")
+    quizzes_per_topic = student_results.values('topic__name').annotate(quizzes_taken=Count('id'))\
+        .values_list("topic__name", "quizzes_taken")
 
     labels_and_data = unzip(quizzes_per_topic)
     colours = get_colours(len(labels_and_data[0]))
@@ -115,5 +117,27 @@ def chart_topic_words(request):
         "label": "Ratio Correct:Incorrect",
         "labels": labels_and_data[0],
         "data": labels_and_data[1],
+    }
+    return JsonResponse(chart_data)
+
+
+@login_required
+def chart_points_per_day(request):
+    date_from = datetime.date.today() - datetime.timedelta(28)
+    student_results = QuizResults.objects.filter(student=request.user, date_created__gte=date_from)
+    points_per_day = student_results.values('date_created').annotate(Sum('points')).\
+        order_by('date_created').values_list('date_created', 'points')
+
+    labels_and_data = unzip(points_per_day)
+    colours = get_colours(len(labels_and_data[0]))
+
+    chart_data = {
+        "title": "Points Per Day",
+        "backgroundColor": colours[0],
+        "borderColor": ['rgb(75, 192, 192)'],
+        "label": "Points",
+        "labels": labels_and_data[0],
+        "data": labels_and_data[1],
+        "tension": 0.1,
     }
     return JsonResponse(chart_data)

@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="column">
-            <div class="box" style="height: 100%;">
+            <div class="box">
                 <div class="level">
                     <div class="level-item has-text-centered">
                         <div>
@@ -70,15 +70,32 @@
     </div>
 
     <!-- Row 3: Charts -->
-    <div id="charts">
-        <div class="chart">
-            Bar - Points Per Topic
+    <div class="columns">
+        <div class="column is-half">
+            <div class="box has-background-link-light has-text-centered">
+                <p class="title is-5 m-4">Points Per Topic:</p>
             <canvas id="topicPointsChart" width="400" height="400"></canvas>
+            </div>
         </div>
-        <div class="chart">
-            Pie - quizzes taken per topic
+        <div class="column">
+            <div class="box has-background-primary-light has-text-centered">
+                <p class="title is-5 m-4">Quizzes Per Topic:</p>
             <canvas id="topicsQuizzesChart" width="400" height="400"></canvas>
+            </div>
         </div>
+    </div>
+
+    <!-- Row 4: Line Chart -->
+    <div class="columns">
+        <div class="column">
+            <div class="box has-background-success-light has-text-centered">
+                <p class="title is-5 m-4">Points Per Day:</p>
+            <canvas id="pointsPerDayChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+
         <div class="chart">
             Bar - words in need of review by topic
             <canvas id="wordsToReviewChart" width="400" height="400"></canvas>
@@ -87,7 +104,6 @@
             Wordcloud - words sized by their strengths
         </div>
 
-    </div>
     <div id="tables">
         <div class="table">
             Top 10 words to practice (most incorrect attempts)
@@ -108,6 +124,8 @@
         let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartDefaults('pie'));
         let wordsToReviewCtx = document.getElementById("wordsToReviewChart").getContext("2d");
         let wordsToReviewChart = new Chart(wordsToReviewCtx, getChartDefaults('bar'));
+        let pointsPerDayCtx = document.getElementById("pointsPerDayChart").getContext("2d");
+        let pointsPerDayChart = new Chart(pointsPerDayCtx, getChartDefaults('line'));
 
         function updateDataBoxes(boxes, url) {
             $.ajax({
@@ -213,6 +231,7 @@
             updateChart(topicPointsChart, "{% url "data-topic-points" %}");
             updateChart(topicsQuizzesChart, "{% url "data-topic-quizzes" %}");
             updateChart(wordsToReviewChart, "{% url "data-topic-words" %}");
+            updateChart(pointsPerDayChart, "{% url "data-points-day" %}");
         }
 
         // trigger data update when Submit is clicked
