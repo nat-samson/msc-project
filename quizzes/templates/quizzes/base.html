@@ -24,6 +24,9 @@
             <a class="navbar-item {% if request.path == "/progress/" %}is-active{% endif %}" href="{% url "progress" %}">
                 <strong>Progress</strong>
             </a>
+        <a class="navbar-item {% if request.path == "/dashboard/" %}is-active{% endif %}" href="{% url "dashboard" %}">
+                <strong>Dashboard</strong>
+            </a>
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarElements">
                 <span aria-hidden="true"></span>

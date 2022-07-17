@@ -18,24 +18,23 @@ class DashboardFilterForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'GET'
-        self.helper.form_action = reverse_lazy('filter-chart')
-        self.helper.form_id = 'filter-form'
+        self.helper.form_action = reverse_lazy('data-student-charts')
+        self.helper.form_id = 'student-filter-form'
         self.helper.form_horizontal = True
         self.helper.layout = Layout(
-            Field('topics'),
-            Field('students'),
+            Field('student'),
             Field('date_from'),
             Field('date_to'),
             FormGroup(
-                Reset('reset', 'Reset', css_class='is-light is-small'),
-                Submit('submit', 'Update', css_class='is-success is-small', css_id='filter-submit'))
+                Reset('reset', 'Reset', css_class='is-outlined'),
+                Submit('submit', 'Update', css_class='is-success', css_id='student-filter-submit'))
         )
 
     # settings for each field
     topics = forms.ModelChoiceField(
         queryset=Topic.objects.order_by('name'),
         required=False, empty_label="** All Topics **")
-    students = forms.ModelChoiceField(
+    student = forms.ModelChoiceField(
         queryset=User.objects.filter(is_student=True, is_active=True).order_by('last_name'),
         required=False, empty_label="** All Students **")
     date_from = forms.DateField(
@@ -52,7 +51,6 @@ class DatePresetFilterForm(forms.Form):
         self.helper.form_action = reverse_lazy(action)
         self.helper.form_id = 'date-filter-form'
         self.helper.layout = Layout(
-
                 Field('date_range'),
                 Submit('submit', 'Submit', css_class='is-info', css_id='filter-submit')
         )

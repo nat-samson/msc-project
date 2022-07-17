@@ -4,7 +4,7 @@
 {% block title %}{{ block.super }}: Dashboard{% endblock %}
 
 {% block content %}
-    <h1 class="title">My Progress</h1>
+    <h1 class="title">Dashboard</h1>
 
     <!-- First Row: Data Boxes -->
     <div class="columns">
@@ -70,16 +70,55 @@
         </div>
     </div>
 
+    <!-- Chart Filter settings -->
+    <div class="columns is-centered">
+        <div class="column is-half">
+            <div class="box has-background-danger has-text-centered" style="height: 207px;">
+                <p class="title is-5 has-text-white m-4">Charts:</p>
+                <p class="subtitle is-5 has-text-white m-4">Apply Filters</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box has-background-danger-light">
+                {% crispy student_filter %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 3: Charts -->
+    <div class="columns">
+        <div class="column is-half">
+            <div class="box has-background-link-light has-text-centered">
+                <p class="title is-5 m-4">Points Per Topic:</p>
+                <canvas id="topicPointsChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box has-background-primary-light has-text-centered">
+                <p class="title is-5 m-4">Quizzes Per Topic:</p>
+                <canvas id="topicsQuizzesChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
 {% endblock content %}
 
 {% block scripts %}
     <script>
-    // set up Chart.JS defaults
+        // set up Chart.JS defaults
         Chart.defaults.responsive = true;
 
         // get date filter information
         const filterButton = document.getElementById("filter-submit");
+        const filterButtonStudent = document.getElementById("student-filter-submit");
         const filterableBoxes = Array.from(document.getElementsByClassName("filter-box"));
+
+        // filterable chart set up
+        let topicPointsCtx = document.getElementById("topicPointsChart").getContext("2d");
+        let topicPointsChart = new Chart(topicPointsCtx, getChartSettings('bar'));
+        let topicsQuizzesCtx = document.getElementById("topicsQuizzesChart").getContext("2d");
+        let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
+        const updatableCharts = [topicPointsChart, topicsQuizzesChart];
 
         function updateDataBoxes(boxes, url) {
             $.ajax({
@@ -143,10 +182,10 @@
             // only show the legend for pie charts
             if(chartType!=='pie'){
                 chartSettings.options['plugins'] = {
-                        legend: {
-                            display: false,
-                        },
-                    };
+                    legend: {
+                        display: false,
+                    },
+                };
             }
             return chartSettings;
         }
@@ -155,7 +194,7 @@
 
         }
 
-        // trigger data update when Submit is clicked
+        // trigger data update when Submit is clicked (DATABOXES)
         filterButton.addEventListener("click", (e) => {
             e.preventDefault()
             let targetForm = $('#date-filter-form');
@@ -163,9 +202,18 @@
             updateDataBoxes(filterableBoxes, url);
         });
 
+        // trigger data update when Submit is clicked (CHARTS)
+        filterButtonStudent.addEventListener("click", (e) => {
+            e.preventDefault()
+            let targetForm = $('#student-filter-form');
+            let url = targetForm.attr('action') + "?" + targetForm.serialize();
+            updateCharts(updatableCharts, url);
+        });
+
         $(document).ready(function(){
             // populate initial data into boxes and charts
             filterButton.click();
+            filterButtonStudent.click();
             updateAllCharts()
         })
     </script>
