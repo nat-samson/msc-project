@@ -18,8 +18,8 @@ class DashboardFilterForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'GET'
-        self.helper.form_action = reverse_lazy('dashboard')
-        self.helper.form_id = 'filter'
+        self.helper.form_action = reverse_lazy('filter-chart')
+        self.helper.form_id = 'filter-form'
         self.helper.form_horizontal = True
         self.helper.layout = Layout(
             Field('topics'),
@@ -28,10 +28,38 @@ class DashboardFilterForm(forms.Form):
             Field('date_to'),
             FormGroup(
                 Reset('reset', 'Reset', css_class='is-light is-small'),
-                Submit('submit', 'Update', css_class='is-success is-small'))
+                Submit('submit', 'Update', css_class='is-success is-small', css_id='filter-submit'))
         )
 
-    topics = forms.ModelChoiceField(queryset=Topic.objects.order_by('name'), required=False, empty_label="** All Topics **")
-    students = forms.ModelChoiceField(queryset=User.objects.filter(is_student=True, is_active=True).order_by('last_name'), required=False, empty_label="** All Students **")
-    date_from = forms.DateField(label='Date From', required=False, widget=DateInput(attrs={'type': 'date'}))
-    date_to = forms.DateField(label='Date To', required=False, widget=DateInput(attrs={'type': 'date', 'max': datetime.now().date()}))
+    # settings for each field
+    topics = forms.ModelChoiceField(
+        queryset=Topic.objects.order_by('name'),
+        required=False, empty_label="** All Topics **")
+    students = forms.ModelChoiceField(
+        queryset=User.objects.filter(is_student=True, is_active=True).order_by('last_name'),
+        required=False, empty_label="** All Students **")
+    date_from = forms.DateField(
+        label='Date From', required=False, widget=DateInput(attrs={'type': 'date'}))
+    date_to = forms.DateField(
+        label='Date To', required=False, widget=DateInput(attrs={'type': 'date', 'max': datetime.now().date()}))
+
+
+class DatePresetFilterForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'GET'
+        self.helper.form_id = 'date-filter-form'
+        self.helper.layout = Layout(
+            FormGroup(
+                Field('date_range'),
+                Submit('submit', 'Submit', css_class='is-success', css_id='filter-submit'),)
+        )
+
+    DATE_CHOICES = (
+        (0, "Today"),
+        (7, "Last 7 Days"),
+        (30, "Last 30 Days"),
+        (None, "All Time"),
+    )
+    date_range = forms.ChoiceField(choices=DATE_CHOICES, label="Date Range", required=False)
