@@ -39,6 +39,7 @@ class TeacherRegistrationForm(CustomUserCreationForm):
     # add fields relevant only to teachers
     # TODO: Mechanism for checking a key, so students can't register as teachers
 
+    @transaction.atomic
     def save(self):
         user = super().save(commit=False)
         user.is_teacher = True

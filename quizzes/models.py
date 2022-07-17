@@ -84,4 +84,3 @@ class QuizResults(models.Model):
 
     def __str__(self):
         return f"Quiz Results: {self.student.get_full_name()} / {self.topic} on {self.date_created}"
-

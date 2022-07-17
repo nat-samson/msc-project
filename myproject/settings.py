@@ -148,6 +148,5 @@ else:
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 # Settings for Crispy Forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = ("bulma",)
-
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bulma"
 CRISPY_TEMPLATE_PACK = "bulma"
