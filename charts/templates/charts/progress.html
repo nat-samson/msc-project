@@ -90,42 +90,29 @@
         <div class="column">
             <div class="box has-background-success-light has-text-centered">
                 <p class="title is-5 m-4">Points Per Day:</p>
-            <canvas id="pointsPerDayChart" width="400" height="200"></canvas>
+            <canvas id="pointsPerDayChart" width="250" height="150"></canvas>
             </div>
         </div>
     </div>
 
-
-        <div class="chart">
-            Bar - words in need of review by topic
-            <canvas id="wordsToReviewChart" width="400" height="400"></canvas>
-        </div>
-        <div class="chart">
-            Wordcloud - words sized by their strengths
-        </div>
-
-    <div id="tables">
-        <div class="table">
-            Top 10 words to practice (most incorrect attempts)
-        </div>
-    </div>
 {% endblock content %}
 
 {% block scripts %}
     <script>
+        // set up Chart.JS defaults
+        Chart.defaults.responsive = true;
+
         // get date filter information
         const filterButton = document.getElementById("filter-submit");
         const filterableBoxes = Array.from(document.getElementsByClassName("filter-box"));
 
         // Initial chart set up
         let topicPointsCtx = document.getElementById("topicPointsChart").getContext("2d");
-        let topicPointsChart = new Chart(topicPointsCtx, getChartDefaults('bar'));
+        let topicPointsChart = new Chart(topicPointsCtx, getChartSettings('bar'));
         let topicsQuizzesCtx = document.getElementById("topicsQuizzesChart").getContext("2d");
-        let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartDefaults('pie'));
-        let wordsToReviewCtx = document.getElementById("wordsToReviewChart").getContext("2d");
-        let wordsToReviewChart = new Chart(wordsToReviewCtx, getChartDefaults('bar'));
+        let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
         let pointsPerDayCtx = document.getElementById("pointsPerDayChart").getContext("2d");
-        let pointsPerDayChart = new Chart(pointsPerDayCtx, getChartDefaults('line'));
+        let pointsPerDayChart = new Chart(pointsPerDayCtx, getChartSettings('line'));
 
         function updateDataBoxes(boxes, url) {
             $.ajax({
@@ -151,29 +138,7 @@
                 dataType: "json",
                 url: url,
                 success: (chartData) => {
-                    // extract chart data
-                    let title = chartData.title;
-                    let label = chartData.label;
-                    let backgroundColor = chartData.backgroundColor;
-                    let borderColor = chartData.borderColor;
-                    let labels = chartData.labels;
-                    let data = chartData.data;
-
-                    // refresh the chart data in case of update
-                    chart.data.labels.pop();
-                    chart.data.datasets.forEach((dataset) => {
-                        dataset.data.pop();
-                    });
-
-                    // update the chart with the received JSON data
-                    chart.data.labels = labels;
-                    chart.options.plugins.title.text = title;
-                    chart.data.datasets.forEach((dataset) => {
-                        dataset.label = label;
-                        dataset.data = data;
-                        dataset.backgroundColor = backgroundColor;
-                        dataset.borderColor = borderColor;
-                    });
+                    chart['data'] = chartData;
                     chart.update();
                 },
                 error: (error_data) => {
@@ -183,54 +148,25 @@
             })
         }
 
-        function getChartDefaults(chartType){
-            let chartDefaults =  {
+        function getChartSettings(chartType){
+            let chartSettings =  {
                 type: chartType,
-                data: {
-                    labels: [],
-                    datasets: [{
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Chart title'
-                        },
+                options: {}
+            };
+            // only show the legend for pie charts
+            if(chartType!=='pie'){
+                chartSettings.options['plugins'] = {
                         legend: {
                             display: false,
                         },
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: true,
-                            },
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                display: true,
-                            },
-                        }
-                    },
-                    responsive: true,
-                }
-            };
-            if(chartType==='pie'){
-                chartDefaults.options.plugins.legend.display = true;
-                chartDefaults.options.scales.x.display = false;
-                chartDefaults.options.scales.y.display = false;
+                    };
             }
-            return chartDefaults;
+            return chartSettings;
         }
 
         function updateAllCharts() {
             updateChart(topicPointsChart, "{% url "data-topic-points" %}");
             updateChart(topicsQuizzesChart, "{% url "data-topic-quizzes" %}");
-            updateChart(wordsToReviewChart, "{% url "data-topic-words" %}");
             updateChart(pointsPerDayChart, "{% url "data-points-day" %}");
         }
 

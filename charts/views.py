@@ -59,12 +59,14 @@ def chart_topic_points(request):
     colours = get_colours(len(labels_and_data[0]))
 
     chart_data = {
-        "title": "Points Per Topic",
-        "backgroundColor": colours[0],
-        "borderColor": colours[1],
-        "label": "Points",
         "labels": labels_and_data[0],
-        "data": labels_and_data[1],
+        "datasets": [{
+            "label": "Points",
+            "data": labels_and_data[1],
+            "backgroundColor": colours[0],
+            "borderColor": colours[1],
+            "borderWidth": 2,
+        }]
     }
     return JsonResponse(chart_data)
 
@@ -81,12 +83,14 @@ def chart_topic_quizzes(request):
     colours = get_colours(len(labels_and_data[0]))
 
     chart_data = {
-        "title": "Quizzes Taken Per Topic",
-        "backgroundColor": colours[0],
-        "borderColor": colours[1],
-        "label": "Quizzes",
         "labels": labels_and_data[0],
-        "data": labels_and_data[1],
+        "datasets": [{
+            "label": "Quizzes",
+            "data": labels_and_data[1],
+            "backgroundColor": colours[0],
+            "borderColor": colours[1],
+            "borderWidth": 2,
+        }]
     }
     return JsonResponse(chart_data)
 
@@ -111,33 +115,44 @@ def chart_topic_words(request):
     colours = get_colours(len(labels_and_data[0]))
 
     chart_data = {
-        "title": "Proportion of Correct to Incorrect Answers",
-        "backgroundColor": colours[0],
-        "borderColor": colours[1],
-        "label": "Ratio Correct:Incorrect",
         "labels": labels_and_data[0],
-        "data": labels_and_data[1],
+        "datasets": [{
+            "label": "Ratio Correct:Incorrect",
+            "data": labels_and_data[1],
+            "backgroundColor": colours[0],
+            "borderColor": colours[1],
+        }]
     }
     return JsonResponse(chart_data)
 
 
 @login_required
 def chart_points_per_day(request):
-    date_from = datetime.date.today() - datetime.timedelta(28)
+    today = datetime.date.today()
+    date_from = today - datetime.timedelta(28)
     student_results = QuizResults.objects.filter(student=request.user, date_created__gte=date_from)
-    points_per_day = student_results.values('date_created').annotate(Sum('points')).\
-        order_by('date_created').values_list('date_created', 'points')
+    points_per_day = list(student_results.values('date_created').annotate(total_points=Sum('points'))
+                          .order_by('date_created').values_list('date_created', 'total_points'))
+
+    # fill in missing days
+    if len(points_per_day) < 28:
+        dates_present = [data_point[0] for data_point in points_per_day]
+        for day in range(28):
+            date = date_from + datetime.timedelta(day)
+            if date not in dates_present:
+                points_per_day.insert(day, (date, 0))
 
     labels_and_data = unzip(points_per_day)
     colours = get_colours(len(labels_and_data[0]))
 
     chart_data = {
-        "title": "Points Per Day",
-        "backgroundColor": colours[0],
-        "borderColor": ['rgb(75, 192, 192)'],
-        "label": "Points",
         "labels": labels_and_data[0],
-        "data": labels_and_data[1],
-        "tension": 0.1,
+        "datasets": [{
+            "label": "Points",
+            "data": labels_and_data[1],
+            "backgroundColor": colours[0],
+            "borderColor": ['rgb(75, 192, 192)'],
+            "tension": 0.1,
+        }]
     }
     return JsonResponse(chart_data)
