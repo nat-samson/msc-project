@@ -3,7 +3,7 @@ from django import template
 register = template.Library()
 
 
-@register.filter(name='to_revise')
+@register.simple_tag(name='to_revise')
 def count_of_words_to_revise(topic, user):
     # lets templates know the number of words that are due for revision (for given user & topic)
     return topic.words_due_revision(user).count()

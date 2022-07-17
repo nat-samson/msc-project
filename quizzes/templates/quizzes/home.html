@@ -24,14 +24,19 @@
                                 <div class="has-text-centered">
                                     <div class="title is-1">{{ topic.short_desc }}</div>
                                     <div class="tags are-medium has-addons is-centered">
+                                        {% to_revise topic request.user as words_due %}
+                                        {% if words_due > 0 %}
                                         <span class="tag">Words due:</span>
-                                        <span class="tag is-danger">{{ topic|to_revise:request.user}}</span>
+                                        <span class="tag is-danger">{{ words_due }}</span>
+                                            {% else %}
+                                            <span class="tag is-success">Up to date!</span>
+                                            {% endif %}
                                     </div>
 
                                     <div class="buttons is-centered">
-    <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}"><strong>Words</strong></a>
-    <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}"><strong>Quiz</strong></a>
-</div>
+                                        <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}"><strong>Words</strong></a>
+                                        <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}"><strong>Quiz</strong></a>
+                                    </div>
 
                                 </div>
                             </div>
