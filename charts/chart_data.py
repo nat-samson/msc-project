@@ -6,12 +6,24 @@ from charts.chart_tools import unzip, get_colours
 from quizzes.models import QuizResults
 
 
-def chart_topic_points2(student):
-    student_results = QuizResults.objects.filter(student=student)
-    points_per_topic = student_results.values('topic__name').annotate(Sum('points'))\
+def chart_topic_points2(student, date_from, date_to):
+    # get base queryset
+    qs = QuizResults.objects.all()
+
+    # apply requested filters, if any
+    if student is not None:
+        qs = qs.filter(student=student)
+    if date_from is not None:
+        qs = qs.filter(date_created__gte=date_from)
+    if date_to is not None:
+        qs = qs.filter(date_created__lte=date_to)
+
+    points_per_topic = qs.values('topic__name').annotate(Sum('points'))\
         .values_list("topic__name", "points__sum")
 
     labels_and_data = unzip(points_per_topic)
+    if len(labels_and_data) == 0:
+        return []
     colours = get_colours(len(labels_and_data[0]))
     label = "Points"
 
@@ -19,14 +31,25 @@ def chart_topic_points2(student):
     return chart_data
 
 
-def chart_topic_quizzes2(student):
-    student_results = QuizResults.objects.filter(student=student)
+def chart_topic_quizzes2(student, date_from, date_to):
+    # get base queryset
+    qs = QuizResults.objects.all()
+
+    # apply requested filters, if any
+    if student is not None:
+        qs = qs.filter(student=student)
+    if date_from is not None:
+        qs = qs.filter(date_created__gte=date_from)
+    if date_to is not None:
+        qs = qs.filter(date_created__lte=date_to)
 
     # quizzes taken per topic
-    quizzes_per_topic = student_results.values('topic__name').annotate(quizzes_taken=Count('id'))\
+    quizzes_per_topic = qs.values('topic__name').annotate(quizzes_taken=Count('id'))\
         .values_list("topic__name", "quizzes_taken")
 
     labels_and_data = unzip(quizzes_per_topic)
+    if len(labels_and_data) == 0:
+        return []
     colours = get_colours(len(labels_and_data[0]))
     label = "Quizzes"
 
@@ -50,6 +73,8 @@ def chart_topic_words2(student):
     correct_v_incorrect_list.sort(reverse=True, key=lambda x: x[1])
 
     labels_and_data = unzip(correct_v_incorrect_list)
+    if len(labels_and_data) == 0:
+        return []
     colours = get_colours(len(labels_and_data[0]))
     label = "Ratio Correct:Incorrect"
 
@@ -73,6 +98,8 @@ def chart_points_per_day2(student):
                 points_per_day.insert(day, (date, 0))
 
     labels_and_data = unzip(points_per_day)
+    if len(labels_and_data) == 0:
+        return []
     colours = get_colours(len(labels_and_data[0]))
 
     chart_data = {
