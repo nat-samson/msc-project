@@ -1,38 +1,43 @@
 {% extends "quizzes/base.html" %}
-
+{% load crispy_forms_tags %}
 {% block title %}{{ block.super }}: Progress{% endblock %}
-
 {% block content %}
-    <h1>My Progress</h1>
+
+    <h1 class="title">My Progress</h1>
+    <h2 class="subtitle">Overview:</h2>
+
     <div id="boxes">
+    <!-- row 1 -->
         <div class="box">
-            Words due for revision:
-            {{ words_due_revision|default:0 }} /
-            {{ total_words|default:0 }}
+            Words To Revise Today:
+            {{ words_due_revision|default:0 }}
         </div>
         <div class="box">
-            All-time points
-            {{ all_time_points.total|default:0 }}
+            Words Fully Memorised:
+            {{ words_memorised|default:0 }}
         </div>
         <div class="box">
-            Topics Available
-            {{ topics_count|default:0 }}
+            Current Streak:
+            {{ current_streak|default:0 }} days
         </div>
-        <span>This Week</span>
+    <!-- row 2 -->
+        <!-- filter here -->
+        {% crispy date_filter %}
         <div class="box">
-            Quizzes taken this week
-            {{ quizzes_this_week|default:0 }}
-        </div>
-        <div class="box">
-            Points this week
-            {{ weekly_points.total|default:0}}
+            Points Earned
+            {{ points_earned|default:0 }}
         </div>
         <div class="box">
-            % Weekly correct
-            {{weekly_correct_pc|default:"0%"}}
+            Quizzes Taken
+            {{ quizzes_taken|default:0 }}
+        </div>
+        <div class="box">
+            % Correct Answers
+            {{ correct_pc|default:0 }}%
         </div>
 
     </div>
+
     <div id="charts">
         <div class="chart">
             Bar - Points Per Topic
@@ -160,4 +165,5 @@
             updateAllCharts()
         })
     </script>
+
 {% endblock %}

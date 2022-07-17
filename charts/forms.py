@@ -49,6 +49,7 @@ class DatePresetFilterForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'GET'
+        self.helper.form_action = reverse_lazy('filter-date')
         self.helper.form_id = 'date-filter-form'
         self.helper.layout = Layout(
             FormGroup(
