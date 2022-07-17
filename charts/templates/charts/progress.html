@@ -113,6 +113,7 @@
         let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
         let pointsPerDayCtx = document.getElementById("pointsPerDayChart").getContext("2d");
         let pointsPerDayChart = new Chart(pointsPerDayCtx, getChartSettings('line'));
+        const updatableCharts = [topicPointsChart, topicsQuizzesChart];
 
         function updateDataBoxes(boxes, url) {
             $.ajax({
@@ -148,6 +149,26 @@
             })
         }
 
+        function updateCharts(charts, url) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: url,
+                success: (chartsData) => {
+                    // update the charts
+                    const dataArray = Object.values(chartsData);
+                    for (let i = 0; i < dataArray.length; i++) {
+                        charts[i]['data'] = dataArray[i]
+                        charts[i].update();
+                    }
+                },
+                error: (error_data) => {
+                    console.log("Failed to fetch chart data.")
+                    console.log(error_data)
+                }
+            })
+        }
+
         function getChartSettings(chartType){
             let chartSettings =  {
                 type: chartType,
@@ -165,8 +186,9 @@
         }
 
         function updateAllCharts() {
-            updateChart(topicPointsChart, "{% url "data-topic-points" %}");
-            updateChart(topicsQuizzesChart, "{% url "data-topic-quizzes" %}");
+            updateCharts(updatableCharts, "{% url "data-student-charts" %}")
+            //updateChart(topicPointsChart, "{% url "data-topic-points" %}");
+            //updateChart(topicsQuizzesChart, "{% url "data-topic-quizzes" %}");
             updateChart(pointsPerDayChart, "{% url "data-points-day" %}");
         }
 
