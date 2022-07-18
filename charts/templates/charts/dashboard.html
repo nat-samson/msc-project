@@ -1,4 +1,5 @@
 {% extends "quizzes/base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}{{ block.super }}: Dashboard{% endblock %}
@@ -6,7 +7,7 @@
 {% block content %}
     <h1 class="title">Dashboard</h1>
 
-    <!-- First Row: Data Boxes -->
+    <!-- Row 1: Data Boxes -->
     <div class="columns">
         <div class="column is-one-fifth-desktop">
             <div class="box has-background-info has-text-centered" style="height: 95px;">
@@ -39,7 +40,7 @@
         </div>
     </div>
 
-    <!-- Second Row: (Filtered) Data Boxes -->
+    <!-- Row 2: (Filtered) Data Boxes -->
     <div class="columns">
         <div class="column is-one-fifth-desktop">
             <div class="box has-background-warning" style="height: 100%;">
@@ -70,7 +71,7 @@
         </div>
     </div>
 
-    <!-- Chart Filter settings -->
+    <!-- Row 3a: Chart Filter settings -->
     <div class="columns is-centered">
         <div class="column is-half">
             <div class="box has-background-danger has-text-centered" style="height: 207px;">
@@ -85,7 +86,7 @@
         </div>
     </div>
 
-    <!-- Row 3: Charts -->
+    <!-- Row 3b: Charts -->
     <div class="columns">
         <div class="column is-half">
             <div class="box has-background-link-light has-text-centered">
@@ -104,6 +105,7 @@
 {% endblock content %}
 
 {% block scripts %}
+    <script src={% static 'charts/js/dashboard.js' %}></script>
     <script>
         // set up Chart.JS defaults
         Chart.defaults.responsive = true;
@@ -120,78 +122,11 @@
         let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
         const updatableCharts = [topicPointsChart, topicsQuizzesChart];
 
-        function updateDataBoxes(boxes, url) {
-            $.ajax({
-                method: "GET",
-                dataType: "json",
-                url: url,
-                success: (data) => {
-                    // update all the data boxes
-                    const dataArray = Object.values(data)
-                    for (let i = 0; i < dataArray.length; i++) {
-                        boxes[i].lastElementChild.innerText = dataArray[i]
-                    }
-                },
-                error: (error_data) => {
-                    console.log(error_data)
-                }
-            })
-        }
 
-        function updateChart(chart, url) {
-            $.ajax({
-                method: "GET",
-                dataType: "json",
-                url: url,
-                success: (chartData) => {
-                    chart['data'] = chartData;
-                    chart.update();
-                },
-                error: (error_data) => {
-                    console.log("Failed to fetch chart data.")
-                    console.log(error_data)
-                }
-            })
-        }
-
-        function updateCharts(charts, url) {
-            $.ajax({
-                method: "GET",
-                dataType: "json",
-                url: url,
-                success: (chartsData) => {
-                    // update the charts
-                    const dataArray = Object.values(chartsData);
-                    for (let i = 0; i < dataArray.length; i++) {
-                        charts[i]['data'] = dataArray[i]
-                        charts[i].update();
-                    }
-                },
-                error: (error_data) => {
-                    console.log("Failed to fetch chart data.")
-                    console.log(error_data)
-                }
-            })
-        }
-
-        function getChartSettings(chartType){
-            let chartSettings =  {
-                type: chartType,
-                options: {}
-            };
-            // only show the legend for pie charts
-            if(chartType!=='pie'){
-                chartSettings.options['plugins'] = {
-                    legend: {
-                        display: false,
-                    },
-                };
-            }
-            return chartSettings;
-        }
 
         function updateAllCharts() {
-
+            filterButton.click();
+            filterButtonStudent.click();
         }
 
         // trigger data update when Submit is clicked (DATABOXES)
@@ -212,8 +147,6 @@
 
         $(document).ready(function(){
             // populate initial data into boxes and charts
-            filterButton.click();
-            filterButtonStudent.click();
             updateAllCharts()
         })
     </script>
