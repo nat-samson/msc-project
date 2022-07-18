@@ -5,14 +5,15 @@ from django.utils.http import urlencode
 
 from .models import Topic, Word
 
-# Register your models here.
-
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_hidden', 'link_to_words',)
-    fields = ('name', 'description', 'is_hidden',)
-    search_fields = ('name',)
+    fields = ('name', 'short_desc', 'long_desc', 'is_hidden',)
+    search_fields = ('name', 'long_desc', 'words__origin', 'words__target')
+    search_help_text = "Search by Name, Long Description, or by word within a Topic..."
+    list_editable = ('is_hidden',)
+    ordering = ('date_created',)
 
     def link_to_words(self, obj):
         count = obj.words.count()
@@ -31,7 +32,14 @@ class WordAdmin(admin.ModelAdmin):
     list_display = ('origin', 'target', 'get_topics_list_str',)
     list_filter = ('topics',)
     fields = ('origin', 'target', 'topics',)
-    search_fields = ('origin', 'target',)
+    search_fields = ('origin', 'target', 'topics__name')
+    search_help_text = "Search by Origin, Target, Topic..."
+    list_editable = ('origin', 'target',)
+    list_display_links = ('get_topics_list_str',)
+    ordering = ('date_created',)
+
+    # re-enable this to change ManyToMany field to a horizontal filter (rather than checkboxes)
+    #filter_horizontal = ('topics',)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

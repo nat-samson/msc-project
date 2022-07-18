@@ -10,9 +10,12 @@ QUIZ_INTERVALS = (1, 3, 7, 13, 21, 30)  # please note MAX_SCORE must be < len(QU
 
 class Topic(models.Model):
     name = models.CharField(max_length=32, unique=True)
-    long_desc = models.CharField(max_length=255, blank=True)
-    short_desc = models.CharField(max_length=10, default='❓🧠❓')
-    is_hidden = models.BooleanField(default=False)
+    long_desc = models.CharField(max_length=255, blank=True, verbose_name="Long Description")
+    short_desc = models.CharField(max_length=10, default='❓🧠❓', verbose_name="Emoji Description",
+                                  help_text="Illustrate the Topic with a few emoji.")
+    is_hidden = models.BooleanField(default=False, verbose_name="Hide Topic",
+                                    help_text="Hide the Topic from view. No quizzes can be taken "
+                                              "using this Topic while it is hidden.")
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -5,18 +5,14 @@ from users.models import User
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
+    #fields = ('first_name', 'last_name', 'is_student', 'is_teacher',)
+
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         is_superuser = request.user.is_superuser
         disabled_fields = set()
 
-        if not is_superuser:
-            disabled_fields |= {
-                'username',
-                'is_superuser',
-                'user_permissions',
-            }
-
+        # prevent non-admin staff members from escalating their own privileges
         if (
                 not is_superuser
                 and obj is not None
