@@ -8,47 +8,72 @@
             <div class="columns is-centered">
                 <div class="column is-half">
 
-    <div id="quiz">
+                    <div id="quiz-landing">
+                        {% if quiz.is_due_revision %}
+                            <div class="box has-background-warning">
+                            <header class="has-text-centered block">
+                            <h1 class="title is-3 block">Ready?</h1>
+                            <h1 class="title is-1 block">👏</h1>
+                            <h3 class="subtitle is-4 block"><strong>{{ quiz.questions|length }}</strong> questions coming right up...</h3>
+                        {% else %}
+                            <div class="box has-background-danger-light">
+                            <header class="has-text-centered block">
+                            <h1 class="title is-3 block">You're up-to-date!</h1>
+                            <h1 class="title is-1 block">😎</h1>
+                            <h1 class="subtitle is-5 block">Would you like to quiz anyway?</h1>
+                            <h3 class="is-justified block">Any <strong>correct answers</strong> will <strong>not</strong> affect the revision schedule.
+                                <br>But <strong>incorrect answers will.</strong></h3>
+                            <h3 class="subtitle is-4 block"><strong>{{ quiz.questions|length }}</strong> questions coming right up...</h3>
+                        {% endif %}
+                        </header>
+                        <footer class="level is-mobile" style="justify-content: space-between;">
+                            <a class="button is-danger level-left has-text-weight-semibold" href="{% url 'home' %}">Quit</a>
+                            <button class="button is-info level-right has-text-weight-semibold" id="quiz-start-button">Let's Go!</button>
+                        </footer>
+                        </div>
+                        </div>
 
-        <header class="box block" id="quiz-header">
-            <span id="score" class="tag is-warning is-large is-pulled-right quiz-status-text block">0 pts</span>
-            <progress id="quiz-progress" class="progress is-success quiz-progress mt-6 mb-4" value="0" max="100">0%</progress>
-            <div id="question-header" class="is-centered has-text-centered">
-                <span id="question-direction" class="tag is-success is-light is-large"></span>
-                <h1 id="question-detail" class="title is-size-3 mt-4">...</h1>
-            </div>
-        </header>
+                        <div id="quiz" style="display: none;">
+                            <header class="box block" id="quiz-header">
+                                <span id="score" class="tag is-warning is-large is-pulled-right quiz-status-text block">0 pts</span>
+                                <progress id="quiz-progress" class="progress is-success quiz-progress mt-6 mb-4" value="0" max="100">0%</progress>
+                                <div id="question-header" class="is-centered has-text-centered">
+                                    <span id="question-direction" class="tag is-success is-light is-large"></span>
+                                    <h1 id="question-detail" class="title is-size-3 mt-4">...</h1>
+                                </div>
+                            </header>
 
-        {% for x in "FOUR" %}
-            {#          <button class="button is-outlined is-fullwidth option-detail wrap-button-text is-justify-content-flex-start" data-num="{{ forloop.counter0 }}">{{ forloop.counter }}) </button>#}
-            <div class="field has-addons has-addons-fullwidth block">
-                <a class="button is-static">{{ forloop.counter }}</a>
-                <button class="button has-text-left is-outlined is-fullwidth option-text wrap-button-text has-text-weight-semibold" data-num="{{ forloop.counter0 }}">
-                </button>
-            </div>
-        {% endfor %}
+                            {% for x in "FOUR" %}
+                                {#          <button class="button is-outlined is-fullwidth option-detail wrap-button-text is-justify-content-flex-start" data-num="{{ forloop.counter0 }}">{{ forloop.counter }}) </button>#}
+                                <div class="field has-addons has-addons-fullwidth block">
+                                    <a class="button is-static">{{ forloop.counter }}</a>
+                                    <button class="button has-text-left is-outlined is-fullwidth option-text wrap-button-text has-text-weight-semibold" data-num="{{ forloop.counter0 }}">
+                                    </button>
+                                </div>
+                            {% endfor %}
 
-        <footer style="justify-content: space-between;">
-            <div class="level is-mobile">
-                <a class="button is-outlined is-danger level-left" href="{% url 'home' %}">Quit</a>
-                <button class="button is-info level-right" id="continue">Continue...</button>
-            </div>
+                            <footer style="justify-content: space-between;">
+                                <div class="level is-mobile">
+                                    <a class="button is-outlined is-danger level-left" href="{% url 'home' %}">Quit</a>
+                                    <button class="button is-info level-right" id="continue">Continue...</button>
+                                </div>
 
-            <form method="post" id="results-form">
-                {% csrf_token %}
-                <input type="hidden" id="results-data" name="results">
-            </form>
-        </footer>
+                                <form method="post" id="results-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" id="results-data" name="results">
+                                </form>
+                            </footer>
 
-    </div>
+                        </div>
 
-     </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 {% endblock content %}
 {% block scripts %}
-    {{ questions|json_script:"questions-data" }}
+    {{ quiz|json_script:"quiz-data" }}
     <script src={% static 'quizzes/js/quiz.js' %}></script>
 {% endblock scripts %}

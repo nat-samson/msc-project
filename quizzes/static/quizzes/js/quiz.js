@@ -1,21 +1,29 @@
+// DOM elements manipulated by the quiz
+const quizLandingBlock = document.getElementById("quiz-landing");
+const quizBlock = document.getElementById("quiz");
+const quizStartButton = document.getElementById("quiz-start-button");
 const progressBar = document.getElementById("quiz-progress");
 const scoreBar = document.getElementById("score");
 const question = document.getElementById("question-header");
 const options = Array.from(document.getElementsByClassName("option-text"));
-const button = document.getElementById("continue")
+const continueButton = document.getElementById("continue")
 const resultsForm = document.getElementById("results-form")
 const resultsData = document.getElementById("results-data")
 
-// TODO: replace with data from settings
-const CORRECT_ANSWER_PTS = 10;
-const originIcon = "🇬🇧";
-const targetIcon = "🇩🇪";
+// reassign quiz data received from view
+const quizData = JSON.parse(document.getElementById('quiz-data').textContent);
+let questions = quizData['questions'];
+const CORRECT_ANSWER_PTS = quizData['correct_pts'];
+const originIcon = quizData['origin_icon'];
+const targetIcon = quizData['target_icon'];
 
 // class names for styling unanswered/correct/incorrect questions
 const initialClass = "is-outlined";
 const correctClass = "is-success";
 const incorrectClass = "is-danger";
 
+// variables used by the quiz loop
+const totalQuestions = questions.length;
 let currentQuestion = {};
 let score = 0;
 let questionCounter = 0;
@@ -23,8 +31,9 @@ let results = {};
 let availableQuestions = [];
 let allowUserAnswer = false;
 
-let questions = JSON.parse(document.getElementById('questions-data').textContent);
-const totalQuestions = questions.length;
+// CSRF token, required when posting back the results
+const csrftoken = getCookie('csrftoken');
+// const alsotoken = $("input[name=csrfmiddlewaretoken]").val() jQuery version if also using CSRF in template
 
 // getCookie() taken from Django docs, see https://docs.djangoproject.com/en/4.0/ref/csrf/
 function getCookie(name) {
@@ -42,8 +51,6 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-const csrftoken = getCookie('csrftoken');
-// const alsotoken = $("input[name=csrfmiddlewaretoken]").val() jQuery version if also using CSRF in template
 
 startQuiz = () => {
     availableQuestions = [... questions];
@@ -56,7 +63,7 @@ getNextQuestion = () => {
         console.log("Shouldn't be able to get here! Quiz tried to run with no questions");
         return;
     }
-    button.style.display = "none";
+    continueButton.style.display = "none";
 
     // question order is shuffled on the client side
     let questionIndex = Math.floor(Math.random() * availableQuestions.length);
@@ -100,15 +107,17 @@ submitResults = () => {
     });
 }
 
-button.addEventListener("click", () => {
+quizStartButton.addEventListener("click", () => {
+    quizLandingBlock.style.display = "none";
+    quizBlock.style.display = "block";
+    startQuiz();
+});
 
+continueButton.addEventListener("click", () => {
     // check if the quiz has ended
     if(availableQuestions.length === 0) {
-        //submitResults();
         resultsData.value = JSON.stringify(results)
-        console.log(results)
         resultsForm.submit();
-        //showResults();
         return;
     }
     resetState()
@@ -149,8 +158,8 @@ options.forEach(option => {
         progressBar.innerText = (questionCounter++).toString();
         progressBar.setAttribute("value", (questionCounter).toString())
 
-        button.style.display = "block";
-        button.innerText = availableQuestions.length > 0 ? "Continue..." : "Submit Your Results";
+        continueButton.style.display = "block";
+        continueButton.innerText = availableQuestions.length > 0 ? "Continue..." : "Submit Your Results";
     });
 });
 
@@ -162,8 +171,3 @@ updateScore = num => {
 getDirectionStr = is_forwards => {
     return is_forwards ? `${originIcon} → ${targetIcon}`: `${targetIcon} → ${originIcon}`;
 }
-
-// once the DOM is fully loaded, let's go!
-$( document ).ready(function() {
-    startQuiz();
-});

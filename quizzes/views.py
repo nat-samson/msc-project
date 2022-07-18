@@ -114,10 +114,10 @@ def quiz(request, topic_pk):
             del request.session['results']
             return render(request, 'quizzes/quiz_results.html', results)
         else:
-            questions = quiz_builder.get_quiz(request.user, topic_pk)
+            quiz_data = quiz_builder.get_quiz(request.user, topic_pk)
 
             # handle the race condition if a topic doesn't have enough words after the quiz is requested
-            if len(questions) == 0:
+            if len(quiz_data['questions']) == 0:
                 return redirect(reverse('home'))
             else:
-                return render(request, 'quizzes/quiz.html', {'questions': questions})
+                return render(request, 'quizzes/quiz.html', {'quiz': quiz_data})

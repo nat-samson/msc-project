@@ -4,47 +4,67 @@ import random
 from quizzes.models import Topic
 
 MAX_QUIZ_LENGTH = 12
+CORRECT_ANSWER_PTS = 10
+ORIGIN_ICON = "🇬🇧"
+TARGET_ICON = "🇩🇪"
 
 
 def get_dummy_data():
-    data = [{
-        'word_id': 3,
-        'origin_to_target': True,
-        'word': 'Mouse',
-        'correct_answer': 0,
-        'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
-    },
-        {
-            'word_id': 2,
-            'origin_to_target': True,
-            'word': 'Dog',
-            'correct_answer': 1,
-            'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
-        },
-        {
-            'word_id': 1,
-            'origin_to_target': False,
-            'word': 'Die Katze',
-            'correct_answer': 1,
-            'options': ['Dog', 'Cat', 'Bear', 'Mouse']
-        },
-        {
-            'word_id': 7,
-            'origin_to_target': False,
-            'word': 'Der Fisch',
-            'correct_answer': 3,
-            'options': ['Cat', 'Mouse', 'Bear', 'Fish']
-        }
-    ]
+    data = {
+        'correct_pts': CORRECT_ANSWER_PTS,
+        'origin_icon': ORIGIN_ICON,
+        'target_icon': TARGET_ICON,
+        'is_due_revision': True,
+        'questions': [
+            {
+                'word_id': 3,
+                'origin_to_target': True,
+                'word': 'Mouse',
+                'correct_answer': 0,
+                'options': ['Die Maus', 'Der Bär', 'Der Hund', 'Die Katze']
+            },
+            {
+                'word_id': 2,
+                'origin_to_target': True,
+                'word': 'Dog',
+                'correct_answer': 1,
+                'options': ['Die Maus', 'Der Hund', 'Die Katze', 'Der Bär']
+            },
+            {
+                'word_id': 1,
+                'origin_to_target': False,
+                'word': 'Die Katze',
+                'correct_answer': 1,
+                'options': ['Dog', 'Cat', 'Bear', 'Mouse']
+            },
+            {
+                'word_id': 7,
+                'origin_to_target': False,
+                'word': 'Der Fisch',
+                'correct_answer': 3,
+                'options': ['Cat', 'Mouse', 'Bear', 'Fish']
+            }
+        ],
+    }
     return data
 
 
+def get_quiz_template():
+    return {
+        'correct_pts': CORRECT_ANSWER_PTS,
+        'origin_icon': ORIGIN_ICON,
+        'target_icon': TARGET_ICON,
+        'is_due_revision': True,
+    }
+
+
 def get_quiz(user, topic_pk):
-    """create quiz for given topic """
+    """ create quiz for given topic """
 
-    topic = Topic.objects.get(pk=topic_pk)
+    topic = Topic.objects.filter(is_hidden=False).get(pk=topic_pk)
 
-    quiz = []
+    quiz = get_quiz_template()
+    questions = []
 
     # gather data needed for the quiz: the words due to be revised, and a pool of possible incorrect options
     words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')[:MAX_QUIZ_LENGTH]
@@ -52,6 +72,7 @@ def get_quiz(user, topic_pk):
 
     # ensure both word lists have enough content with which to form a quiz
     if len(words_to_revise) == 0:
+        quiz['is_due_revision'] = False
         try:
             words_to_revise = random.sample(copy.deepcopy(options_pool), MAX_QUIZ_LENGTH)
         except ValueError:
@@ -79,10 +100,11 @@ def get_quiz(user, topic_pk):
         question['options'] = options
         question['word_id'] = question.pop('id')
 
-        quiz.append(question)
+        questions.append(question)
+
+    quiz['questions'] = questions
 
     return quiz
-    # return get_dummy_data()
 
 
 def get_options(options_pool, word_id, direction):
