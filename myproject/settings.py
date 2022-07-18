@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'charts.apps.ChartsConfig',
     'crispy_forms',
     'crispy_bulma',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

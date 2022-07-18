@@ -14,7 +14,7 @@
                             <header class="has-text-centered block">
                             <h1 class="title is-3 block">Ready?</h1>
                             <h1 class="title is-1 block">👏</h1>
-                            <h3 class="subtitle is-4 block"><strong>{{ quiz.questions|length }}</strong> questions coming right up...</h3>
+                            <h3 class="subtitle is-4 block"><strong>{{ quiz.questions|length }}</strong> question{{ quiz.questions|length|pluralize }} coming right up...</h3>
                         {% else %}
                             <div class="box has-background-danger-light">
                             <header class="has-text-centered block">
@@ -23,7 +23,7 @@
                             <h1 class="subtitle is-5 block">Would you like to quiz anyway?</h1>
                             <h3 class="is-justified block">Any <strong>correct answers</strong> will <strong>not</strong> affect the revision schedule.
                                 <br>But <strong>incorrect answers will.</strong></h3>
-                            <h3 class="subtitle is-4 block"><strong>{{ quiz.questions|length }}</strong> questions coming right up...</h3>
+                            <h3 class="subtitle is-4 block"><strong>{{ quiz.questions|length }}</strong> question{{ quiz.questions|length|pluralize }} coming right up...</h3>
                         {% endif %}
                         </header>
                         <footer class="level is-mobile" style="justify-content: space-between;">

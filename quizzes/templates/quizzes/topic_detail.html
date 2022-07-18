@@ -1,6 +1,7 @@
 {% extends "quizzes/base.html" %}
 {% block title %}{{ block.super }}: {{ object.name }}{% endblock %}
 {% block content %}
+    {% load humanize %}
 
     <div class="container is-widescreen">
         <div class="container">
@@ -29,7 +30,7 @@
                                     <td>{{word.0}}</td>
                                     <td>{{word.1}}</td>
                                     <td>{{word.2|default_if_none:0}}</td>
-                                    <td>{{word.3|default_if_none:today}}</td>
+                                    <td>{{word.3|default_if_none:today|naturalday}}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
