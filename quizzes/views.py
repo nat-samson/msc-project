@@ -10,10 +10,7 @@ from django.views.generic import ListView, DetailView
 
 from quizzes import quiz_builder
 from quizzes.models import Topic, Word, WordScore, QuizResults
-
-
-# TODO: replace with settings object
-CORRECT_ANSWER_PTS = 10
+from quizzes.quiz_builder import CORRECT_ANSWER_PTS
 
 
 class TopicListView(LoginRequiredMixin, ListView):

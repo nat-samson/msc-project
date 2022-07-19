@@ -84,29 +84,27 @@ def get_quiz(user, topic_id):
         except ValueError:
             pass
 
-    if len(options_pool) < 4:
-        return []
+    if len(options_pool) >= 4:
+        for question in words_to_revise:
+            direction = choose_direction()
+            question['origin_to_target'] = direction
 
-    for question in words_to_revise:
-        direction = choose_direction()
-        question['origin_to_target'] = direction
+            options = get_options(options_pool, question['id'], direction)
 
-        options = get_options(options_pool, question['id'], direction)
+            correct_answer = random.randrange(4)
+            question['correct_answer'] = correct_answer
 
-        correct_answer = random.randrange(4)
-        question['correct_answer'] = correct_answer
+            if direction:
+                options.insert(correct_answer, question.pop('target'))
+                question['word'] = question.pop('origin')
+            else:
+                options.insert(correct_answer, question.pop('origin'))
+                question['word'] = question.pop('target')
 
-        if direction:
-            options.insert(correct_answer, question.pop('target'))
-            question['word'] = question.pop('origin')
-        else:
-            options.insert(correct_answer, question.pop('origin'))
-            question['word'] = question.pop('target')
+            question['options'] = options
+            question['word_id'] = question.pop('id')
 
-        question['options'] = options
-        question['word_id'] = question.pop('id')
-
-        questions.append(question)
+            questions.append(question)
 
     quiz['questions'] = questions
 

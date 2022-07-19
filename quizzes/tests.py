@@ -7,18 +7,18 @@ from django.urls import reverse, resolve
 from users.models import User
 from .models import Topic, Word, WordScore, MAX_SCORE
 from .views import TopicListView, TopicDetailView
-from .quiz_builder import choose_direction, get_quiz, get_options
+from .quiz_builder import choose_direction, get_quiz, get_options, CORRECT_ANSWER_PTS, ORIGIN_ICON, TARGET_ICON
 
 
 class HomeTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
-        cls.url = reverse('home')
+        cls.path = reverse('home')
 
     def test_home_view_status(self):
         self.client.force_login(self.student)
-        response = self.client.get(self.url, follow=True)
+        response = self.client.get(self.path, follow=True)
         self.assertEquals(200, response.status_code)
 
     def test_home_view_url(self):
@@ -27,12 +27,13 @@ class HomeTests(TestCase):
 
     def test_home_template_name(self):
         self.client.force_login(self.student)
-        response = self.client.get(self.url, follow=True)
+        response = self.client.get(self.path, follow=True)
         self.assertTemplateUsed(response, 'quizzes/home.html')
 
     def test_home_login_required(self):
-        response = self.client.get(self.url, follow=False)
-        redirect_url = self.url + 'login/?next=/'
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
 
@@ -59,6 +60,12 @@ class TopicDetailPageTests(TestCase):
         self.client.force_login(self.student)
         response = self.client.get(self.path)
         self.assertTemplateUsed(response, 'quizzes/topic_detail.html')
+
+    def test_topic_detail_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
 
 
 class TopicModelTests(TestCase):
@@ -133,9 +140,11 @@ class QuizTests(TestCase):
         cls.mouse = Word.objects.create(origin='Mouse', target='die Maus')
         cls.cat = Word.objects.create(origin='Cat', target='die Katze')
         dog = Word.objects.create(origin='Dog', target='der Hund')
+        fish = Word.objects.create(origin='Fish', target='der Fish')
         cls.mouse.topics.add(animals)
         cls.cat.topics.add(animals)
         dog.topics.add(animals)
+        fish.topics.add(animals)
 
         # Set up USER (a student)
         cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
@@ -145,7 +154,7 @@ class QuizTests(TestCase):
         cls.dog_score = WordScore.objects.create(word=dog, student=cls.student, times_seen=10,
                                                  times_correct=5, consecutive_correct=5)
 
-        cls.path = f'/quiz/{animals.pk}/'
+        cls.path = reverse('quiz', args=[animals.pk])
 
     def test_quiz_view_status(self):
         self.client.force_login(self.student)
@@ -156,6 +165,25 @@ class QuizTests(TestCase):
         self.client.force_login(self.student)
         response = self.client.get(self.path)
         self.assertTemplateUsed(response, 'quizzes/quiz.html')
+
+    def test_quiz_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_get_nonexistent_topic_404(self):
+        self.client.force_login(self.student)
+        path = reverse('quiz', args=['100'])
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_topic_with_fewer_than_4_words_redirects_home(self):
+        empty_topic = Topic.objects.create(name='Empty')
+        self.client.force_login(self.student)
+        path = reverse('quiz', args=[empty_topic.pk])
+        response = self.client.get(path, follow=True)
+        self.assertRedirects(response, reverse('home'))
 
     def test_quiz_form_inputs(self):
         self.client.force_login(self.student)
@@ -173,7 +201,6 @@ class QuizTests(TestCase):
             '1': True
         }
         results = json.dumps(quiz_results)
-
         self.client.post(self.path, {'results': results})
 
         # check score has been saved in database
@@ -238,6 +265,14 @@ class QuizTests(TestCase):
         self.assertEquals(6, cat_score.times_seen)
         self.assertEquals(self.tomorrow, cat_score.next_review)
 
+    def test_session_with_results_data_leads_to_results_page(self):
+        self.client.force_login(self.student)
+        session = self.client.session
+        session['results'] = {'correct': 5, 'total': 5}
+        session.save()
+        response = self.client.get(self.path, follow=True)
+        self.assertTemplateUsed(response, 'quizzes/quiz_results.html')
+
 
 class QuizBuilderTests(TestCase):
     @classmethod
@@ -255,22 +290,29 @@ class QuizBuilderTests(TestCase):
 
     def test_get_quiz_empty_topic(self):
         empty_topic = Topic.objects.create(name='Empty')
-        quiz = get_quiz(self.student, empty_topic.pk)
-        self.assertIsInstance(quiz, list)
-        self.assertEquals(len(quiz), 0)
+        quiz_data = get_quiz(self.student, empty_topic.pk)
+        self.assertIsInstance(quiz_data, dict)
+        self.assertEquals(len(quiz_data['questions']), 0)
 
     def test_get_quiz_topic_with_words(self):
-        quiz = get_quiz(self.student, 1)
-        self.assertIsInstance(quiz, list)
-        self.assertEquals(len(quiz), 4)
+        quiz_data = get_quiz(self.student, 1)
+        self.assertIsInstance(quiz_data, dict)
+        self.assertEquals(len(quiz_data), 5)
 
-    def test_get_quiz_output_format(self):
+    def test_get_quiz_includes_static_elements(self):
+        quiz_data = get_quiz(self.student, 1)
+        self.assertEquals(quiz_data['correct_pts'], CORRECT_ANSWER_PTS)
+        self.assertEquals(quiz_data['origin_icon'], ORIGIN_ICON)
+        self.assertEquals(quiz_data['target_icon'], TARGET_ICON)
+        self.assertIsInstance(quiz_data['is_due_revision'], bool)
+
+    def test_get_quiz_questions_format(self):
         quiz = get_quiz(self.student, 1)
         question_keys = {'origin_to_target', 'word', 'options', 'correct_answer', 'word_id'}
         target_words = self.all_topic_words.values_list('target', flat=True)
         origin_words = self.all_topic_words.values_list('origin', flat=True)
 
-        for question in quiz:
+        for question in quiz['questions']:
             # all expected keys in place
             self.assertEquals(question_keys, set(question))
 
