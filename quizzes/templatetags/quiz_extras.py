@@ -1,4 +1,6 @@
 from django import template
+from django.template.defaultfilters import stringfilter
+from django.urls import reverse
 
 register = template.Library()
 
@@ -28,3 +30,10 @@ def results_reaction(correct, total_qs):
             return "Keep at it! ", "📚"
     except (ZeroDivisionError, ValueError):
         return "Divide by zero error! ", "❓"
+
+
+@register.filter(name='get_filtered_list_url')
+@stringfilter
+def get_filtered_list_url(topic_id):
+    url = reverse("admin:quizzes_word_changelist") + "?topics__id__exact=" + topic_id
+    return url

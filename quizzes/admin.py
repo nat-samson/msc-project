@@ -6,6 +6,16 @@ from django.utils.http import urlencode
 from .models import Topic, Word
 
 
+class TopicWordsInline(admin.TabularInline):
+    model = Word.topics.through
+    extra = 0
+    ordering = ('word__origin',)
+    #raw_id_fields = ('word', 'topic')
+    autocomplete_fields = ('word',)
+    verbose_name = "Word registered to this topic"
+    verbose_name_plural = "Words registered to this topic"
+
+
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_hidden', 'link_to_words',)
@@ -14,6 +24,7 @@ class TopicAdmin(admin.ModelAdmin):
     search_help_text = "Search by Name, Long Description, or by word within a Topic..."
     list_editable = ('is_hidden',)
     ordering = ('date_created',)
+    inlines = [TopicWordsInline]
 
     def link_to_words(self, obj):
         count = obj.words.count()
@@ -29,14 +40,17 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Word)
 class WordAdmin(admin.ModelAdmin):
-    list_display = ('origin', 'target', 'get_topics_list_str',)
+    list_display = ('id', 'origin', 'target', 'get_topics_list_str',)
     list_filter = ('topics',)
     fields = ('origin', 'target', 'topics',)
     search_fields = ('origin', 'target', 'topics__name')
     search_help_text = "Search by Origin, Target, Topic..."
     list_editable = ('origin', 'target',)
-    list_display_links = ('get_topics_list_str',)
+    list_display_links = ('id','get_topics_list_str',)
     ordering = ('date_created',)
+
+    #inlines = [TopicWordsInline]
+    #exclude = ('topics',)
 
     # re-enable this to change ManyToMany field to a horizontal filter (rather than checkboxes)
     #filter_horizontal = ('topics',)
