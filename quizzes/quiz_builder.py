@@ -1,6 +1,8 @@
 import copy
 import random
 
+from django.shortcuts import get_object_or_404
+
 from quizzes.models import Topic
 
 MAX_QUIZ_LENGTH = 12
@@ -58,17 +60,21 @@ def get_quiz_template():
     }
 
 
-def get_quiz(user, topic_pk):
+def get_quiz(user, topic_id):
     """ create quiz for given topic """
 
-    topic = Topic.objects.filter(is_hidden=False).get(pk=topic_pk)
+    # teachers can still do quizzes if topic is hidden
+    if user.is_student:
+        topic = get_object_or_404(Topic, pk=topic_id, is_hidden=False)
+    else:
+        topic = get_object_or_404(Topic, pk=topic_id)
 
     quiz = get_quiz_template()
     questions = []
 
     # gather data needed for the quiz: the words due to be revised, and a pool of possible incorrect options
     words_to_revise = topic.words_due_revision(user).values('id', 'origin', 'target')[:MAX_QUIZ_LENGTH]
-    options_pool = list(topic.words.values('id', 'origin', 'target'))
+    options_pool = list(topic.words.values('id', 'origin', 'target')[:MAX_QUIZ_LENGTH * 4])
 
     # ensure both word lists have enough content with which to form a quiz
     if len(words_to_revise) == 0:

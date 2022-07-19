@@ -1,48 +1,68 @@
 {% extends "quizzes/base.html" %}
-
 {% block title %}{{ block.super }}: Home{% endblock %}
-
 {% block content %}
-    {% load quiz_extras  %}
-    <div class="title">Topics</div>
+    {% load quiz_extras %}
+    <header class="title">Topics</header>
 
     <!-- Organise page into three columns -->
     <div class="columns is-multiline">
+
+        <!-- 'Add New Topic/Word' card configuration -->
+        {% if request.user.is_teacher %}
+            <div class="column is-one-third">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title is-centered">Add Quiz Content</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="has-text-centered">
+                            <div class="title is-1">➕</div>
+                            <div class="buttons is-centered has-text-weight-bold">
+                                <a class="button is-fullwidth is-info block" href="{% url 'admin:quizzes_topic_add' %}">+ New Topic</a>
+                                <a class="button is-fullwidth is-info block" href="{% url 'admin:quizzes_word_add' %}">+ New Words</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% comment %} Generate a card for each Topic in the queryset {% endcomment %}
         {% for topic in topics %}
-            {% if not topic.is_hidden %}
+            {% if not topic.is_hidden or request.user.is_teacher %}
                 <div class="column is-one-third">
 
-                    <!-- Card configuration -->
-                    <div class="card">
+                    <!-- Topic card configuration -->
+                    <div class="card {% if topic.is_hidden %}has-background-grey-lighter{% endif %}">
                         <header class="card-header">
-                            <p class="card-header-title is-centered">
-                                {{ topic.name }}
-                            </p>
+                            <p class="card-header-title is-centered">{{ topic }}</p>
                         </header>
                         <div class="card-content">
-                            <div class="content">
-                                <div class="has-text-centered">
-                                    <div class="title is-1">{{ topic.short_desc }}</div>
-                                    <div class="tags are-medium has-addons is-centered">
-                                        {% to_revise topic request.user as words_due %}
-                                        {% if words_due > 0 %}
+                            <div class="has-text-centered">
+                                <div class="title is-1">{{ topic.short_desc }}</div>
+                                <div class="tags are-medium has-addons is-centered">
+                                    {% to_revise topic request.user as words_due %}
+                                    {% if words_due > 0 %}
                                         <span class="tag">Words due:</span>
                                         <span class="tag is-danger">{{ words_due }}</span>
-                                            {% else %}
-                                            <span class="tag is-success">Up to date!</span>
-                                            {% endif %}
-                                    </div>
-
-                                    <div class="buttons is-centered">
-                                        <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}"><strong>Words</strong></a>
-                                        <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}"><strong>Quiz</strong></a>
-                                    </div>
-
+                                    {% else %}
+                                        <span class="tag is-success">Up to date!</span>
+                                    {% endif %}
+                                </div>
+                                <div class="buttons is-centered has-text-weight-bold">
+                                    {% if request.user.is_teacher %}
+                                        <a class="button is-danger is-outlined is-fullwidth" href="{% url 'admin:quizzes_topic_change' topic.id %}">Edit Topic</a>
+                                        <a class="button is-danger is-outlined is-fullwidth" href="{{ topic.id|get_filtered_list_url }}">Edit Words</a>
+                                        <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}">Words</a>
+                                        <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}">Quiz Demo</a>
+                                    {% else %}
+                                        <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}">Words</a>
+                                        <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}">Quiz</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             {% endif %}
         {% endfor %}
