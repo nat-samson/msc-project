@@ -12,15 +12,17 @@ class Topic(models.Model):
     name = models.CharField(max_length=32, unique=True)
     long_desc = models.CharField(max_length=255, blank=True, verbose_name="Long Description")
     short_desc = models.CharField(max_length=10, default='❓🧠❓', verbose_name="Emoji Description",
-                                  help_text="Illustrate the Topic with a few emoji.")
+                                  help_text="Illustrate the Topic with a few emoji. "
+                                            "On Mac? Press CTRL+CMD+Space. On Windows? Press Windows key + fullstop.")
     is_hidden = models.BooleanField(default=False, verbose_name="Hide Topic",
                                     help_text="Hide the Topic from view. No quizzes can be taken "
-                                              "using this Topic while it is hidden.")
+                                              "using this Topic while it is hidden. "
+                                              "Topics which contain fewer than four words are hidden regardless.")
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         if self.is_hidden:
-            return self.name + " (Hidden)"
+            return self.name + " (HIDDEN)"
         else:
             return self.name
 

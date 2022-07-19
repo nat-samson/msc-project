@@ -57,3 +57,9 @@ class ChartTools(SimpleTestCase):
         expected = [(1, 2, 3), ("a", "b", "c")]
         actual = unzip(zipped_data)
         self.assertEquals(expected, actual)
+
+    def test_unzip_single_tuple(self):
+        zipped_data = [(1, "a")]
+        expected = [(1,), ("a",)]
+        actual = unzip(zipped_data)
+        self.assertEquals(expected, actual)
