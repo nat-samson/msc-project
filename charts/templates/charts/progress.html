@@ -119,8 +119,8 @@
 
         function updateAllCharts() {
             filterButton.click();
-            updateCharts(updatableCharts, "{% url "data-student-charts" %}")
-            updateChart(pointsPerDayChart, "{% url "data-points-day" %}");
+            updateCharts(updatableCharts, "{% url "data-updatable-charts" %}")
+            updateChart(pointsPerDayChart, "{% url "data-points-per-day" %}");
         }
 
         // trigger data update when Submit is clicked
