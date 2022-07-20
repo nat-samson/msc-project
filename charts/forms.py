@@ -18,7 +18,7 @@ class DashboardFilterForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'GET'
-        self.helper.form_action = reverse_lazy('data-student-charts')
+        self.helper.form_action = reverse_lazy('data-updatable-charts')
         self.helper.form_id = 'student-filter-form'
         self.helper.form_horizontal = True
         self.helper.layout = Layout(

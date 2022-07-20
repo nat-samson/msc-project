@@ -6,7 +6,7 @@ from charts.chart_tools import unzip, get_colours
 from quizzes.models import QuizResults
 
 
-def chart_topic_points2(student, date_from, date_to):
+def get_updatable_charts_data(student, date_from, date_to):
     # get base queryset
     qs = QuizResults.objects.all()
 
@@ -18,8 +18,14 @@ def chart_topic_points2(student, date_from, date_to):
     if date_to is not None:
         qs = qs.filter(date_created__lte=date_to)
 
-    points_per_topic = qs.values('topic__name').annotate(Sum('points'))\
-        .values_list("topic__name", "points__sum")
+    points_per_topic_data = get_points_per_topic_data(qs)
+    quizzes_per_topic_data = get_quizzes_per_topic_data(qs)
+
+    return {'points_per_topic': points_per_topic_data, 'quizzes_per_topic': quizzes_per_topic_data}
+
+
+def get_points_per_topic_data(qs):
+    points_per_topic = qs.values('topic__name').annotate(Sum('points')).values_list("topic__name", "points__sum")
 
     labels_and_data = unzip(points_per_topic)
     if len(labels_and_data) == 0:
@@ -31,19 +37,7 @@ def chart_topic_points2(student, date_from, date_to):
     return chart_data
 
 
-def chart_topic_quizzes2(student, date_from, date_to):
-    # get base queryset
-    qs = QuizResults.objects.all()
-
-    # apply requested filters, if any
-    if student is not None:
-        qs = qs.filter(student=student)
-    if date_from is not None:
-        qs = qs.filter(date_created__gte=date_from)
-    if date_to is not None:
-        qs = qs.filter(date_created__lte=date_to)
-
-    # quizzes taken per topic
+def get_quizzes_per_topic_data(qs):
     quizzes_per_topic = qs.values('topic__name').annotate(quizzes_taken=Count('id'))\
         .values_list("topic__name", "quizzes_taken")
 
@@ -57,12 +51,9 @@ def chart_topic_quizzes2(student, date_from, date_to):
     return chart_data
 
 
-def chart_topic_words2(student):
-    student_results = QuizResults.objects.filter(student=student)
-
+def get_topic_correctness_data(qs):
     # topics by ratio correct v incorrect answers
-    correct_v_incorrect = student_results.values('topic__name').annotate(Sum('correct_answers'),
-                                                                         Sum('incorrect_answers'))
+    correct_v_incorrect = qs.values('topic__name').annotate(Sum('correct_answers'), Sum('incorrect_answers'))
 
     # calculate ratio correct:incorrect by topic and rank by highest to lowest
     correct_v_incorrect_list = []
@@ -82,7 +73,7 @@ def chart_topic_words2(student):
     return chart_data
 
 
-def chart_points_per_day2(student):
+def get_points_per_day_data(student):
     today = datetime.date.today()
     date_from = today - datetime.timedelta(28)
     student_results = QuizResults.objects.filter(student=student, date_created__gte=date_from)
@@ -100,22 +91,15 @@ def chart_points_per_day2(student):
     labels_and_data = unzip(points_per_day)
     if len(labels_and_data) == 0:
         return []
-    colours = get_colours(len(labels_and_data[0]))
+    colours = ['rgba(75, 192, 192, 1)', 'rgba(75, 192, 192, 1)']  # line charts look better with same colour nodes
+    label = "Points"
 
-    chart_data = {
-        "labels": labels_and_data[0],
-        "datasets": [{
-            "label": "Points",
-            "data": labels_and_data[1],
-            "backgroundColor": colours[0],
-            "borderColor": ['rgb(75, 192, 192)'],
-            "tension": 0.1,
-        }]
-    }
+    chart_data = build_chart_data(labels_and_data, colours, label)
     return chart_data
 
 
 def build_chart_data(labels_and_data, colours, label):
+    # set up some common chart data and insert specific chart data
     return {
         "labels": labels_and_data[0],
         "datasets": [{
@@ -124,4 +108,18 @@ def build_chart_data(labels_and_data, colours, label):
             "backgroundColor": colours[0],
             "borderColor": colours[1],
             "borderWidth": 2,
+            "tension": 0.2,
         }]}
+
+
+def get_filtered_results(request):
+    # obtain base queryset
+    qs = QuizResults.objects.all()
+
+    # extract filter settings from GET request, apply to queryset
+    date_range_length = request.GET.get('date_range', "")
+    if date_range_length != "":
+        from_date = datetime.date.today() - datetime.timedelta(int(date_range_length))
+        qs = qs.filter(date_created__gte=from_date)
+
+    return qs
