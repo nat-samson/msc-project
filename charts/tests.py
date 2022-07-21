@@ -1,9 +1,13 @@
+import datetime
+import json
+
 from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
 
 from charts import chart_tools
 from charts.chart_tools import unzip, get_colours
 from charts.forms import DatePresetFilterForm, DashboardFilterForm
+from quizzes.models import QuizResults, Topic
 from users.models import User
 
 
@@ -163,7 +167,95 @@ class FilteredTeacherDataTests(TestCase):
         self.assertJSONEqual(actual, expected)
 
 
-class ChartTools(SimpleTestCase):
+class UpdatableChartsTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
+        cls.path = reverse('data-updatable-charts')
+
+    def test_updatable_charts_view_status(self):
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertEquals(200, response.status_code)
+
+    def test_updatable_charts_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_updatable_charts_from_student_no_data(self):
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        actual = str(response.content, encoding='utf8')
+        expected = {'points_per_topic': [], 'quizzes_per_topic': []}
+        self.assertJSONEqual(actual, expected)
+
+    def test_updatable_charts_from_teacher_no_data(self):
+        # teacher request would arrive with filters (potentially empty) in place
+        filter_string = "?student=1&date_from=2022-07-01&date_to=2022-07-20"
+        filter_url = self.path + filter_string
+
+        self.client.force_login(self.teacher)
+        response = self.client.get(filter_url)
+        actual = str(response.content, encoding='utf8')
+        expected = {'points_per_topic': [], 'quizzes_per_topic': []}
+        self.assertJSONEqual(actual, expected)
+
+    def test_updatable_charts_from_teacher_with_data(self):
+        # Add a Quiz Result to the database
+        today = datetime.date.today()
+        self.animals = Topic.objects.create(name='Animals')
+        QuizResults.objects.create(student=self.student, correct_answers=10, incorrect_answers=5,
+                                   date_created=today, topic=self.animals, points=100)
+
+        filter_string = "?student=1&date_to=" + str(today)
+        filter_url = self.path + filter_string
+
+        self.client.force_login(self.teacher)
+        response = self.client.get(filter_url)
+        response_dict = json.loads(response.content)
+
+        # among the colour data etc. ensure that the correct database values have been retrieved
+        self.assertEquals(response_dict['points_per_topic']['labels'], ['Animals'])
+        self.assertEquals(response_dict['points_per_topic']['datasets'][0]['data'], [100])
+        self.assertEquals(response_dict['quizzes_per_topic']['labels'], ['Animals'])
+        self.assertEquals(response_dict['quizzes_per_topic']['datasets'][0]['data'], [1])
+
+
+class GetPointsPerDayTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.path = reverse('data-points-per-day')
+
+    def test_gets_points_per_day_view_status(self):
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertEquals(200, response.status_code)
+
+    def test_updatable_charts_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_updatable_charts_from_student_no_data(self):
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        response_dict = json.loads(response.content)
+
+        # labels should contain an entry for the last 28 days
+        start_date = datetime.date.today() - datetime.timedelta(28)
+        labels = [str(start_date + datetime.timedelta(num)) for num in range(28)]
+        points = [0 for num in range(28)]
+
+        self.assertEquals(response_dict['labels'], labels)
+        self.assertEquals(response_dict['datasets'][0]['data'], points)
+
+
+class ChartToolsTests(SimpleTestCase):
     def test_unzip_good_input(self):
         zipped_data = [(1, "a"), (2, "b"), (3, "c")]
         expected = [(1, 2, 3), ("a", "b", "c")]
