@@ -1,11 +1,17 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from users.models import User
+from .models import User
 
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    #fields = ('first_name', 'last_name', 'is_student', 'is_teacher',)
+    model = User
+    list_display = ('last_name', 'first_name', 'is_student', 'is_teacher', 'is_superuser', 'is_active',)
+    list_filter = ('is_student', 'is_teacher', 'is_superuser', 'is_active')
+    ordering = ('last_name',)
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('is_student', 'is_teacher')}),
+    )
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -19,6 +25,8 @@ class UserAdmin(UserAdmin):
                 and obj == request.user
         ):
             disabled_fields |= {
+                'is_student',
+                'is_teacher',
                 'is_staff',
                 'is_superuser',
                 'groups',
