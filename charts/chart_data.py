@@ -4,6 +4,7 @@ from django.db.models import Sum, Count
 
 from charts.chart_tools import unzip, get_colours
 from quizzes.models import QuizResults
+from users.models import User
 
 
 def get_updatable_charts_data(student, date_from, date_to):
@@ -98,6 +99,25 @@ def get_points_per_day_data(student):
     return chart_data
 
 
+def get_points_per_student_data(qs):
+    # only includes students who have completed a quiz within date range
+    pts_per_student = list(qs.values('student').annotate(Sum('points'))
+                           .values_list('student__first_name', 'student__last_name', "points__sum")
+                           .order_by('-points__sum', 'student__last_name'))
+
+    # add in students who have no quiz data
+    missing_students = User.objects.filter(is_student=True).exclude(quizresults__in=qs).order_by('last_name')
+
+    present_student_data = [(f"{student[0]} {student[1]}", student[2]) for student in pts_per_student]
+    missing_student_data = [(student.get_full_name(), 0) for student in missing_students]
+    final_data = present_student_data + missing_student_data
+
+    if final_data:
+        return final_data
+    else:
+        return [["No Students Registered!", "N/A"]]
+
+
 def build_chart_data(labels_and_data, colours, label):
     # set up some common chart data and insert specific chart data
     return {
@@ -114,12 +134,18 @@ def build_chart_data(labels_and_data, colours, label):
 
 def get_filtered_results(request):
     # obtain base queryset
-    qs = QuizResults.objects.all()
+    qs = QuizResults.objects.filter(student__is_student=True)
 
     # extract filter settings from GET request, apply to queryset
     date_range_length = request.GET.get('date_range', "")
     if date_range_length != "":
         from_date = datetime.date.today() - datetime.timedelta(int(date_range_length))
         qs = qs.filter(date_created__gte=from_date)
+
+    topic = request.GET.get('topic', "")
+    if topic != "":
+        qs = qs.filter(topic_id=topic)
+
+    print(request.GET)
 
     return qs
