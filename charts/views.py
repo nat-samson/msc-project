@@ -3,11 +3,15 @@ from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from charts.chart_data import get_points_per_day_data, get_updatable_charts_data, get_filtered_results, \
+from charts.chart_data import get_points_per_day_data, get_updatable_charts_data, get_filtered_queryset, \
     get_points_per_student_data
 from charts.forms import DateFilterForm, StudentDateFilterForm, TopicDateFilterForm
 from quizzes.models import Topic, WordScore, MAX_SCORE, Word
 from users.models import User
+
+"""
+TEMPLATE VIEWS
+"""
 
 
 @login_required
@@ -38,10 +42,14 @@ def dashboard(request):
     return render(request, 'charts/dashboard.html', context)
 
 
+"""
+API VIEWS
+"""
+
+
 @login_required()
 def get_filtered_data_student(request):
-    # obtain queryset
-    qs = get_filtered_results(request)
+    qs = get_filtered_queryset(request)
 
     # calculate correct percentage (or N/A if no quizzes completed in timeframe)
     correct_pc = "N/A"
@@ -61,8 +69,7 @@ def get_filtered_data_student(request):
 @login_required
 @user_passes_test(lambda user: user.is_teacher)
 def get_filtered_data_teacher(request):
-    # obtain queryset
-    qs = get_filtered_results(request)
+    qs = get_filtered_queryset(request)
 
     data = {
         "active_students": qs.values_list('student', flat=True).distinct().count(),
@@ -75,8 +82,7 @@ def get_filtered_data_teacher(request):
 @login_required
 @user_passes_test(lambda user: user.is_teacher)
 def get_filtered_data_topic(request):
-    # obtain queryset
-    qs = get_filtered_results(request)
+    qs = get_filtered_queryset(request)
 
     data = get_points_per_student_data(qs)
     return JsonResponse(data, safe=False)
@@ -84,20 +90,9 @@ def get_filtered_data_topic(request):
 
 @login_required
 def get_updatable_charts(request):
-    # check if request has come with a filter request
-    if len(request.GET) == 0:
-        # if not, request is from a student, so capture their ID
-        student = request.user.pk
-        date_from = None
-        date_to = None
-    else:
-        # request is from teacher, so extract filter settings from request
-        filter_settings = {k: v[0] for k, v in dict(request.GET).items() if v[0] != ""}
-        student = filter_settings.get('student', None)
-        date_from = filter_settings.get('date_from', None)
-        date_to = filter_settings.get('date_to', None)
+    qs = get_filtered_queryset(request)
 
-    data = get_updatable_charts_data(student, date_from, date_to)
+    data = get_updatable_charts_data(qs)
     return JsonResponse(data)
 
 

@@ -5,6 +5,7 @@ from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
 
 from charts import chart_tools
+from charts.chart_data import PTS_PER_DAY_DATERANGE
 from charts.chart_tools import unzip, get_colours
 from charts.forms import DateFilterForm, StudentDateFilterForm
 from quizzes.models import QuizResults, Topic
@@ -325,10 +326,10 @@ class GetPointsPerDayTests(TestCase):
         response = self.client.get(self.path)
         response_dict = json.loads(response.content)
 
-        # labels should contain an entry for the last 28 days
-        start_date = datetime.date.today() - datetime.timedelta(28)
-        labels = [str(start_date + datetime.timedelta(num)) for num in range(28)]
-        points = [0 for _ in range(28)]
+        # labels should contain an entry for each day in PTS_PER_DAY_DATERANGE
+        start_date = datetime.date.today() - datetime.timedelta(PTS_PER_DAY_DATERANGE)
+        labels = [str(start_date + datetime.timedelta(num)) for num in range(PTS_PER_DAY_DATERANGE)]
+        points = [0 for _ in range(PTS_PER_DAY_DATERANGE)]
 
         self.assertEquals(response_dict['labels'], labels)
         self.assertEquals(response_dict['datasets'][0]['data'], points)
@@ -341,10 +342,10 @@ class GetPointsPerDayTests(TestCase):
         response = self.client.get(self.path)
         response_dict = json.loads(response.content)
 
-        # labels should contain an entry for the last 28 days
-        start_date = datetime.date.today() - datetime.timedelta(28)
-        labels = [str(start_date + datetime.timedelta(num)) for num in range(28)]
-        points = [0 for _ in range(28)]
+        # labels should contain an entry for each day in PTS_PER_DAY_DATERANGE
+        start_date = datetime.date.today() - datetime.timedelta(PTS_PER_DAY_DATERANGE)
+        labels = [str(start_date + datetime.timedelta(num)) for num in range(PTS_PER_DAY_DATERANGE)]
+        points = [0 for _ in range(PTS_PER_DAY_DATERANGE)]
 
         self.assertEquals(response_dict['labels'], labels)
         self.assertEquals(response_dict['datasets'][0]['data'], points)
