@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from charts import chart_tools
 from charts.chart_tools import unzip, get_colours
-from charts.forms import DatePresetFilterForm, DashboardFilterForm
+from charts.forms import DateFilterForm, StudentDateFilterForm
 from quizzes.models import QuizResults, Topic
 from users.models import User
 
@@ -15,6 +15,7 @@ class ProgressTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('progress')
 
     def test_progress_view_status(self):
@@ -37,10 +38,23 @@ class ProgressTests(TestCase):
         self.client.force_login(self.student)
         response = self.client.get(self.path)
         form = response.context.get('form')
-        self.assertIsInstance(form, DatePresetFilterForm)
+        self.assertIsInstance(form, DateFilterForm)
 
     def test_progress_context_when_no_student_data(self):
         self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        words_due = response.context.get('words_due_revision')
+        words_memorised = response.context.get('words_memorised')
+        streak = response.context.get('current_streak')
+        self.assertEquals(words_due, 0)
+        self.assertEquals(words_memorised, 0)
+        self.assertEquals(streak, 0)
+
+    def test_progress_context_when_no_students(self):
+        # Remove any students in the database
+        User.objects.filter(is_student=True).delete()
+
+        self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         words_due = response.context.get('words_due_revision')
         words_memorised = response.context.get('words_memorised')
@@ -58,12 +72,12 @@ class DashboardTests(TestCase):
         cls.path = reverse('dashboard')
 
     def test_dashboard_view_status(self):
-        self.client.force_login(self.student)
+        self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         self.assertEquals(200, response.status_code)
 
     def test_dashboard_template_name(self):
-        self.client.force_login(self.student)
+        self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         self.assertTemplateUsed(response, 'charts/dashboard.html')
 
@@ -74,15 +88,16 @@ class DashboardTests(TestCase):
         self.assertRedirects(response, redirect_url)
 
     def test_dashboard_not_accessible_to_students(self):
-        # a student attempting to access dashboard should be redirected home
+        # a student attempting to access dashboard should be prompted to log in again
         self.client.force_login(self.student)
-        response = self.client.get(self.path, follow=True)
+        response = self.client.get(self.path)
+        expected = reverse('login') + "?next=" + self.path
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, expected)
 
     def test_dashboard_accessible_to_teachers(self):
         self.client.force_login(self.teacher)
-        response = self.client.get(self.path, follow=True)
+        response = self.client.get(self.path)
         self.assertEqual(response.status_code, 200)
 
     def test_dashboard_includes_forms(self):
@@ -90,10 +105,13 @@ class DashboardTests(TestCase):
         response = self.client.get(self.path)
         student_filter = response.context.get('student_filter')
         date_filter = response.context.get('date_filter')
-        self.assertIsInstance(date_filter, DatePresetFilterForm)
-        self.assertIsInstance(student_filter, DashboardFilterForm)
+        self.assertIsInstance(date_filter, DateFilterForm)
+        self.assertIsInstance(student_filter, StudentDateFilterForm)
 
-    def test_dashboard_context_when_no_student_data(self):
+    def test_dashboard_context_when_no_students(self):
+        # Remove any students in the database
+        User.objects.filter(is_student=True).delete()
+
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         live_topics = response.context.get('live_topics')
@@ -101,13 +119,14 @@ class DashboardTests(TestCase):
         students_registered = response.context.get('students_registered')
         self.assertEquals(live_topics, 0)
         self.assertEquals(live_words, 0)
-        self.assertEquals(students_registered, 1)
+        self.assertEquals(students_registered, 0)
 
 
 class FilteredStudentDataTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('filter-date-student')
 
     def test_filtered_student_view_status(self):
@@ -128,6 +147,16 @@ class FilteredStudentDataTests(TestCase):
         expected = {"points_earned": 0, "quizzes_taken": 0, "correct_pc": "N/A"}
         self.assertJSONEqual(actual, expected)
 
+    def test_filtered_student_when_no_students(self):
+        # Remove any students in the database
+        User.objects.filter(is_student=True).delete()
+
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        actual = str(response.content, encoding='utf8')
+        expected = {"points_earned": 0, "quizzes_taken": 0, "correct_pc": "N/A"}
+        self.assertJSONEqual(actual, expected)
+
 
 class FilteredTeacherDataTests(TestCase):
     @classmethod
@@ -137,7 +166,7 @@ class FilteredTeacherDataTests(TestCase):
         cls.path = reverse('filter-date-teacher')
 
     def test_filtered_teacher_view_status(self):
-        self.client.force_login(self.student)
+        self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         self.assertEquals(200, response.status_code)
 
@@ -148,22 +177,68 @@ class FilteredTeacherDataTests(TestCase):
         self.assertRedirects(response, redirect_url)
 
     def test_filtered_teacher_not_accessible_to_students(self):
-        # a student should be redirected home
+        # a student attempting to access dashboard should be prompted to log in again
         self.client.force_login(self.student)
-        response = self.client.get(self.path, follow=True)
+        response = self.client.get(self.path)
+        expected = reverse('login') + "?next=" + self.path
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, expected)
 
     def test_filtered_teacher_accessible_to_teachers(self):
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 200)
 
-    def test_filtered_teacher_json_no_data(self):
-        self.client.force_login(self.student)
+    def test_filtered_teacher_json_no_students(self):
+        # Remove any students in the database
+        User.objects.filter(is_student=True).delete()
+
+        self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         actual = str(response.content, encoding='utf8')
         expected = {"active_students": 0, "quizzes_taken": 0, "points_earned": 0}
+        self.assertJSONEqual(actual, expected)
+
+
+class FilteredDataDateTopicTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
+        cls.path = reverse('filter-date-topic')
+
+    def test_filtered_date_topic_view_status(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        self.assertEquals(200, response.status_code)
+
+    def test_filtered_date_topic_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_filtered_date_topic_not_accessible_to_students(self):
+        # a student attempting to access dashboard should be prompted to log in again
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        expected = reverse('login') + "?next=" + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected)
+
+    def test_filtered_date_topic_accessible_to_teachers(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_filtered_date_topic_json_no_students(self):
+        # Remove any students in the database
+        User.objects.filter(is_student=True).delete()
+
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        actual = str(response.content, encoding='utf8')
+        expected = [["No Students Registered!", "N/A"]]
         self.assertJSONEqual(actual, expected)
 
 
@@ -185,24 +260,6 @@ class UpdatableChartsTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
-    def test_updatable_charts_from_student_no_data(self):
-        self.client.force_login(self.student)
-        response = self.client.get(self.path)
-        actual = str(response.content, encoding='utf8')
-        expected = {'points_per_topic': [], 'quizzes_per_topic': []}
-        self.assertJSONEqual(actual, expected)
-
-    def test_updatable_charts_from_teacher_no_data(self):
-        # teacher request would arrive with filters (potentially empty) in place
-        filter_string = "?student=1&date_from=2022-07-01&date_to=2022-07-20"
-        filter_url = self.path + filter_string
-
-        self.client.force_login(self.teacher)
-        response = self.client.get(filter_url)
-        actual = str(response.content, encoding='utf8')
-        expected = {'points_per_topic': [], 'quizzes_per_topic': []}
-        self.assertJSONEqual(actual, expected)
-
     def test_updatable_charts_from_teacher_with_data(self):
         # Add a Quiz Result to the database
         today = datetime.date.today()
@@ -223,11 +280,33 @@ class UpdatableChartsTests(TestCase):
         self.assertEquals(response_dict['quizzes_per_topic']['labels'], ['Animals'])
         self.assertEquals(response_dict['quizzes_per_topic']['datasets'][0]['data'], [1])
 
+    def test_updatable_charts_from_student_no_data(self):
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        actual = str(response.content, encoding='utf8')
+        expected = {'points_per_topic': [], 'quizzes_per_topic': []}
+        self.assertJSONEqual(actual, expected)
+
+    def test_updatable_charts_from_teacher_no_students(self):
+        # Remove any students in the database
+        User.objects.filter(is_student=True).delete()
+
+        # teacher request would arrive with filters (potentially empty) in place
+        filter_string = "?student=&date_from=2022-07-01&date_to=2022-07-20"
+        filter_url = self.path + filter_string
+
+        self.client.force_login(self.teacher)
+        response = self.client.get(filter_url)
+        actual = str(response.content, encoding='utf8')
+        expected = {'points_per_topic': [], 'quizzes_per_topic': []}
+        self.assertJSONEqual(actual, expected)
+
 
 class GetPointsPerDayTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('data-points-per-day')
 
     def test_gets_points_per_day_view_status(self):
@@ -235,13 +314,13 @@ class GetPointsPerDayTests(TestCase):
         response = self.client.get(self.path)
         self.assertEquals(200, response.status_code)
 
-    def test_updatable_charts_login_required(self):
+    def test_points_per_day_login_required(self):
         response = self.client.get(self.path)
         redirect_url = '/login/?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
-    def test_updatable_charts_from_student_no_data(self):
+    def test_points_per_day_no_data(self):
         self.client.force_login(self.student)
         response = self.client.get(self.path)
         response_dict = json.loads(response.content)
@@ -249,7 +328,23 @@ class GetPointsPerDayTests(TestCase):
         # labels should contain an entry for the last 28 days
         start_date = datetime.date.today() - datetime.timedelta(28)
         labels = [str(start_date + datetime.timedelta(num)) for num in range(28)]
-        points = [0 for num in range(28)]
+        points = [0 for _ in range(28)]
+
+        self.assertEquals(response_dict['labels'], labels)
+        self.assertEquals(response_dict['datasets'][0]['data'], points)
+
+    def test_points_per_day_no_students(self):
+        # Remove any students in the database
+        User.objects.filter(is_student=True).delete()
+
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        response_dict = json.loads(response.content)
+
+        # labels should contain an entry for the last 28 days
+        start_date = datetime.date.today() - datetime.timedelta(28)
+        labels = [str(start_date + datetime.timedelta(num)) for num in range(28)]
+        points = [0 for _ in range(28)]
 
         self.assertEquals(response_dict['labels'], labels)
         self.assertEquals(response_dict['datasets'][0]['data'], points)

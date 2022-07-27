@@ -6,7 +6,7 @@ from django.urls import reverse, resolve
 
 from users.models import User
 from .models import Topic, Word, WordScore, MAX_SCORE
-from .views import TopicListView, TopicDetailView
+from .views import HomeView, TopicDetailView
 from .quiz_builder import choose_direction, get_quiz, get_options, CORRECT_ANSWER_PTS, ORIGIN_ICON, TARGET_ICON
 
 
@@ -23,7 +23,7 @@ class HomeTests(TestCase):
 
     def test_home_view_url(self):
         view = resolve('/')
-        self.assertIs(view.func.view_class, TopicListView)
+        self.assertIs(view.func.view_class, HomeView)
 
     def test_home_template_name(self):
         self.client.force_login(self.student)
