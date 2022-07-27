@@ -1,11 +1,11 @@
 import datetime
 import json
 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import FilteredRelation, Q, F
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView, DetailView
 
 from quizzes import quiz_builder
@@ -13,7 +13,7 @@ from quizzes.models import Topic, Word, WordScore, QuizResults
 from quizzes.quiz_builder import CORRECT_ANSWER_PTS
 
 
-class TopicListView(LoginRequiredMixin, ListView):
+class HomeView(LoginRequiredMixin, ListView):
     model = Topic
     template_name = 'quizzes/home.html'
     context_object_name = 'topics'
@@ -38,12 +38,12 @@ class TopicDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-@login_required()
-def quiz(request, topic_pk):
-    if request.method == 'POST':
+class QuizView(LoginRequiredMixin, View):
+    def post(self, *args, topic_id, **kwargs):
         # get the quiz results data out of request.POST
-        data = request.POST.get('results')
+        data = self.request.POST.get('results')
         results = json.loads(data)
+        student = self.request.user
 
         results_page_data = {'words': {}}
         today = datetime.date.today()
@@ -59,7 +59,7 @@ def quiz(request, topic_pk):
                 correct += 1
 
                 word_score, is_newly_created = WordScore.objects.get_or_create(
-                    word_id=word_id, student=request.user,
+                    word_id=word_id, student=student,
                     defaults={'consecutive_correct': 1, 'times_correct': 1,
                               'next_review': today + datetime.timedelta(days=1)})
 
@@ -77,7 +77,7 @@ def quiz(request, topic_pk):
             else:
                 incorrect += 1
 
-                word_score, is_newly_created = WordScore.objects.get_or_create(word_id=word_id, student=request.user)
+                word_score, is_newly_created = WordScore.objects.get_or_create(word_id=word_id, student=student)
 
                 if not is_newly_created:
                     word_score.consecutive_correct = 0
@@ -85,6 +85,7 @@ def quiz(request, topic_pk):
                     word_score.next_review = datetime.date.today()
                     word_score.save(update_fields=['consecutive_correct', 'times_seen'])
 
+            # prepare data for display on the results page
             results_page_data['words'][word_score.pk] = {
                 'origin': word_score.word.origin,
                 'target': word_score.word.target,
@@ -93,28 +94,29 @@ def quiz(request, topic_pk):
 
         # Log the quiz in the database
         quiz_score = correct * CORRECT_ANSWER_PTS
-        QuizResults.objects.create(student=request.user, topic_id=topic_pk,
+        QuizResults.objects.create(student=student, topic_id=topic_id,
                                    correct_answers=correct, incorrect_answers=incorrect,
                                    points=quiz_score)
 
-        # generate and render results page
+        # record quiz score and pass it to results page
         results_page_data['correct'] = correct
         results_page_data['total'] = len(results)
+        self.request.session['results'] = results_page_data
 
-        request.session['results'] = results_page_data
-        return redirect(request.path)
+        return redirect(self.request.path)
 
-    else:
+    def get(self, *args, topic_id, **kwargs):
         # get the quiz and pass it to the template
-        results = request.session.get('results', False)
+        results = self.request.session.get('results', False)
         if results:
-            del request.session['results']
-            return render(request, 'quizzes/quiz_results.html', results)
+            del self.request.session['results']
+            return render(self.request, 'quizzes/quiz_results.html', results)
         else:
-            quiz_data = quiz_builder.get_quiz(request.user, topic_pk)
+            quiz_data = quiz_builder.get_quiz(self.request.user, topic_id=topic_id)
+
+            if quiz_data['questions']:
+                return render(self.request, 'quizzes/quiz.html', {'quiz': quiz_data})
 
             # handle the race condition if a topic doesn't have enough words after the quiz is requested
-            if len(quiz_data['questions']) == 0:
-                return redirect(reverse('home'))
             else:
-                return render(request, 'quizzes/quiz.html', {'quiz': quiz_data})
+                return redirect(reverse('home'))
