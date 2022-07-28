@@ -18,12 +18,12 @@ class TopicWordsInline(admin.TabularInline):
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_hidden', 'link_to_words',)
-    fields = ('name', 'short_desc', 'long_desc', 'is_hidden',)
+    list_display = ('name', 'is_hidden', 'available_from', 'link_to_words',)
+    fields = ('name', 'short_desc', 'long_desc', 'is_hidden', 'available_from',)
     search_fields = ('name', 'long_desc', 'words__origin', 'words__target')
     search_help_text = "Search by Name, Long Description, or by word within a Topic..."
-    list_editable = ('is_hidden',)
-    ordering = ('date_created',)
+    list_editable = ('is_hidden', 'available_from',)
+    ordering = ('date_created', 'available_from',)
     inlines = [TopicWordsInline]
 
     def link_to_words(self, obj):

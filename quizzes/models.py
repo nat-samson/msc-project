@@ -18,6 +18,7 @@ class Topic(models.Model):
                                     help_text="Hide the Topic from view. No quizzes can be taken "
                                               "using this Topic while it is hidden. "
                                               "Topics which contain fewer than four words are hidden regardless.")
+    available_from = models.DateField(default=datetime.date.today())
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
