@@ -1,5 +1,6 @@
 import copy
 import random
+import datetime
 
 from django.shortcuts import get_object_or_404
 
@@ -63,11 +64,11 @@ def get_quiz_template():
 def get_quiz(user, topic_id):
     """ create quiz for given topic """
 
-    # teachers can still do quizzes if topic is hidden
-    if user.is_student:
-        topic = get_object_or_404(Topic, pk=topic_id, is_hidden=False)
-    else:
+    # teachers can still do quizzes if topic is hidden, or not yet launched
+    if user.is_teacher:
         topic = get_object_or_404(Topic, pk=topic_id)
+    else:
+        topic = get_object_or_404(Topic, pk=topic_id, is_hidden=False, available_from__lte=datetime.date.today())
 
     quiz = get_quiz_template()
     questions = []

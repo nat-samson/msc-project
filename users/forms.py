@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
-from users.models import User, StudentProfile, TeacherProfile
+from users.models import User
 
 
 # add email as an additional field to the register form
@@ -19,24 +19,12 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class StudentRegistrationForm(CustomUserCreationForm):
-    # add fields relevant only to students
-
-    @transaction.atomic
-    def save(self):
-        user = super().save(commit=False)
-        user.is_student = True
-        user.save()
-
-        # auto-create the connected student profile
-        student = StudentProfile.objects.create(user=user)
-
-        # here's where you'd add extra info to the student profile
-
-        return user
+    pass
+    # add any fields relevant only to students
 
 
 class TeacherRegistrationForm(CustomUserCreationForm):
-    # add fields relevant only to teachers
+    # add any fields relevant only to teachers
     # TODO: Mechanism for checking a key, so students can't register as teachers
 
     @transaction.atomic
@@ -45,10 +33,4 @@ class TeacherRegistrationForm(CustomUserCreationForm):
         user.is_teacher = True
         user.is_staff = True
         user.save()
-
-        # auto-create the connected teacher profile
-        teacher = TeacherProfile.objects.create(user=user)
-
-        # here's where you'd add extra info to the teacher profile
-
         return user

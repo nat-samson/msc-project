@@ -3,16 +3,17 @@ import datetime
 from django.db.models import Sum, Count
 
 from charts.chart_tools import unzip, get_colours
-from quizzes.models import QuizResults
+from quizzes.models import QuizResults, WordScore
 from users.models import User
 
-# default number of days to display on Progress template linechart
-PTS_PER_DAY_DATERANGE = 28
+
+PTS_PER_DAY_DATERANGE = 14  # number of days to display on Progress template linechart
+MAX_WEAKEST_WORDS = 10  # maximum number of the weakest words to display
 
 
 def get_filtered_queryset(request):
     # obtain base queryset
-    qs = QuizResults.objects.filter(student__is_student=True)
+    qs = QuizResults.objects.filter(student__is_teacher=False)
 
     # extract filter settings from GET request, apply to queryset
     student = request.GET.get('student', None)
@@ -21,7 +22,7 @@ def get_filtered_queryset(request):
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
 
-    if student and not request.user.is_student:
+    if student and request.user.is_teacher:
         qs = qs.filter(student_id=student)
     if topic:
         qs = qs.filter(topic_id=topic)
@@ -77,6 +78,22 @@ def get_topic_correctness_data(qs):
     return prepare_data(correct_v_incorrect_list, label)
 
 
+def get_weakest_words_data(student=False):
+    # rank words by % incorrect answers
+    scores = WordScore.objects.all()
+    if student:
+        scores = WordScore.objects.filter(student=student)
+
+    weakest_words = list(scores.values('word').annotate(incorrect_pc=Sum('times_correct')*100/Sum('times_seen'))
+                         .order_by('incorrect_pc')
+                         .values_list('word__origin', 'word__target', 'incorrect_pc')[:MAX_WEAKEST_WORDS])
+
+    while len(weakest_words) < MAX_WEAKEST_WORDS:
+        weakest_words.append(("N/A", "N/A", "N/A"))
+
+    return weakest_words
+
+
 def get_points_per_day_data(student):
     today = datetime.date.today()
     date_from = today - datetime.timedelta(PTS_PER_DAY_DATERANGE)
@@ -106,7 +123,7 @@ def get_points_per_student_data(qs):
                            .order_by('-points__sum', 'student__last_name'))
 
     # add in students who have no quiz data
-    missing_students = User.objects.filter(is_student=True).exclude(quizresults__in=qs).order_by('last_name')
+    missing_students = User.objects.filter(is_teacher=False).exclude(quizresults__in=qs).order_by('last_name')
 
     present_student_data = [(f"{student[0]} {student[1]}", student[2]) for student in pts_per_student]
     missing_student_data = [(student.get_full_name(), 0) for student in missing_students]
@@ -116,6 +133,17 @@ def get_points_per_student_data(qs):
         return final_data
     else:
         return [["No Students Registered!", "N/A"]]
+
+
+def get_user_streak(student):
+    streak = 0
+    yesterday = datetime.date.today() - datetime.timedelta(1)
+    quizzed_yesterday = QuizResults.objects.filter(student=student, date_created__gte=yesterday).exists()
+
+    if quizzed_yesterday:
+        streak = student.streak
+
+    return streak
 
 
 def prepare_data(data, label, override_colours=False):

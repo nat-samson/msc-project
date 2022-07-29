@@ -25,7 +25,7 @@ class BaseFilterForm(forms.Form):
         queryset=Topic.objects.order_by('name'),
         required=False, empty_label="** All Topics **")
     student = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_student=True, is_active=True).order_by('last_name'),
+        queryset=User.objects.filter(is_teacher=False, is_active=True).order_by('last_name'),
         required=False, empty_label="** All Students **")
 
     # Including two options for setting date range: Either via presets, or custom to/from
