@@ -15,7 +15,7 @@ from users.models import User
 class ProgressTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('progress')
 
@@ -53,7 +53,7 @@ class ProgressTests(TestCase):
 
     def test_progress_context_when_no_students(self):
         # Remove any students in the database
-        User.objects.filter(is_student=True).delete()
+        User.objects.filter(is_teacher=False).delete()
 
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
@@ -68,7 +68,7 @@ class ProgressTests(TestCase):
 class DashboardTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('dashboard')
 
@@ -111,7 +111,7 @@ class DashboardTests(TestCase):
 
     def test_dashboard_context_when_no_students(self):
         # Remove any students in the database
-        User.objects.filter(is_student=True).delete()
+        User.objects.filter(is_teacher=False).delete()
 
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
@@ -126,7 +126,7 @@ class DashboardTests(TestCase):
 class FilteredStudentDataTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('filter-date-student')
 
@@ -150,7 +150,7 @@ class FilteredStudentDataTests(TestCase):
 
     def test_filtered_student_when_no_students(self):
         # Remove any students in the database
-        User.objects.filter(is_student=True).delete()
+        User.objects.filter(is_teacher=False).delete()
 
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
@@ -162,7 +162,7 @@ class FilteredStudentDataTests(TestCase):
 class FilteredTeacherDataTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('filter-date-teacher')
 
@@ -192,7 +192,7 @@ class FilteredTeacherDataTests(TestCase):
 
     def test_filtered_teacher_json_no_students(self):
         # Remove any students in the database
-        User.objects.filter(is_student=True).delete()
+        User.objects.filter(is_teacher=False).delete()
 
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
@@ -204,7 +204,7 @@ class FilteredTeacherDataTests(TestCase):
 class FilteredDataDateTopicTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('filter-date-topic')
 
@@ -234,7 +234,7 @@ class FilteredDataDateTopicTests(TestCase):
 
     def test_filtered_date_topic_json_no_students(self):
         # Remove any students in the database
-        User.objects.filter(is_student=True).delete()
+        User.objects.filter(is_teacher=False).delete()
 
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
@@ -246,7 +246,7 @@ class FilteredDataDateTopicTests(TestCase):
 class UpdatableChartsTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('data-updatable-charts')
 
@@ -290,7 +290,7 @@ class UpdatableChartsTests(TestCase):
 
     def test_updatable_charts_from_teacher_no_students(self):
         # Remove any students in the database
-        User.objects.filter(is_student=True).delete()
+        User.objects.filter(is_teacher=False).delete()
 
         # teacher request would arrive with filters (potentially empty) in place
         filter_string = "?student=&date_from=2022-07-01&date_to=2022-07-20"
@@ -306,7 +306,7 @@ class UpdatableChartsTests(TestCase):
 class GetPointsPerDayTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_student', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_student', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('data-points-per-day')
 
@@ -336,7 +336,7 @@ class GetPointsPerDayTests(TestCase):
 
     def test_points_per_day_no_students(self):
         # Remove any students in the database
-        User.objects.filter(is_student=True).delete()
+        User.objects.filter(is_teacher=False).delete()
 
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)

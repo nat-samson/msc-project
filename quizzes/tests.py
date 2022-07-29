@@ -13,7 +13,7 @@ from .quiz_builder import choose_direction, get_quiz, get_options, CORRECT_ANSWE
 class HomeTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
         cls.path = reverse('home')
 
     def test_home_view_status(self):
@@ -45,7 +45,7 @@ class TopicDetailPageTests(TestCase):
         cls.path = '/topic/' + str(animals.pk) + '/'
 
         # Create a user to be logged in by each test (topic detail pages require user-specific information)
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
 
     def test_topic_detail_view_status(self):
         self.client.force_login(self.student)
@@ -112,7 +112,7 @@ class WordScoreModelTests(TestCase):
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
         cls.mouse = Word.objects.create(origin='Mouse', target='die Maus')
         cls.mouse.topics.add(animals)
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
         cls.mouse_score = WordScore.objects.create(word=cls.mouse, student=cls.student)
 
     def test_word_score_str(self):
@@ -147,7 +147,7 @@ class QuizTests(TestCase):
         fish.topics.add(animals)
 
         # Set up USER (a student)
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
 
         # Set up WORDSCORE
         # nb no WordScore is created in advance for mouse
@@ -277,7 +277,7 @@ class QuizTests(TestCase):
 class QuizBuilderTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_user', password='test_user1234', is_student=True)
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
         Word.objects.create(origin='Mouse', target='die Maus').topics.add(animals)
         Word.objects.create(origin='Fish', target='der Fisch').topics.add(animals)
