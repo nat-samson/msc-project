@@ -6,6 +6,8 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
     streak = models.PositiveIntegerField(default=0)
 
+    REQUIRED_FIELDS = ['is_teacher']
+
     def __str__(self):
         if self.is_superuser:
             role = "Admin"
