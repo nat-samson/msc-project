@@ -1,13 +1,16 @@
 import datetime
 import json
 
-from django.test import TestCase
+from django.http import Http404
+from django.test import TestCase, SimpleTestCase
 from django.urls import reverse, resolve
 
 from users.models import User
-from .models import Topic, Word, WordScore, MAX_SCORE
+from .models import Topic, Word, WordScore, MAX_SCORE, QuizResults, QUIZ_INTERVALS
+from .templatetags.quiz_extras import results_reaction, get_filtered_list_url
 from .views import HomeView, TopicDetailView
-from .quiz_builder import choose_direction, get_quiz, get_options, CORRECT_ANSWER_PTS, ORIGIN_ICON, TARGET_ICON
+from .quiz_builder import choose_direction, get_quiz, get_options, CORRECT_ANSWER_PTS, ORIGIN_ICON, TARGET_ICON, \
+    get_dummy_data
 
 
 class HomeTests(TestCase):
@@ -81,6 +84,11 @@ class TopicModelTests(TestCase):
         self.assertEqual('Animals', str(self.animals))
         self.assertEqual('Colours', str(self.colours))
 
+        # hide a topic
+        self.animals.is_hidden = True
+        self.animals.save()
+        self.assertEqual('Animals (HIDDEN)', str(self.animals))
+
     def test_topic_word_count(self):
         self.assertEqual(2, self.animals.words.count())
         self.assertEqual(0, self.colours.words.count())
@@ -113,7 +121,10 @@ class WordScoreModelTests(TestCase):
         cls.mouse = Word.objects.create(origin='Mouse', target='die Maus')
         cls.mouse.topics.add(animals)
         cls.student = User.objects.create_user(username='test_user', password='test_user1234')
-        cls.mouse_score = WordScore.objects.create(word=cls.mouse, student=cls.student)
+
+    def setUp(self):
+        # mouse_score is changed by tests, so recreate it afresh each time
+        self.mouse_score = WordScore.objects.create(word=self.mouse, student=self.student)
 
     def test_word_score_str(self):
         # test __str__ for WordScore
@@ -127,6 +138,80 @@ class WordScoreModelTests(TestCase):
             self.mouse_score.save()
             expected = min(num, MAX_SCORE)
             self.assertEqual(expected, self.mouse_score.score())
+
+    def test_word_score_set_next_review(self):
+        # date of next review should increase according to preset quiz intervals and current score
+        today = datetime.date.today()
+
+        for i in range(len(QUIZ_INTERVALS)):
+            self.mouse_score.consecutive_correct = i
+            self.mouse_score.save()
+            self.mouse_score.set_next_review()
+            interval = QUIZ_INTERVALS[i]
+            expected = today + datetime.timedelta(interval)
+            self.assertEqual(expected, self.mouse_score.next_review)
+
+
+class QuizResultsModelTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+        cls.student = User.objects.create_user(first_name='test', last_name='user',
+                                               username='test_user', password='test_user1234')
+        cls.qr = QuizResults.objects.create(student=cls.student, topic=cls.animals)
+
+    def setUp(self):
+        # recreate this student afresh each test
+        self.new_student = User.objects.create_user(username='new')
+
+    def test_quiz_results_str(self):
+        # test __str__ for QuizResults
+        today = datetime.date.today()
+        expected = "Quiz Results: test user / Animals on " + str(today)
+        self.assertEqual(expected, str(self.qr))
+
+    def test_get_user_streak_no_data(self):
+        # new student has no quiz data, so streak is 0
+        actual = QuizResults.get_user_streak(self.new_student)
+        self.assertEqual(0, actual)
+
+    def test_get_broken_streak(self):
+        # give user 100 day streak, but no quiz today or yesterday
+        self.new_student.streak = 100
+        self.new_student.save()
+        broken_streak = QuizResults.get_user_streak(self.new_student)
+        self.assertEqual(0, broken_streak)
+
+    def test_continue_existing_streak(self):
+        # user is adding to their 100-day streak
+        self.new_student.streak = 100
+        self.new_student.save()
+
+        # add quiz results data for yesterday, so quizzing again today builds on it
+        yesterday = datetime.date.today() - datetime.timedelta(1)
+        qr = QuizResults.objects.create(student=self.new_student, topic=self.animals)
+        qr.date_created = yesterday
+        qr.save()
+
+        QuizResults.update_user_streak(self.new_student)
+        self.new_student.refresh_from_db()
+        streak = QuizResults.get_user_streak(self.new_student)
+        self.assertEqual(101, streak)
+
+    def test_update_streak_when_already_quizzed_today(self):
+        # streak should not increase in length if the user has already quizzed today
+        self.new_student.streak = 100
+        self.new_student.save()
+
+        # add quiz results data for today
+        qr = QuizResults.objects.create(student=self.new_student, topic=self.animals)
+        qr.date_created = datetime.date.today()
+        qr.save()
+
+        QuizResults.update_user_streak(self.new_student)
+        self.new_student.refresh_from_db()
+        streak = QuizResults.get_user_streak(self.new_student)
+        self.assertEqual(100, streak)
 
 
 class QuizTests(TestCase):
@@ -194,11 +279,11 @@ class QuizTests(TestCase):
         # form must have no extra inputs beyond those specified above
         self.assertContains(response, '<input type=', 2)
 
-    def test_quiz_results_question_correct(self):
+    def test_quiz_results_new_question_correct(self):
         # No WordScore exists for this word / user combination
         self.client.force_login(self.student)
         quiz_results = {
-            '1': True
+            str(self.mouse.id): True
         }
         results = json.dumps(quiz_results)
         self.client.post(self.path, {'results': results})
@@ -210,11 +295,11 @@ class QuizTests(TestCase):
         self.assertEquals(1, word_score.times_correct)
         self.assertEquals(self.tomorrow, word_score.next_review)
 
-    def test_quiz_results_question_incorrect(self):
+    def test_quiz_results_new_question_incorrect(self):
         # No WordScore exists for this word / user combination
         self.client.force_login(self.student)
         quiz_results = {
-            '1': False
+            str(self.mouse.id): False
         }
         results = json.dumps(quiz_results)
 
@@ -234,7 +319,7 @@ class QuizTests(TestCase):
         cat_score = WordScore.objects.create(word=self.cat, student=self.student, times_correct=3, times_seen=5,
                                              next_review=self.tomorrow, consecutive_correct=3)
         quiz_results = {
-            '2': True
+            str(cat_score.word_id): True
         }
         results = json.dumps(quiz_results)
         self.client.post(self.path, {'results': results})
@@ -253,7 +338,7 @@ class QuizTests(TestCase):
         cat_score = WordScore.objects.create(word=self.cat, student=self.student, times_correct=3, times_seen=5,
                                              next_review=self.tomorrow, consecutive_correct=3)
         quiz_results = {
-            '2': False
+            str(cat_score.word_id): False
         }
         results = json.dumps(quiz_results)
         self.client.post(self.path, {'results': results})
@@ -264,6 +349,46 @@ class QuizTests(TestCase):
         self.assertEquals(0, cat_score.consecutive_correct)
         self.assertEquals(6, cat_score.times_seen)
         self.assertEquals(self.tomorrow, cat_score.next_review)
+
+    def test_quiz_results_due_review_correct(self):
+        # cat_score is due for review today, getting it correct should update its schedule and score
+        self.client.force_login(self.student)
+        cat_score = WordScore.objects.create(word=self.cat, student=self.student, times_correct=3, times_seen=5,
+                                             next_review=self.today, consecutive_correct=3)
+        quiz_results = {
+            str(cat_score.word_id): True
+        }
+        results = json.dumps(quiz_results)
+        self.client.post(self.path, {'results': results})
+
+        # cat score and schedule should be updated
+        next_review = self.today + datetime.timedelta(QUIZ_INTERVALS[min(cat_score.consecutive_correct, MAX_SCORE)])
+        cat_score.refresh_from_db()
+
+        self.assertEquals(4, cat_score.consecutive_correct)
+        self.assertEquals(6, cat_score.times_seen)
+        self.assertEquals(4, cat_score.times_correct)
+        self.assertEquals(next_review, cat_score.next_review)
+
+    def test_quiz_results_due_review_incorrect(self):
+        # cat_score is due for review today, getting it incorrect should reset progress
+        self.client.force_login(self.student)
+        cat_score = WordScore.objects.create(word=self.cat, student=self.student, times_correct=3, times_seen=5,
+                                             next_review=self.today, consecutive_correct=3)
+        quiz_results = {
+            str(cat_score.word_id): False
+        }
+        results = json.dumps(quiz_results)
+        self.client.post(self.path, {'results': results})
+
+        # cat score and schedule should be updated
+        next_review = self.today
+        cat_score.refresh_from_db()
+
+        self.assertEquals(0, cat_score.consecutive_correct)
+        self.assertEquals(6, cat_score.times_seen)
+        self.assertEquals(3, cat_score.times_correct)
+        self.assertEquals(next_review, cat_score.next_review)
 
     def test_session_with_results_data_leads_to_results_page(self):
         self.client.force_login(self.student)
@@ -278,6 +403,7 @@ class QuizBuilderTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.student = User.objects.create_user(username='test_user', password='test_user1234')
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
         Word.objects.create(origin='Mouse', target='die Maus').topics.add(animals)
         Word.objects.create(origin='Fish', target='der Fisch').topics.add(animals)
@@ -299,7 +425,36 @@ class QuizBuilderTests(TestCase):
         self.assertIsInstance(quiz_data, dict)
         self.assertEquals(len(quiz_data), 5)
 
-    def test_get_quiz_includes_static_elements(self):
+    def test_get_quiz_hidden_topic(self):
+        hidden_topic = Topic.objects.create(name='Hidden', long_desc="Can't be seen", is_hidden=True)
+
+        # teachers are permitted to create quizzes for hidden topics (as a demo)
+        self.client.force_login(self.teacher)
+        quiz_data = get_quiz(self.teacher, hidden_topic.pk)
+        self.assertIsInstance(quiz_data, dict)
+        self.assertEquals(len(quiz_data['questions']), 0)
+
+        # students are not
+        self.client.force_login(self.student)
+        with self.assertRaises(Http404):
+            get_quiz(self.student, hidden_topic.pk)
+
+    def test_get_quiz_future_scheduled_topic(self):
+        week_ahead = datetime.date.today() + datetime.timedelta(7)
+        future_topic = Topic.objects.create(name='Future', long_desc="Can't be seen", available_from=week_ahead)
+
+        # teachers are permitted to quiz topics dated in the future (as a demo)
+        self.client.force_login(self.teacher)
+        quiz_data = get_quiz(self.teacher, future_topic.pk)
+        self.assertIsInstance(quiz_data, dict)
+        self.assertEquals(len(quiz_data['questions']), 0)
+
+        # students are not
+        self.client.force_login(self.student)
+        with self.assertRaises(Http404):
+            get_quiz(self.student, future_topic.pk)
+
+    def test_get_quiz_format_includes_static_elements(self):
         quiz_data = get_quiz(self.student, 1)
         self.assertEquals(quiz_data['correct_pts'], CORRECT_ANSWER_PTS)
         self.assertEquals(quiz_data['origin_icon'], ORIGIN_ICON)
@@ -350,3 +505,40 @@ class QuizBuilderTests(TestCase):
         options_pool = list(self.all_topic_words.values('id', 'origin', 'target'))
         options = get_options(options_pool, 1, True)
         self.assertIsInstance(options, list)
+
+    def test_get_dummy_data(self):
+        # validate the basic format of the dummy data
+        dummy_data = get_dummy_data()
+        questions = dummy_data.pop('questions')
+
+        quiz_metadata = {'correct_pts': CORRECT_ANSWER_PTS, 'origin_icon': ORIGIN_ICON,
+                         'target_icon': TARGET_ICON, 'is_due_revision': True}
+        self.assertDictEqual(dummy_data, quiz_metadata)
+
+        for question in questions:
+            question_keys = {'word_id', 'origin_to_target', 'word', 'correct_answer', 'options'}
+            self.assertEquals(question.keys(), question_keys)
+
+
+class QuizTemplateTagTests(SimpleTestCase):
+    def test_results_reaction_great(self):
+        reaction = results_reaction(12, 12)
+        self.assertEquals(reaction, ("Congratulations! ", "🏆"))
+
+    def test_results_reaction_good(self):
+        reaction = results_reaction(6, 12)
+        self.assertEquals(reaction, ("Nicely done. ", "😎"))
+
+    def test_results_reaction_bad(self):
+        reaction = results_reaction(5, 12)
+        self.assertEquals(reaction, ("Keep at it! ", "📚"))
+
+    def test_results_reaction_divide_by_zero(self):
+        reaction = results_reaction(0, 0)
+        self.assertEquals(reaction, ("Divide by zero error! ", "❓"))
+
+    def test_get_filtered_list_url(self):
+        topic_id = 1
+        url = get_filtered_list_url(topic_id)
+        self.assertEquals(url, "/admin/quizzes/word/?topics__id__exact=1")
+

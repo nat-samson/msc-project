@@ -158,6 +158,29 @@ class FilteredStudentDataTests(TestCase):
         expected = {"points_earned": 0, "quizzes_taken": 0, "correct_pc": "N/A"}
         self.assertJSONEqual(actual, expected)
 
+    def test_filtered_student_week(self):
+        self.client.force_login(self.student)
+        filtered_url = reverse('filter-date-student') + "?date_range=7"
+
+        # create quiz result, set inside filter range, should be returned
+        test_topic = Topic.objects.create(name="Test Topic")
+        qr = QuizResults.objects.create(student=self.student, topic=test_topic,
+                                        correct_answers=10, incorrect_answers=2, points=999)
+
+        response = self.client.get(filtered_url)
+        actual = str(response.content, encoding='utf8')
+        expected = {"points_earned": 999, "quizzes_taken": 1, "correct_pc": "83%"}
+        self.assertJSONEqual(actual, expected)
+
+        # now set quiz result outside the filter date range (no quiz data should be found)
+        qr.date_created = datetime.date.today() - datetime.timedelta(8)
+        qr.save()
+
+        new_response = self.client.get(filtered_url)
+        actual = str(new_response.content, encoding='utf8')
+        expected = {"points_earned": 0, "quizzes_taken": 0, "correct_pc": "N/A"}
+        self.assertJSONEqual(actual, expected)
+
 
 class FilteredTeacherDataTests(TestCase):
     @classmethod
@@ -204,7 +227,8 @@ class FilteredTeacherDataTests(TestCase):
 class FilteredDataDateTopicTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.student = User.objects.create_user(username='test_student', password='test_user1234')
+        cls.student = User.objects.create_user(first_name='test', last_name='user',
+                                               username='test_student', password='test_user1234')
         cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
         cls.path = reverse('filter-date-topic')
 
@@ -240,6 +264,27 @@ class FilteredDataDateTopicTests(TestCase):
         response = self.client.get(self.path)
         actual = str(response.content, encoding='utf8')
         expected = [["No Students Registered!", "N/A"]]
+        self.assertJSONEqual(actual, expected)
+
+    def test_filtered_topic(self):
+        self.client.force_login(self.teacher)
+        filtered_url = reverse('filter-date-topic') + "?topic=1"
+
+        # create topic and quiz result, set inside filter range, should be returned
+        test_topic = Topic.objects.create(name="Test Topic")
+        QuizResults.objects.create(student=self.student, topic=test_topic, points=999)
+
+        response = self.client.get(filtered_url)
+        actual = str(response.content, encoding='utf8')
+        expected = [["test user", 999]]
+        self.assertJSONEqual(actual, expected)
+
+        # now set filter to a different topic
+        new_filtered_url = reverse('filter-date-topic') + "?topic=99"
+
+        new_response = self.client.get(new_filtered_url)
+        actual = str(new_response.content, encoding='utf8')
+        expected = [["test user", 0]]
         self.assertJSONEqual(actual, expected)
 
 
