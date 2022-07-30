@@ -21,12 +21,15 @@
             <a class="navbar-item {% if request.path == "/" %}is-active{% endif %}" href="{% url "home" %}">
                 <strong>Home</strong>
             </a>
-            <a class="navbar-item {% if request.path == "/progress/" %}is-active{% endif %}" href="{% url "progress" %}">
-                <strong>Progress</strong>
-            </a>
-        <a class="navbar-item {% if request.path == "/dashboard/" %}is-active{% endif %}" href="{% url "dashboard" %}">
-                <strong>Dashboard</strong>
-            </a>
+            {% if request.user.is_teacher %}
+                <a class="navbar-item {% if request.path == "/dashboard/" %}is-active{% endif %}" href="{% url "dashboard" %}">
+                    <strong>Dashboard</strong>
+                </a>
+            {% else %}
+                <a class="navbar-item {% if request.path == "/progress/" %}is-active{% endif %}" href="{% url "progress" %}">
+                    <strong>Progress</strong>
+                </a>
+            {% endif %}
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarElements">
                 <span aria-hidden="true"></span>
