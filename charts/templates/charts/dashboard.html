@@ -74,7 +74,7 @@
     <!-- Row 3a: Chart Filter settings -->
     <div class="columns is-centered">
         <div class="column is-half">
-            <div class="box has-background-danger has-text-centered" style="height: 207px;">
+            <div class="box has-background-danger has-text-centered">
                 <p class="title is-5 has-text-white m-4">Charts:</p>
                 <p class="subtitle is-5 has-text-white m-4">Apply Filters</p>
             </div>
@@ -94,10 +94,55 @@
                 <canvas id="topicPointsChart" width="400" height="400"></canvas>
             </div>
         </div>
-        <div class="column">
+        <div class="column is-half">
             <div class="box has-background-primary-light has-text-centered">
                 <p class="title is-5 m-4">Quizzes Per Topic:</p>
                 <canvas id="topicsQuizzesChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 4: Tables -->
+    <div class="columns">
+        <div class="column is-half">
+            <div class="box has-background-link-light table-container">
+                <p class="title is-5 m-4 has-text-centered">{{ weakest_words|length }} Weakest Words:</p>
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="words-table">
+                    <thead>
+                    <tr>
+                        <th>Origin</th>
+                        <th>Target</th>
+                        <th>% Correct</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for word in weakest_words %}
+                        <tr>
+                            <td>{{word.0}}</td>
+                            <td>{{word.1}}</td>
+                            <td>{{word.2}}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box has-background-primary-light">
+                <div class="box has-background-link-light">
+                    <p class="title is-5 m-4 has-text-centered">Points Per Student:</p>
+                    <p>{% crispy topic_filter %}</p>
+                </div>
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="points-table">
+                    <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Total Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -114,6 +159,7 @@
         // get date filter information
         const filterButton = document.getElementById("filter-submit");
         const filterButtonStudent = document.getElementById("student-filter-submit");
+        const filterButtonTable = document.getElementById("topic-filter-submit");
         const filterableBoxes = Array.from(document.getElementsByClassName("filter-box"));
 
         // filterable chart set up
@@ -123,10 +169,14 @@
         let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
         const updatableCharts = [topicPointsChart, topicsQuizzesChart];
 
+        // table set up
+        let pointsPerStudentTable = document.querySelector('#points-table tbody');
+
 
         function updateAllCharts() {
             filterButton.click();
             filterButtonStudent.click();
+            filterButtonTable.click();
         }
 
         // trigger data update when Submit is clicked (DATABOXES)
@@ -143,6 +193,14 @@
             let targetForm = $('#student-filter-form');
             let url = targetForm.attr('action') + "?" + targetForm.serialize();
             updateData(updatableCharts, url, chartsUpdater);
+        });
+
+        // trigger data update when Submit is clicked (TABLE)
+        filterButtonTable.addEventListener("click", (e) => {
+            e.preventDefault()
+            let targetForm = $('#topic-filter-form');
+            let url = targetForm.attr('action') + "?" + targetForm.serialize();
+            updateData(pointsPerStudentTable, url, tableUpdater);
         });
 
         $(document).ready(function(){

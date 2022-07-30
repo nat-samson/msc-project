@@ -38,7 +38,7 @@ function boxesUpdater(boxes, data) {
 }
 
 /**
- * Updates the chart with data received by updateData.
+ * Updates the chart with data received by updateData().
  * @param {Chart} chart - A Chart object to be updated with new data.
  * @param data - The raw data retrieved by updateData's asynchronous request.
  */
@@ -49,7 +49,7 @@ function chartUpdater(chart, data) {
 }
 
 /**
- * Updates each chart in the given array with data received by updateData.
+ * Updates each chart in the given array with data received by updateData().
  * @param {Chart[]} chartsArray - An array of Chart objects to be updated with new data.
  * @param data - The raw data retrieved by updateData's asynchronous request.
  */
@@ -60,6 +60,28 @@ function chartsUpdater(chartsArray, data) {
         chartsArray[i]['data'] = dataArray[i];
         chartsArray[i].update();
     }
+}
+
+/**
+ * Clears the rows in the given table and replaces with data received by updateData().
+ * @param {HTMLTableElement} tableBody - A reference to a <tbody> HTML Element.
+ * @param tableData - The raw data retrieved by updateData's asynchronous request.
+ */
+function tableUpdater(tableBody, tableData) {
+    // clear existing table rows
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+
+    // add new rows (and cells)
+    tableData.forEach(row => {
+        let newRow = tableBody.insertRow(-1);
+
+        row.forEach(cell => {
+            let newCell = newRow.insertCell(-1);
+            newCell.innerText = cell;
+        })
+    })
 }
 
 /**
