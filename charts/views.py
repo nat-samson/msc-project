@@ -4,9 +4,9 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from charts.chart_data import get_points_per_day_data, get_updatable_charts_data, get_filtered_queryset, \
-    get_points_per_student_data
+    get_points_per_student_data, get_weakest_words_data
 from charts.forms import DateFilterForm, StudentDateFilterForm, TopicDateFilterForm
-from quizzes.models import Topic, WordScore, MAX_SCORE, Word
+from quizzes.models import Topic, WordScore, MAX_SCORE, Word, QuizResults
 from users.models import User
 
 """
@@ -21,8 +21,9 @@ def progress(request):
         "words_due_revision": Topic.all_topics_words_due_revision(request.user).count(),
         "words_memorised": WordScore.objects.filter(student=request.user,
                                                     word__wordscore__consecutive_correct__gte=MAX_SCORE).count(),
-        "current_streak": 0,
+        "current_streak": QuizResults.get_user_streak(request.user),
         "date_filter": DateFilterForm("filter-date-student"),
+        "weakest_words": get_weakest_words_data(request.user),
     }
     return render(request, 'charts/progress.html', context)
 
@@ -34,10 +35,11 @@ def dashboard(request):
     context = {
         "live_topics": Topic.objects.filter(is_hidden=False).count(),
         "live_words": Word.objects.count(),
-        "students_registered": User.objects.filter(is_student=True, is_active=True).count(),
+        "students_registered": User.objects.filter(is_teacher=False, is_active=True).count(),
         "date_filter": DateFilterForm("filter-date-teacher"),
         "student_filter": StudentDateFilterForm("data-updatable-charts"),
         "topic_filter": TopicDateFilterForm("filter-date-topic"),
+        "weakest_words": get_weakest_words_data(),
     }
     return render(request, 'charts/dashboard.html', context)
 
@@ -51,12 +53,13 @@ API VIEWS
 def get_filtered_data_student(request):
     qs = get_filtered_queryset(request)
 
-    # calculate correct percentage (or N/A if no quizzes completed in timeframe)
-    correct_pc = "N/A"
+    # calculate percentage of correct answers (or "N/A" if no quizzes completed in timeframe)
     pc = qs.aggregate(total_correct=Sum('correct_answers'), total_incorrect=Sum('incorrect_answers'))
     total_questions = int(pc['total_correct'] or 0) + int(pc['total_incorrect'] or 0)
     if total_questions > 0:
         correct_pc = f"{(pc['total_correct'] / total_questions):.0%}"
+    else:
+        correct_pc = "N/A"
 
     data = {
         "points_earned": qs.aggregate(total=Sum('points')).get('total') or 0,

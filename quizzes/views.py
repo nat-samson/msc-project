@@ -19,7 +19,12 @@ class HomeView(LoginRequiredMixin, ListView):
     context_object_name = 'topics'
     ordering = ['date_created']
 
-    # TODO: Pagination
+    def get_queryset(self):
+        # hidden or future-scheduled topics are only visible to teachers
+        topics = Topic.objects.all()
+        if not self.request.user.is_teacher:
+            topics = topics.filter(is_hidden=False, available_from__lte=datetime.date.today())
+        return topics
 
 
 class TopicDetailView(LoginRequiredMixin, DetailView):
@@ -92,7 +97,10 @@ class QuizView(LoginRequiredMixin, View):
                 'is_correct': is_correct,
             }
 
-        # Log the quiz in the database
+        # Update user's streak if this is their first quiz taken today
+        QuizResults.update_user_streak(student)
+
+        # log quiz results in the database
         quiz_score = correct * CORRECT_ANSWER_PTS
         QuizResults.objects.create(student=student, topic_id=topic_id,
                                    correct_answers=correct, incorrect_answers=incorrect,

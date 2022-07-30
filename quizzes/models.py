@@ -1,11 +1,13 @@
 import datetime
 
 from django.db import models
+from django.db.models import F
+from django.utils import timezone
 
 from users.models import User
 
-MAX_SCORE = 5
-QUIZ_INTERVALS = (1, 3, 7, 13, 21, 30)  # please note MAX_SCORE must be < len(QUIZ_INTERVALS)
+QUIZ_INTERVALS = (1, 3, 7, 13, 21, 30)
+MAX_SCORE = len(QUIZ_INTERVALS)
 
 
 class Topic(models.Model):
@@ -18,7 +20,7 @@ class Topic(models.Model):
                                     help_text="Hide the Topic from view. No quizzes can be taken "
                                               "using this Topic while it is hidden. "
                                               "Topics which contain fewer than four words are hidden regardless.")
-    available_from = models.DateField(default=datetime.date.today())
+    available_from = models.DateField(default=timezone.now)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -90,3 +92,26 @@ class QuizResults(models.Model):
 
     def __str__(self):
         return f"Quiz Results: {self.student.get_full_name()} / {self.topic} on {self.date_created}"
+
+    @staticmethod
+    def update_user_streak(student):
+        """ Updates user's streak if this is their first quiz taken today. """
+        today = datetime.date.today()
+        if not QuizResults.objects.filter(student=student, date_created=today).exists():
+            if QuizResults.objects.filter(student=student, date_created=today - datetime.timedelta(1)).exists():
+                # student is continuing an existing streak
+                student.streak = F('streak') + 1
+            else:
+                # student is starting a new streak
+                student.streak = 1
+            student.save(update_fields=['streak'])
+
+    @staticmethod
+    def get_user_streak(student):
+        """ Gets the user's current streak as of now. (User.streak stores the streak as of its latest update).  """
+        yesterday = datetime.date.today() - datetime.timedelta(1)
+        if QuizResults.objects.filter(student=student, date_created__gte=yesterday).exists():
+            streak = student.streak
+        else:
+            streak = 0
+        return streak

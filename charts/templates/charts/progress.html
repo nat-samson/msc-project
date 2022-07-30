@@ -31,7 +31,7 @@
                     <div class="level-item has-text-centered">
                         <div>
                             <p class="heading has-text-weight-bold">Current Streak:</p>
-                            <p class="title">{{ current_streak|default:0 }} days</p>
+                            <p class="title">{{ current_streak }} day{{ current_streak|pluralize }}</p>
                         </div>
                     </div>
                 </div>
@@ -75,23 +75,46 @@
         <div class="column is-half">
             <div class="box has-background-link-light has-text-centered">
                 <p class="title is-5 m-4">Points Per Topic:</p>
-            <canvas id="topicPointsChart" width="400" height="400"></canvas>
+                <canvas id="topicPointsChart" width="400" height="400"></canvas>
             </div>
         </div>
-        <div class="column">
+        <div class="column is-half">
             <div class="box has-background-primary-light has-text-centered">
                 <p class="title is-5 m-4">Quizzes Per Topic:</p>
-            <canvas id="topicsQuizzesChart" width="400" height="400"></canvas>
+                <canvas id="topicsQuizzesChart" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Row 4: Line Chart -->
+    <!-- Row 4: Table & Line Chart -->
     <div class="columns">
-        <div class="column">
+        <div class="column is-half">
+            <div class="box has-background-link-light table-container">
+                <p class="title is-5 m-4 has-text-centered">Your {{ weakest_words|length }} Weakest Words:</p>
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="words-table">
+                    <thead>
+                    <tr>
+                        <th>Origin</th>
+                        <th>Target</th>
+                        <th>% Correct</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for word in weakest_words %}
+                        <tr>
+                            <td>{{word.0}}</td>
+                            <td>{{word.1}}</td>
+                            <td>{{word.2}}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="column is-half">
             <div class="box has-background-success-light has-text-centered">
                 <p class="title is-5 m-4">Points Per Day:</p>
-            <canvas id="pointsPerDayChart" width="250" height="150"></canvas>
+                <canvas id="pointsPerDayChart" width="250" height="150"></canvas>
             </div>
         </div>
     </div>

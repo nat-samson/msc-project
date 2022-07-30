@@ -16,14 +16,20 @@ def get_filtered_queryset(request):
     qs = QuizResults.objects.filter(student__is_teacher=False)
 
     # extract filter settings from GET request, apply to queryset
-    student = request.GET.get('student', None)
     topic = request.GET.get('topic', None)
     date_range = request.GET.get('date_range', None)
     date_from = request.GET.get('date_from', None)
     date_to = request.GET.get('date_to', None)
 
-    if student and request.user.is_teacher:
-        qs = qs.filter(student_id=student)
+    # only teachers can filter by student. Students can only see their own data.
+    if request.user.is_teacher:
+        filter_student = request.GET.get('student', None)
+        if filter_student:
+            qs = qs.filter(student_id=filter_student)
+    else:
+        qs = qs.filter(student_id=request.user.id)
+
+    # apply filters available to students and teachers
     if topic:
         qs = qs.filter(topic_id=topic)
     if date_range:
@@ -60,22 +66,6 @@ def get_quizzes_per_topic_data(qs):
     label = "Quizzes"
 
     return prepare_data(quizzes_per_topic, label)
-
-
-def get_topic_correctness_data(qs):
-    # topics by ratio correct v incorrect answers
-    correct_v_incorrect = qs.values('topic__name').annotate(Sum('correct_answers'), Sum('incorrect_answers'))
-
-    # calculate ratio correct:incorrect by topic and rank by highest to lowest
-    correct_v_incorrect_list = []
-    for topic in correct_v_incorrect:
-        topic_name = topic['topic__name']
-        value = topic['correct_answers__sum'] / (topic['correct_answers__sum'] + topic['incorrect_answers__sum'])
-        correct_v_incorrect_list.append((topic_name, value))
-    correct_v_incorrect_list.sort(reverse=True, key=lambda x: x[1])
-    label = "Ratio Correct:Incorrect"
-
-    return prepare_data(correct_v_incorrect_list, label)
 
 
 def get_weakest_words_data(student=False):
@@ -133,17 +123,6 @@ def get_points_per_student_data(qs):
         return final_data
     else:
         return [["No Students Registered!", "N/A"]]
-
-
-def get_user_streak(student):
-    streak = 0
-    yesterday = datetime.date.today() - datetime.timedelta(1)
-    quizzed_yesterday = QuizResults.objects.filter(student=student, date_created__gte=yesterday).exists()
-
-    if quizzed_yesterday:
-        streak = student.streak
-
-    return streak
 
 
 def prepare_data(data, label, override_colours=False):
