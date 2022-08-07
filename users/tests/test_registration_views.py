@@ -1,7 +1,10 @@
+import copy
+
 from django.contrib.auth.models import Group
 from django.test import TestCase
 from django.urls import reverse, resolve
 
+from myproject.settings import SITE_CODE
 from users.forms import StudentRegistrationForm, TeacherRegistrationForm
 from users.models import User
 from users.views import RegisterView, StudentRegisterView, TeacherRegisterView
@@ -13,7 +16,8 @@ good_user_input = {
             'first_name': 'test',
             'last_name': 'user',
             'password1': 'djangotest123',
-            'password2': 'djangotest123'
+            'password2': 'djangotest123',
+            'site_code': SITE_CODE,
         }
 
 
@@ -116,7 +120,7 @@ class TeacherRegisterTests(TestCase):
     def test_register_form_fields(self):
         # this tests the form directly (and field order), not the form as part of a rendered view
         form = TeacherRegistrationForm()
-        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'site_code')
         self.assertSequenceEqual(fields, tuple(form.fields))
 
     def test_form_has_intended_inputs(self):
@@ -126,10 +130,10 @@ class TeacherRegisterTests(TestCase):
         self.assertContains(response, 'csrfmiddlewaretoken', 1)
         self.assertContains(response, 'type="text"', 3)
         self.assertContains(response, 'type="email"', 1)
-        self.assertContains(response, 'type="password"', 2)
+        self.assertContains(response, 'type="password"', 3)
 
         # form must have no extra inputs beyond those specified above
-        self.assertContains(response, '<input type=', 7)
+        self.assertContains(response, '<input type=', 8)
 
     def test_user_registration(self):
         # test successful registration
@@ -150,6 +154,13 @@ class UnsuccessfulTeacherRegisterTests(TestCase):
 
     def test_form_errors(self):
         response = self.client.post(self.url, {})
+        form = response.context.get('form')
+        self.assertTrue(form.errors)
+
+    def test_site_code_required(self):
+        bad_input = copy.deepcopy(good_user_input)
+        bad_input['site_code'] = "invalid-site-code!!!"
+        response = self.client.post(self.url, bad_input)
         form = response.context.get('form')
         self.assertTrue(form.errors)
 
