@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from charts.chart_data import get_points_per_day_data, get_updatable_charts_data, get_filtered_queryset, \
-    get_points_per_student_data, get_weakest_words_data
+    get_points_per_student_data, get_weakest_words_data, get_student_streaks_data
 from charts.forms import DateFilterForm, StudentDateFilterForm, TopicDateFilterForm
 from quizzes.models import Topic, WordScore, MAX_SCORE, Word, QuizResults
 from users.models import User
@@ -40,7 +40,9 @@ def dashboard(request):
         "student_filter": StudentDateFilterForm("data-updatable-charts"),
         "topic_filter": TopicDateFilterForm("filter-date-topic"),
         "weakest_words": get_weakest_words_data(),
+        "student_streaks": get_student_streaks_data(),
     }
+    print(context['student_streaks'])
     return render(request, 'charts/dashboard.html', context)
 
 

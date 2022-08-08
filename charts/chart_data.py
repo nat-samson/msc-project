@@ -1,6 +1,7 @@
 import datetime
 
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, CharField, Value
+from django.db.models.functions import Concat
 
 from charts.chart_tools import unzip, get_colours
 from quizzes.models import QuizResults, WordScore
@@ -9,6 +10,7 @@ from users.models import User
 
 PTS_PER_DAY_DATERANGE = 14  # number of days to display on Progress template linechart
 MAX_WEAKEST_WORDS = 10  # maximum number of the weakest words to display
+MAX_STREAKS = 3  # maximum number of students to display in the longest streaks table
 
 
 def get_filtered_queryset(request):
@@ -82,6 +84,24 @@ def get_weakest_words_data(student=False):
         weakest_words.append(("N/A", "N/A", "N/A"))
 
     return weakest_words
+
+
+def get_student_streaks_data():
+    # top 5 students ranked by longest streaks
+    yesterday = datetime.date.today() - datetime.timedelta(1)
+
+    # concatenates first and last names within the query itself
+    streaks = list(QuizResults.objects.filter(student__is_teacher=False, date_created__gte=yesterday)
+                   .annotate(
+        full_name=Concat('student__first_name', Value(' '), 'student__last_name', output_field=CharField()))
+                   .values('student', 'full_name', 'student__streak').distinct()
+                   .values_list('full_name', 'student__streak')
+                   .order_by('-student__streak')[:MAX_STREAKS])
+
+    while len(streaks) < MAX_STREAKS:
+        streaks.append(("N/A", "N/A"))
+
+    return streaks
 
 
 def get_points_per_day_data(student):

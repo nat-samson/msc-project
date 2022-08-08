@@ -71,22 +71,37 @@
         </div>
     </div>
 
-    <!-- Row 3a: Chart Filter settings -->
+    <!-- Row 3: Streaks table, chart filters -->
     <div class="columns is-centered">
         <div class="column is-half">
-            <div class="box has-background-danger has-text-centered">
-                <p class="title is-5 has-text-white m-4">Charts:</p>
-                <p class="subtitle is-5 has-text-white m-4">Apply Filters</p>
+            <div class="box has-background-primary-light table-container">
+                <p class="title is-5 m-4 has-text-centered">Top {{ student_streaks|length }} Longest Streaks:</p>
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="streaks-table">
+                    <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Streak</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for student in student_streaks %}
+                        <tr>
+                            <td>{{student.0}}</td>
+                            <td>{{student.1}} day{{ student.1|pluralize }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="column">
+        <div class="column is-half">
             <div class="box has-background-danger-light">
                 {% crispy student_filter %}
             </div>
         </div>
     </div>
 
-    <!-- Row 3b: Charts -->
+    <!-- Row 4: Filterable charts -->
     <div class="columns">
         <div class="column is-half">
             <div class="box has-background-link-light has-text-centered">
@@ -102,10 +117,10 @@
         </div>
     </div>
 
-    <!-- Row 4: Tables -->
+    <!-- Row 5: Tables -->
     <div class="columns">
         <div class="column is-half">
-            <div class="box has-background-link-light table-container">
+            <div class="box has-background-warning-light table-container">
                 <p class="title is-5 m-4 has-text-centered">{{ weakest_words|length }} Weakest Words:</p>
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="words-table">
                     <thead>
@@ -128,8 +143,8 @@
             </div>
         </div>
         <div class="column">
-            <div class="box has-background-primary-light">
-                <div class="box has-background-link-light">
+            <div class="box has-background-info-light">
+                <div class="box has-background-danger-light">
                     <p class="title is-5 m-4 has-text-centered">Points Per Student:</p>
                     <p>{% crispy topic_filter %}</p>
                 </div>
