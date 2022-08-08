@@ -120,7 +120,7 @@ class TeacherRegisterTests(TestCase):
     def test_register_form_fields(self):
         # this tests the form directly (and field order), not the form as part of a rendered view
         form = TeacherRegistrationForm()
-        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'site_code')
+        fields = ('username', 'email', 'first_name', 'last_name', 'site_code', 'password1', 'password2')
         self.assertSequenceEqual(fields, tuple(form.fields))
 
     def test_form_has_intended_inputs(self):

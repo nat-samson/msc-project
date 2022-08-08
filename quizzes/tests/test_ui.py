@@ -26,7 +26,7 @@ class LoginTests(LiveServerTestCase):
     def setUp(self):
         self.student = User.objects.create_user(username='test_user', password='test_password',
                                                 first_name='test', last_name='user')
-        self.browser.get('%s%s' % (self.live_server_url, reverse('login')))
+        self.browser.get(self.live_server_url + reverse('login'))
         self.username_field = self.browser.find_element(By.ID, value='id_username')
         self.password_field = self.browser.find_element(By.ID, value='id_password')
         self.submit_button = self.browser.find_element(By.ID, value='login-button')
@@ -160,3 +160,83 @@ class TestsThatRequireLogin(StaticLiveServerTestCase):
         # Start the quiz, and then the landing page should now be hidden.
         self.browser.find_element(By.ID, value="quiz-start-button").click()
         self.assertFalse(landing_page.is_displayed())
+
+    def test_answering_quiz_questions(self):
+        # log the user in and click the first listed topic's quiz, click to start the quiz
+        self.create_and_login_user()
+        self.browser.get('%s%s' % (self.live_server_url, reverse('home')))
+        first_quiz_url = reverse('quiz', args=['1'])
+        self.browser.find_element(By.XPATH, value=f"//a[@href='{first_quiz_url}']").click()
+        self.browser.find_element(By.ID, value="quiz-start-button").click()
+
+        quiz_data = self.browser.find_element(By.ID, value='quiz-data').get_attribute('innerHTML')
+        quiz = json.loads(quiz_data)
+        origin_icon = quiz['origin_icon']
+        target_icon = quiz['target_icon']
+        correct_pts = quiz['correct_pts']
+        questions = quiz['questions']
+
+        # answer each quiz question in turn
+        for _ in range(len(questions)):
+            current_word = self.browser.find_element(By.ID, value='question-detail').text
+
+            # determine correct answer
+            correct = 0
+            for question in questions:
+                if question['word'] == current_word:
+                    current_question = question
+                    correct = current_question['correct_answer']
+                    break
+
+            options = self.browser.find_element(By.ID, value='options').find_elements(By.TAG_NAME, value="button")
+            options[correct].click()
+
+            for i in range(4):
+                if i != correct:
+                    self.assertNotIn("is-success", options[i].get_attribute("class"))
+                else:
+                    self.assertIn("is-success", options[i].get_attribute("class"))
+
+            self.browser.find_element(By.ID, value="continue").click()
+
+    def test_answering_quiz_questions_incorrectly(self):
+        # log the user in and click the first listed topic's quiz, click to start the quiz
+        self.create_and_login_user()
+        self.browser.get('%s%s' % (self.live_server_url, reverse('home')))
+        first_quiz_url = reverse('quiz', args=['1'])
+        self.browser.find_element(By.XPATH, value=f"//a[@href='{first_quiz_url}']").click()
+        self.browser.find_element(By.ID, value="quiz-start-button").click()
+
+        quiz_data = self.browser.find_element(By.ID, value='quiz-data').get_attribute('innerHTML')
+        quiz = json.loads(quiz_data)
+        origin_icon = quiz['origin_icon']
+        target_icon = quiz['target_icon']
+        correct_pts = quiz['correct_pts']
+        questions = quiz['questions']
+
+        # answer each quiz question in turn
+        for _ in range(len(questions)):
+            current_word = self.browser.find_element(By.ID, value='question-detail').text
+
+            # determine correct answer
+            correct = 0
+            for question in questions:
+                if question['word'] == current_word:
+                    current_question = question
+                    correct = current_question['correct_answer']
+                    break
+
+            options = self.browser.find_element(By.ID, value='options').find_elements(By.TAG_NAME, value="button")
+            incorrect = (correct + 1) % 4
+            options[incorrect].click()
+
+            for i in range(4):
+                if i == correct:
+                    self.assertIn("is-success", options[i].get_attribute("class"))
+                elif i == incorrect:
+                    self.assertIn("is-danger", options[i].get_attribute("class"))
+                else:
+                    self.assertNotIn("is-success", options[i].get_attribute("class"))
+                    self.assertNotIn("is-danger", options[i].get_attribute("class"))
+
+            self.browser.find_element(By.ID, value="continue").click()
