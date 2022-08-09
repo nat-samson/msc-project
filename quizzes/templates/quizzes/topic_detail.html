@@ -2,48 +2,42 @@
 {% block title %}{{ block.super }}: {{ object.name }}{% endblock %}
 {% block content %}
     {% load humanize %}
+    <div class="columns is-centered">
+        <div class="column is-half">
 
-    <div class="container is-widescreen">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-half">
+            <header class="block">
+                <h1 class="title">{{ object.name }}</h1>
+                <h3 class="subtitle">{{ object.long_desc }}</h3>
+            </header>
 
-                    <header class="block">
-                        <h1 class="title">{{ object.name }}</h1>
-                        <h3 class="subtitle">{{ object.long_desc }}</h3>
-                    </header>
-
-                    <div class="block">
-                        <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                            <thead>
-                            <tr>
-                                <th>Origin</th>
-                                <th>Target</th>
-                                <th>Score</th>
-                                <th>Next Review</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for word in words_with_scores %}
-                                {% now "DATE_FORMAT" as today %}
-                                <tr>
-                                    <td>{{word.0}}</td>
-                                    <td>{{word.1}}</td>
-                                    <td>{{word.2|default_if_none:0}}</td>
-                                    <td>{{word.3|default_if_none:today|naturalday}}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <footer class="level is-mobile">
-                        <a class="button is-outlined is-danger level-left" href="{% url 'home' %}">Back</a>
-                        <a href="{% url 'quiz' topic.id %}" class="button is-info level-right" id="continue">Quiz</a>
-                    </footer>
-
-                </div>
+            <div class="block table-container">
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                    <thead>
+                    <tr>
+                        <th>Origin</th>
+                        <th>Target</th>
+                        <th>Score</th>
+                        <th>Review Due</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for word in words_with_scores %}
+                        <tr>
+                            <td>{{word.0}}</td>
+                            <td>{{word.1}}</td>
+                            <td>{{word.2}}</td>
+                            <td>{{word.3|naturalday}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
+
+            <footer class="level is-mobile has-text-weight-semibold">
+                <a class="button is-outlined is-danger level-left" href="{% url 'home' %}">Home</a>
+                <a href="{% url 'quiz' topic.id %}" class="button is-info level-right" id="continue">Quiz</a>
+            </footer>
+
         </div>
     </div>
 {% endblock content %}

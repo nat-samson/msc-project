@@ -2,7 +2,7 @@ import datetime
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import FilteredRelation, Q, F
+from django.db.models import FilteredRelation, Q, F, Count
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
@@ -23,7 +23,8 @@ class HomeView(LoginRequiredMixin, ListView):
         # hidden or future-scheduled topics are only visible to teachers
         topics = Topic.objects.all()
         if not self.request.user.is_teacher:
-            topics = topics.filter(is_hidden=False, available_from__lte=datetime.date.today())
+            topics = topics.annotate(word_count=Count('words')).filter(
+                is_hidden=False, available_from__lte=datetime.date.today(), word_count__gte=4)
         return topics
 
 
@@ -35,11 +36,25 @@ class TopicDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # get the current user's word scores for the given topic (using an outer join with WordScore)
-        context['words_with_scores'] = Word.objects.filter(topics=context['topic']).annotate(
-            joinscore=FilteredRelation('wordscore', condition=Q(wordscore__student=self.request.user)),
-        ).values_list('origin', 'target', 'joinscore__consecutive_correct', 'joinscore__next_review')
+        # get the queryset for all words in Topic and their scores, even if no WordScore exists yet
+        qs = Word.objects.filter(topics=context['topic'])\
+            .annotate(joinscore=FilteredRelation('wordscore', condition=Q(wordscore__student=self.request.user)),)\
+            .order_by('origin')\
+            .values_list('origin', 'target', 'joinscore__consecutive_correct', 'joinscore__next_review')
 
+        # adjust words with no WordScores to sensible default values, or when date is in past
+        words_with_scores = []
+        today = datetime.date.today()
+
+        for word in qs:
+            if word[2] is None:
+                words_with_scores.append((word[0], word[1], 0, today))
+            elif word[3] < today:
+                words_with_scores.append((word[0], word[1], word[2], today))
+            else:
+                words_with_scores.append(word)
+
+        context['words_with_scores'] = words_with_scores
         return context
 
 
