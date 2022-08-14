@@ -36,6 +36,8 @@ class TeacherRegistrationForm(CustomUserCreationForm):
                                 help_text='Please type in the site code for your institution.',
                                 validators=[validate_site_code])
 
+    field_order = ['username', 'email', 'first_name', 'last_name', 'site_code', 'password1', 'password2']
+
     @transaction.atomic
     def save(self):
         # assign the appropriate privileges to the newly created teacher account
