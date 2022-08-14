@@ -1,14 +1,19 @@
 import datetime
 import json
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import FilteredRelation, Q, F, Count
-from django.shortcuts import render, redirect
+from django.db.models.functions import Lower
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import View
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 
 from quizzes import quiz_builder
+from quizzes.forms import TopicForm, WordForm
 from quizzes.models import Topic, Word, WordScore, QuizResults
 from quizzes.quiz_builder import CORRECT_ANSWER_PTS
 
@@ -143,3 +148,63 @@ class QuizView(LoginRequiredMixin, View):
             # handle the race condition if a topic doesn't have enough words after the quiz is requested
             else:
                 return redirect(reverse('home'))
+
+
+class TopicCreateView(UserPassesTestMixin, FormView):
+    template_name = 'quizzes/topic_form.html'
+    form_class = TopicForm
+    created_topic = None
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+    def get_success_url(self):
+        # redirect teacher to the add words page if new topic created successfully
+        return reverse('topic_words', kwargs={'topic_id': self.created_topic.id})
+
+    def form_valid(self, form):
+        self.created_topic = form.save()
+        return super().form_valid(form)
+
+
+class TopicWordsView(UserPassesTestMixin, ListView):
+    model = Word
+    template_name = 'quizzes/topic_words.html'
+    context_object_name = 'words'
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+    def get_queryset(self):
+        topic = get_object_or_404(Topic, pk=self.kwargs.get('topic_id'))
+        return Word.objects.filter(topics=topic).order_by(Lower('origin'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['topic_id'] = self.kwargs.get('topic_id')
+        return context
+
+
+@user_passes_test(lambda user: user.is_authenticated and user.is_teacher)
+def add_word(request, topic_id=None):
+    """ Obtain (and validate) the HTML form to add a new word """
+    data = dict()
+
+    # Process a completed new Word form
+    if request.method == 'POST':
+        form = WordForm(request.POST)
+        if form.is_valid():
+            new_word = form.save()
+            if topic_id is not None:
+                new_word.topics.add(Topic.objects.get(id=topic_id))
+            data['is_valid'] = True
+        else:
+            data['is_valid'] = False
+
+    # Otherwise, create a new blank Word form
+    else:
+        form = WordForm()
+
+    context = {'form': form}
+    data['html_form'] = render_to_string('quizzes/word_form.html', context, request=request)
+    return JsonResponse(data)

@@ -1,0 +1,59 @@
+{% extends "quizzes/base.html" %}
+{% load static %}
+{% block title %}{{ block.super }}: {{ object.name }}{% endblock %}
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-three-fifths">
+
+            {% comment %}TODO: replace this with Topic information{% endcomment %}
+            <header class="block">
+                <h1 class="title">{{ object.name }}</h1>
+                <h3 class="subtitle">{{ object.long_desc }}</h3>
+            </header>
+
+            <div id="add-word-element" class="block">
+                <button class="button is-warning block has-text-weight-semibold" id="add-word-button">+ Add Word</button>
+            </div>
+
+            <div id="add-word-ui" class="block" style="display: none">
+                <div id="add-word-ui-form" class="is-marginless">
+                </div>
+            </div>
+
+            <div class="block table-container">
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="words-table">
+                    <thead>
+                    <tr>
+                        <th>Origin</th>
+                        <th>Target</th>
+                        <th>Edit</th>
+                        <th>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for word in words %}
+                        <tr>
+                            <td>{{word.origin}}</td>
+                            <td>{{word.target}}</td>
+                            <td>EDIT {{ word.pk }}</td>
+                            <td>REMOVE {{ word.pk }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="4">No words yet!</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <footer class="has-text-weight-semibold">
+                <a class="button is-success is-pulled-right" href="{% url 'home' %}">Done</a>
+            </footer>
+
+        </div>
+    </div>
+
+{% endblock content %}
+{% block scripts %}
+    <script>let topicId = {{ topic_id }}</script>
+    <script src="{% static 'quizzes/js/editor.js' %}"></script>
+{% endblock %}
