@@ -198,6 +198,11 @@ def add_word(request, topic_id=None):
             if topic_id is not None:
                 new_word.topics.add(Topic.objects.get(id=topic_id))
             data['is_valid'] = True
+
+            topic = get_object_or_404(Topic, pk=topic_id)
+            words = Word.objects.filter(topics=topic).order_by(Lower('origin'))
+            data['html_word_rows'] = render_to_string('quizzes/word_list.html', {'words': words})
+
         else:
             data['is_valid'] = False
 

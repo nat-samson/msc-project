@@ -31,16 +31,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for word in words %}
-                        <tr>
-                            <td>{{word.origin}}</td>
-                            <td>{{word.target}}</td>
-                            <td>EDIT {{ word.pk }}</td>
-                            <td>REMOVE {{ word.pk }}</td>
-                        </tr>
-                    {% empty %}
-                        <tr><td colspan="4">No words yet!</td></tr>
-                    {% endfor %}
+                    {% include 'quizzes/word_list.html' %}
                     </tbody>
                 </table>
             </div>
