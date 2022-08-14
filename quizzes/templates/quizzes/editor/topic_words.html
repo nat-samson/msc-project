@@ -12,7 +12,7 @@
             </header>
 
             <div id="add-word-element" class="block">
-                <button class="button is-warning block has-text-weight-semibold" id="add-word-button">+ Add Word</button>
+                <button class="button is-warning block has-text-weight-semibold" id="add-word-button" data-url="{% url 'add_word' %}">+ Add Word</button>
             </div>
 
             <div id="add-word-ui" class="block" style="display: none">
@@ -26,12 +26,11 @@
                     <tr>
                         <th>Origin</th>
                         <th>Target</th>
-                        <th>Edit</th>
-                        <th>Remove</th>
+                        <th class="has-text-centered">Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% include 'quizzes/word_list.html' %}
+                    {% include 'quizzes/editor/word_list.html' %}
                     </tbody>
                 </table>
             </div>
@@ -45,6 +44,6 @@
 
 {% endblock content %}
 {% block scripts %}
-    <script>let topicId = {{ topic_id }}</script>
+    <script>let topicId = {{ topic_id|default_if_none:0 }}</script>
     <script src="{% static 'quizzes/js/editor.js' %}"></script>
 {% endblock %}

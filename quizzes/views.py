@@ -8,12 +8,12 @@ from django.db.models.functions import Lower
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
 
 from quizzes import quiz_builder
-from quizzes.forms import TopicForm, WordForm
+from quizzes.forms import TopicForm, WordForm, WordUpdateForm
 from quizzes.models import Topic, Word, WordScore, QuizResults
 from quizzes.quiz_builder import CORRECT_ANSWER_PTS
 
@@ -151,7 +151,7 @@ class QuizView(LoginRequiredMixin, View):
 
 
 class TopicCreateView(UserPassesTestMixin, FormView):
-    template_name = 'quizzes/topic_form.html'
+    template_name = 'quizzes/editor/topic_form.html'
     form_class = TopicForm
     created_topic = None
 
@@ -169,19 +169,28 @@ class TopicCreateView(UserPassesTestMixin, FormView):
 
 class TopicWordsView(UserPassesTestMixin, ListView):
     model = Word
-    template_name = 'quizzes/topic_words.html'
+    template_name = 'quizzes/editor/topic_words.html'
     context_object_name = 'words'
 
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_teacher
 
     def get_queryset(self):
-        topic = get_object_or_404(Topic, pk=self.kwargs.get('topic_id'))
-        return Word.objects.filter(topics=topic).order_by(Lower('origin'))
+        topic_id = self.kwargs.get('topic_id', None)
+        if topic_id:
+            topic = get_object_or_404(Topic, pk=self.kwargs.get('topic_id'))
+            qs = Word.objects.filter(topics=topic).order_by(Lower('origin'))
+        else:
+            qs = Word.objects.filter(topics__isnull=True).order_by(Lower('origin'))
+        return qs
 
     def get_context_data(self, **kwargs):
+        topic_id = self.kwargs.get('topic_id', None)
         context = super().get_context_data(**kwargs)
-        context['topic_id'] = self.kwargs.get('topic_id')
+        context['topic_id'] = topic_id
+
+        # store the most recently visited topic to enable the user to be redirected here later
+        self.request.session['recent_topic'] = topic_id
         return context
 
 
@@ -197,11 +206,14 @@ def add_word(request, topic_id=None):
             new_word = form.save()
             if topic_id is not None:
                 new_word.topics.add(Topic.objects.get(id=topic_id))
+                topic = get_object_or_404(Topic, pk=topic_id)
+                words = Word.objects.filter(topics=topic).order_by(Lower('origin'))
+            else:
+                # words assigned to no topics
+                words = Word.objects.filter(topics__isnull=True).order_by(Lower('origin'))
             data['is_valid'] = True
 
-            topic = get_object_or_404(Topic, pk=topic_id)
-            words = Word.objects.filter(topics=topic).order_by(Lower('origin'))
-            data['html_word_rows'] = render_to_string('quizzes/word_list.html', {'words': words})
+            data['html_word_rows'] = render_to_string('quizzes/editor/word_list.html', {'words': words})
 
         else:
             data['is_valid'] = False
@@ -211,5 +223,51 @@ def add_word(request, topic_id=None):
         form = WordForm()
 
     context = {'form': form}
-    data['html_form'] = render_to_string('quizzes/word_form.html', context, request=request)
+    data['html_form'] = render_to_string('quizzes/editor/word_include_form.html', context, request=request)
     return JsonResponse(data)
+
+
+class WordUpdateView(UserPassesTestMixin, UpdateView):
+    model = Word
+    form_class = WordUpdateForm
+    template_name = 'quizzes/editor/word_form.html'
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+    def get_success_url(self):
+        # redirect teacher to the most recently-visited add words page after updating a word
+        recent_topic = self.request.session.get('recent_topic', None)
+        if recent_topic:
+            url = reverse('topic_words', kwargs={'topic_id': recent_topic})
+        else:
+            url = reverse('home')
+        return url
+
+
+class TopicUpdateView(UserPassesTestMixin, UpdateView):
+    model = Topic
+    form_class = TopicForm
+    template_name = 'quizzes/editor/topic_form.html'
+    success_url = reverse_lazy('home')
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+
+class TopicDeleteView(UserPassesTestMixin, DeleteView):
+    model = Topic
+    success_url = reverse_lazy('home')
+    template_name = "quizzes/editor/topic_confirm_delete.html"
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+
+class WordDeleteView(UserPassesTestMixin, DeleteView):
+    model = Word
+    success_url = reverse_lazy('home')
+    template_name = "quizzes/editor/topic_confirm_delete.html"
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher

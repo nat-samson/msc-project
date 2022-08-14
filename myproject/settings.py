@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bulma',
     'django.contrib.humanize',
+    'emoji_picker',
 ]
 
 MIDDLEWARE = [

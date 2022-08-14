@@ -1,0 +1,11 @@
+{% extends "quizzes/base.html" %}
+{% block title %}{{ block.super }}: Update Word{% endblock %}
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-three-fifths">
+            <h1 class="title">Update Word</h1>
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+        </div>
+    </div>
+{% endblock content %}

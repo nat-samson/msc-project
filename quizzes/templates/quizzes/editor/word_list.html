@@ -1,0 +1,9 @@
+{% for word in words %}
+    <tr>
+        <td>{{word.origin}}</td>
+        <td>{{word.target}}</td>
+        <td class="has-text-centered"><a class="button is-primary is-small has-text-weight-bold" href="{% url 'word_update' word.id %}">Edit</a></td>
+    </tr>
+{% empty %}
+    <tr><td colspan="3">No words yet!</td></tr>
+{% endfor %}

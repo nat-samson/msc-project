@@ -1,0 +1,12 @@
+{% extends "quizzes/base.html" %}
+{% block extrahead %}{{ form.media }}{% endblock extrahead %}
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-three-fifths">
+            <h1 class="title">Topic Setup</h1>
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+            {{ object }}
+        </div>
+    </div>
+{% endblock content %}
