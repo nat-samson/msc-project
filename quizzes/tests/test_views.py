@@ -1,12 +1,14 @@
 import datetime
+import http.client
 import json
 
 from django.test import TestCase
 from django.urls import reverse, resolve
 
+from quizzes.forms import TopicForm
 from users.models import User
 from quizzes.models import Topic, Word, WordScore, MAX_SCORE, QUIZ_INTERVALS
-from quizzes.views import HomeView, TopicDetailView
+from quizzes.views import HomeView, TopicDetailView, TopicCreateView, TopicWordsView
 
 
 class HomeTests(TestCase):
@@ -21,7 +23,7 @@ class HomeTests(TestCase):
         self.assertEquals(200, response.status_code)
 
     def test_home_view_url(self):
-        view = resolve('/')
+        view = resolve(self.path)
         self.assertIs(view.func.view_class, HomeView)
 
     def test_home_template_name(self):
@@ -250,3 +252,124 @@ class QuizTests(TestCase):
         session.save()
         response = self.client.get(self.path, follow=True)
         self.assertTemplateUsed(response, 'quizzes/quiz_results.html')
+
+
+class TopicCreateTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
+        cls.path = reverse('topic_create')
+
+    def test_topic_create_view_status(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path, follow=True)
+        self.assertEquals(200, response.status_code)
+
+    def test_topic_create_view_url(self):
+        view = resolve(self.path)
+        self.assertIs(view.func.view_class, TopicCreateView)
+
+    def test_topic_create_template_name(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path, follow=True)
+        self.assertTemplateUsed(response, 'quizzes/topic_form.html')
+
+    def test_topic_create_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_topic_create_not_accessible_to_students(self):
+        # a student attempting to access topic create are denied
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_topic_create_accessible_to_teachers(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_topic_create_includes_form(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        topic_create_form = response.context.get('form')
+        self.assertIsInstance(topic_create_form, TopicForm)
+
+
+class TopicWordsViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
+        animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+        cls.path = reverse('topic_words', kwargs={'topic_id': animals.pk})
+
+    def test_topic_words_view_status(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path, follow=True)
+        self.assertEquals(200, response.status_code)
+
+    def test_topic_words_view_url(self):
+        view = resolve(self.path)
+        self.assertIs(view.func.view_class, TopicWordsView)
+
+    def test_topic_words_template_name(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path, follow=True)
+        self.assertTemplateUsed(response, 'quizzes/topic_words.html')
+
+    def test_topic_words_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_topic_words_not_accessible_to_students(self):
+        # a student attempting to access topic create are denied
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_topic_words_accessible_to_teachers(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+
+class AddWordTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.student = User.objects.create_user(username='test_user', password='test_user1234')
+        cls.teacher = User.objects.create_user(username='test_teacher', password='test_user1234', is_teacher=True)
+        animals = Topic.objects.create(name='Animals', long_desc='Practice your German words for Animals.')
+        cls.path = reverse('add_word', kwargs={'topic_id': animals.pk})
+
+    def test_add_word_view_status(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path, follow=True)
+        self.assertEquals(200, response.status_code)
+
+    def test_add_word_template_name(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path, follow=True)
+        self.assertTemplateUsed(response, 'quizzes/word_form.html')
+
+    def test_topic_words_login_required(self):
+        response = self.client.get(self.path)
+        redirect_url = '/login/?next=' + self.path
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
+
+    def test_topic_words_not_accessible_to_students(self):
+        # a student attempting to access topic create are denied
+        self.client.force_login(self.student)
+        response = self.client.get(self.path)
+        self.assertNotEqual(response.status_code, http.client.OK)
+
+    def test_topic_words_accessible_to_teachers(self):
+        self.client.force_login(self.teacher)
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
