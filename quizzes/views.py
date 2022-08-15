@@ -3,7 +3,7 @@ import json
 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import FilteredRelation, Q, F, Count
+from django.db.models import FilteredRelation, Q, F, Count, ExpressionWrapper, BooleanField
 from django.db.models.functions import Lower
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -25,11 +25,16 @@ class HomeView(LoginRequiredMixin, ListView):
     ordering = ['date_created']
 
     def get_queryset(self):
-        # hidden or future-scheduled topics are only visible to teachers
-        topics = Topic.objects.all()
+        # topics that are hidden, future-scheduled, or have fewer than 4 words, are only visible to teachers
+        today = datetime.date.today()
+        topics = Topic.objects.annotate(
+            word_count=Count('words'),
+            future_avail_from=ExpressionWrapper(Q(available_from__gt=today), output_field=BooleanField()),
+            is_visible=ExpressionWrapper(Q(is_hidden=False) & Q(future_avail_from=False), output_field=BooleanField()))
+
         if not self.request.user.is_teacher:
-            topics = topics.annotate(word_count=Count('words')).filter(
-                is_hidden=False, available_from__lte=datetime.date.today(), word_count__gte=4)
+            # exclude such non-visible topics from students
+            topics = topics.filter(is_visible=True, word_count__gte=4)
         return topics
 
 
@@ -185,8 +190,9 @@ class TopicWordsView(UserPassesTestMixin, ListView):
         return qs
 
     def get_context_data(self, **kwargs):
-        topic_id = self.kwargs.get('topic_id', None)
         context = super().get_context_data(**kwargs)
+        topic_id = self.kwargs.get('topic_id', None)
+
         context['topic_id'] = topic_id
 
         # store the most recently visited topic to enable the user to be redirected here later
@@ -267,7 +273,16 @@ class TopicDeleteView(UserPassesTestMixin, DeleteView):
 class WordDeleteView(UserPassesTestMixin, DeleteView):
     model = Word
     success_url = reverse_lazy('home')
-    template_name = "quizzes/editor/topic_confirm_delete.html"
+    template_name = "quizzes/editor/word_confirm_delete.html"
 
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_teacher
+
+    def get_success_url(self):
+        # redirect teacher to the most recently-visited add words page after deleting a word
+        recent_topic = self.request.session.get('recent_topic', None)
+        if recent_topic:
+            url = reverse('topic_words', kwargs={'topic_id': recent_topic})
+        else:
+            url = reverse('home')
+        return url

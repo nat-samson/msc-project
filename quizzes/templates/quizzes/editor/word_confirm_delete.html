@@ -1,0 +1,36 @@
+{% extends "quizzes/base.html" %}
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-half">
+            <div class="content">
+                <h1 class="title">Delete Word</h1>
+                <form method="post">{% csrf_token %}
+                    <div class="block">
+                        <p>Are you sure you want to <strong>permanently delete</strong> this Word?</p>
+
+                        <!-- Word info box -->
+                        <div class="box block">
+                            <div class="has-text-centered">
+                                <h1 class="is-size-3 mb-2 mt-0">{{ object.origin }}</h1>
+                                <h1 class="is-size-3 mb-0 mt-0">↕</h1>
+                                <h1 class="is-size-3 mb-0 mt-3">{{ object.target }}</h1>
+                            </div>
+                        </div>
+
+                        <div class="notification is-warning">
+                            <ul>
+                                <li>Please note, this <strong>will delete the Word entirely, removing it from all associated Topics.</strong></li>
+                                <li>If you only want to <strong><i>remove</i></strong> this Word from a Topic, <a class="has-text-weight-bold has-text-primary-dark" href="{% url 'word_update' object.id %}">update it here instead.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    {{ form }}
+                    <div class="buttons block" style="justify-content: space-between;">
+                        <a class="button is-link has-text-weight-semibold" href="{% url 'home' %}">Cancel</a>
+                        <input class="button is-danger has-text-weight-semibold" type="submit" value="Delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -7,10 +7,10 @@
     <!-- Organise page into three columns -->
     <div class="columns is-multiline">
 
-        <!-- 'Add New Topic/Word' card configuration -->
         {% if request.user.is_teacher %}
+            <!-- 'Add New Topic/Word' card configuration -->
             <div class="column is-one-third">
-                <div class="card">
+                <div class="card ">
                     <header class="card-header">
                         <p class="card-header-title is-centered">Add Quiz Content</p>
                     </header>
@@ -18,8 +18,8 @@
                         <div class="has-text-centered">
                             <div class="title is-1">➕</div>
                             <div class="buttons is-centered has-text-weight-bold">
-                                <a class="button is-fullwidth is-info block" href="{% url 'admin:quizzes_topic_add' %}">+ New Topic</a>
-                                <a class="button is-fullwidth is-info block" href="{% url 'admin:quizzes_word_add' %}">+ New Word</a>
+                                <a class="button is-fullwidth is-info block" href="{% url 'topic_create' %}">+ New Topic</a>
+                                <a class="button is-fullwidth is-info block" href="{% url 'topic_words' %}">Edit Unassigned Words</a>
                             </div>
                         </div>
                     </div>
@@ -32,28 +32,40 @@
             <div class="column is-one-third">
 
                 <!-- Topic card configuration -->
-                <div class="card {% if topic.is_hidden or topic.available_from > today %}has-background-grey-lighter{% endif %}">
+                <div class="card {% if not topic.is_visible or topic.word_count < 4 %}has-background-grey-lighter{% endif %}">
                     <header class="card-header">
                         <p class="card-header-title is-centered">{{ topic }}</p>
                     </header>
                     <div class="card-content">
                         <div class="has-text-centered">
                             <div class="title is-1">{{ topic.short_desc }}</div>
-                            <div class="tags are-medium has-addons is-centered">
-                                {% to_revise topic request.user as words_due %}
-                                {% if words_due > 0 %}
-                                    <span class="tag">Words due:</span>
-                                    <span class="tag is-danger">{{ words_due }}</span>
+                            <div class="tags are-medium has-addons is-centered has-text-weight-semibold">
+                                {% if request.user.is_teacher %}
+                                    <span class="tag">Words In Topic:</span>
+                                    <span class="tag {% if topic.word_count < 4 %}is-danger{% else %}is-success{% endif %}">{{ topic.word_count }}</span>
+                                    <div class="content">
+                                        <ul class="has-text-left is-size-7 ml-3 mt-0">
+                                            {% if topic.is_hidden %}<li>Topic has been manually set to Hidden</li>{% endif %}
+                                            {% if topic.word_count < 4 %}<li>Topic contains fewer than 4 Words</li>{% endif %}
+                                            {% if topic.future_avail_from %}<li>Topic has been scheduled for {{ topic.available_from|date:"j F y" }}</li>{% endif %}
+                                        </ul>
+                                    </div>
                                 {% else %}
-                                    <span class="tag is-success">Up to date!</span>
+                                    {% to_revise topic request.user as words_due %}
+                                    {% if words_due > 0 %}
+                                        <span class="tag">Words due:</span>
+                                        <span class="tag is-danger">{{ words_due }}</span>
+                                    {% else %}
+                                        <span class="tag is-success has-text-weight-semibold">Up to date!</span>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                             <div class="buttons is-centered has-text-weight-bold">
                                 {% if request.user.is_teacher %}
-                                    <a class="button is-danger is-outlined is-fullwidth" href="{% url 'admin:quizzes_topic_change' topic.id %}">Edit Topic</a>
-                                    <a class="button is-danger is-outlined is-fullwidth" href="{{ topic.id|get_filtered_list_url }}">Edit Words</a>
-                                    <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}">Words</a>
+                                    <a class="button is-info is-fullwidth" href="{% url 'topic_update' topic.id %}">Edit Topic</a>
+                                    <a class="button is-info is-fullwidth" href="{% url 'topic_words' topic.id %}">Add/Edit Words</a>
                                     <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}">Quiz Demo</a>
+                                    <a class="button is-danger is-outlined is-fullwidth" href="{% url 'topic_delete' topic.id %}">Delete Topic...</a>
                                 {% else %}
                                     <a class="button is-link is-fullwidth" href="{% url 'topic_detail' topic.id %}">Words</a>
                                     <a class="button is-success is-fullwidth" href="{% url 'quiz' topic.id %}">Quiz</a>

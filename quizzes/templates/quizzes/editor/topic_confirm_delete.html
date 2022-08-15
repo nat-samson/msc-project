@@ -1,0 +1,36 @@
+{% extends "quizzes/base.html" %}
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-half">
+            <div class="content">
+                <h1 class="title">Delete Topic</h1>
+                <form method="post">{% csrf_token %}
+                    <div class="block">
+                        <p>Are you sure you want to <strong>permanently delete</strong> this Topic?</p>
+
+                        <!-- dummy Topic card -->
+                        <div class="card block">
+                            <header class="card-header">
+                                <p class="card-header-title is-centered">{{ object.name }}</p>
+                            </header>
+                            <div class="card-content">
+                                <div class="has-text-centered">
+                                    <div class="title is-1">{{ object.short_desc }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notification is-warning block">
+                            <p>Please note, this will <strong>not delete the words</strong> associated with this Topic.</p>
+                        </div>
+                    </div>
+                    {{ form }}
+                    <div class="buttons block" style="justify-content: space-between;">
+                        <a class="button is-link has-text-weight-semibold" href="{% url 'home' %}">Cancel</a>
+                        <input class="button is-danger has-text-weight-semibold" type="submit" value="Delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
