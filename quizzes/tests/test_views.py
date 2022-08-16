@@ -273,7 +273,7 @@ class TopicCreateTests(TestCase):
     def test_topic_create_template_name(self):
         self.client.force_login(self.teacher)
         response = self.client.get(self.path, follow=True)
-        self.assertTemplateUsed(response, 'quizzes/topic_form.html')
+        self.assertTemplateUsed(response, 'quizzes/editor/topic_form.html')
 
     def test_topic_create_login_required(self):
         response = self.client.get(self.path)
@@ -319,7 +319,7 @@ class TopicWordsViewTests(TestCase):
     def test_topic_words_template_name(self):
         self.client.force_login(self.teacher)
         response = self.client.get(self.path, follow=True)
-        self.assertTemplateUsed(response, 'quizzes/topic_words.html')
+        self.assertTemplateUsed(response, 'quizzes/editor/topic_words.html')
 
     def test_topic_words_login_required(self):
         response = self.client.get(self.path)
@@ -355,21 +355,21 @@ class AddWordTests(TestCase):
     def test_add_word_template_name(self):
         self.client.force_login(self.teacher)
         response = self.client.get(self.path, follow=True)
-        self.assertTemplateUsed(response, 'quizzes/word_form.html')
+        self.assertTemplateUsed(response, 'quizzes/editor/word_include_form.html')
 
-    def test_topic_words_login_required(self):
+    def test_add_word_login_required(self):
         response = self.client.get(self.path)
         redirect_url = '/login/?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
-    def test_topic_words_not_accessible_to_students(self):
+    def test_add_word_not_accessible_to_students(self):
         # a student attempting to access topic create are denied
         self.client.force_login(self.student)
         response = self.client.get(self.path)
         self.assertNotEqual(response.status_code, http.client.OK)
 
-    def test_topic_words_accessible_to_teachers(self):
+    def test_add_word_accessible_to_teachers(self):
         self.client.force_login(self.teacher)
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 200)

@@ -10,7 +10,7 @@ const continueButton = document.getElementById("continue")
 const resultsForm = document.getElementById("results-form")
 const resultsData = document.getElementById("results-data")
 
-// reassign quiz data received from view
+// extract quiz data from JSON received passed by the view
 const quizData = JSON.parse(document.getElementById('quiz-data').textContent);
 let questions = quizData['questions'];
 const CORRECT_ANSWER_PTS = quizData['correct_pts'];

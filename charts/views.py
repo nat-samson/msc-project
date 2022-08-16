@@ -42,7 +42,6 @@ def dashboard(request):
         "weakest_words": get_weakest_words_data(),
         "student_streaks": get_student_streaks_data(),
     }
-    print(context['student_streaks'])
     return render(request, 'charts/dashboard.html', context)
 
 
