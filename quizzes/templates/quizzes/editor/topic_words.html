@@ -1,25 +1,24 @@
 {% extends "quizzes/base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block title %}{{ block.super }}: {{ object.name }}{% endblock %}
 {% block content %}
     <div class="columns is-centered">
         <div class="column is-three-fifths">
 
-            {% comment %}TODO: replace this with Topic information{% endcomment %}
-            <header class="block">
-                <h1 class="title">{{ object.name }}</h1>
-                <h3 class="subtitle">{{ object.long_desc }}</h3>
-            </header>
-
-            <div id="add-word-element" class="block">
-                <button class="button is-warning block has-text-weight-semibold" id="add-word-button" data-url="{% url 'add_word' %}">+ Add Word</button>
-            </div>
-
-            <div id="add-word-ui" class="block" style="display: none">
-                <div id="add-word-ui-form" class="is-marginless">
+            {% if not topic_id %}
+                <div class="block">
+                    {% crispy word_filter_form %}
                 </div>
-            </div>
-
+            {% else %}
+                <div id="add-word-element" class="block">
+                    <button class="button is-warning block has-text-weight-semibold" id="add-word-button" data-url="{% url 'add_word' %}">+ Add Word</button>
+                </div>
+                <div id="add-word-ui" class="block" style="display: none">
+                    <div id="add-word-ui-form" class="is-marginless">
+                    </div>
+                </div>
+            {% endif %}
             <div class="block table-container">
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="words-table">
                     <thead>

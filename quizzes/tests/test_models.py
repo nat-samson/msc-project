@@ -19,11 +19,6 @@ class TopicModelTests(TestCase):
         self.assertEqual('Animals', str(self.animals))
         self.assertEqual('Colours', str(self.colours))
 
-        # hide a topic
-        self.animals.is_hidden = True
-        self.animals.save()
-        self.assertEqual('Animals (HIDDEN)', str(self.animals))
-
     def test_topic_word_count(self):
         self.assertEqual(2, self.animals.words.count())
         self.assertEqual(0, self.colours.words.count())

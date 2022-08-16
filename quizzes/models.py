@@ -2,7 +2,6 @@ import datetime
 
 from django.db import models
 from django.db.models import F
-from django.utils import timezone
 
 from users.models import User
 
@@ -20,27 +19,25 @@ class Topic(models.Model):
                                     help_text="Hide the Topic from view. No quizzes can be taken "
                                               "using this Topic while it is hidden. "
                                               "Topics which contain fewer than four words are hidden regardless.")
-    available_from = models.DateField(default=timezone.now)
+    available_from = models.DateField(default=datetime.date.today)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        if self.is_hidden:
-            return self.name + " (HIDDEN)"
-        else:
-            return self.name
+        return self.name
 
     def words_due_revision(self, user):
         # words due revision = all words in given topic - those words NOT due revision by given user
         today = datetime.date.today()
         words_in_topic = Word.objects.filter(topics=self)
         words_not_due = Word.objects.filter(topics=self, wordscore__next_review__gt=today, wordscore__student=user)
-
         return words_in_topic.difference(words_not_due)
 
     @staticmethod
     def all_topics_words_due_revision(user):
+        # word must part of a visible topic to be counted
         today = datetime.date.today()
-        all_words = Word.objects.all()
+
+        all_words = Word.objects.filter(topics__is_hidden=False)
         words_not_due = Word.objects.filter(wordscore__next_review__gt=today, wordscore__student=user).order_by()
 
         return all_words.difference(words_not_due)

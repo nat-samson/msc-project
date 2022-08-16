@@ -13,7 +13,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
 
 from quizzes import quiz_builder
-from quizzes.forms import TopicForm, WordForm, WordUpdateForm
+from quizzes.forms import TopicForm, WordForm, WordUpdateForm, WordFilterForm
 from quizzes.models import Topic, Word, WordScore, QuizResults
 from quizzes.quiz_builder import CORRECT_ANSWER_PTS
 
@@ -181,21 +181,27 @@ class TopicWordsView(UserPassesTestMixin, ListView):
         return self.request.user.is_authenticated and self.request.user.is_teacher
 
     def get_queryset(self):
+        qs = Word.objects.order_by(Lower('origin'))
         topic_id = self.kwargs.get('topic_id', None)
+
+        # if user is on a topic-specific page, show them only words from that topic
         if topic_id:
             topic = get_object_or_404(Topic, pk=self.kwargs.get('topic_id'))
             qs = Word.objects.filter(topics=topic).order_by(Lower('origin'))
-        else:
-            qs = Word.objects.filter(topics__isnull=True).order_by(Lower('origin'))
+
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         topic_id = self.kwargs.get('topic_id', None)
-
         context['topic_id'] = topic_id
 
-        # store the most recently visited topic to enable the user to be redirected here later
+        if topic_id is None:
+            context['word_filter_form'] = WordFilterForm()
+
+
+
+        # store the most recently visited topic to enable the user to be redirected back here later.
         self.request.session['recent_topic'] = topic_id
         return context
 
@@ -210,9 +216,10 @@ def add_word(request, topic_id=None):
         form = WordForm(request.POST)
         if form.is_valid():
             new_word = form.save()
+
             if topic_id is not None:
-                new_word.topics.add(Topic.objects.get(id=topic_id))
                 topic = get_object_or_404(Topic, pk=topic_id)
+                new_word.topics.add(topic)
                 words = Word.objects.filter(topics=topic).order_by(Lower('origin'))
             else:
                 # words assigned to no topics
@@ -230,6 +237,31 @@ def add_word(request, topic_id=None):
 
     context = {'form': form}
     data['html_form'] = render_to_string('quizzes/editor/word_include_form.html', context, request=request)
+    return JsonResponse(data)
+
+
+@user_passes_test(lambda user: user.is_authenticated and user.is_teacher)
+def get_filtered_words(request):
+    # get base queryset
+    words = Word.objects.order_by(Lower('origin'))
+
+    # extract filter options from GET request
+    search = request.GET.get('search', None)
+    topic_id = request.GET.get('topic', None)
+
+    # apply filters
+    if search is not None:
+        words = words.filter(Q(origin__icontains=search) | Q(target__icontains=search))
+    if topic_id is not None:
+        # special case for Words with no associated Topics
+        if topic_id == "-1":
+            words = words.filter(topics__isnull=True)
+        elif topic_id != "":
+            filter_topic = get_object_or_404(Topic, pk=topic_id)
+            words = words.filter(topics=filter_topic)
+
+    data = dict()
+    data['html_word_rows'] = render_to_string('quizzes/editor/word_list.html', {'words': words})
     return JsonResponse(data)
 
 
@@ -284,5 +316,5 @@ class WordDeleteView(UserPassesTestMixin, DeleteView):
         if recent_topic:
             url = reverse('topic_words', kwargs={'topic_id': recent_topic})
         else:
-            url = reverse('home')
+            url = reverse('topic_words')
         return url

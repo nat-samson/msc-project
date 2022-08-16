@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'quizzes.apps.QuizzesConfig',
     'charts.apps.ChartsConfig',
+    'editor.apps.EditorConfig',
     'crispy_forms',
     'crispy_bulma',
     'django.contrib.humanize',

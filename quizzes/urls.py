@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import HomeView, TopicDetailView, QuizView, TopicCreateView, TopicWordsView, add_word, WordUpdateView, \
-    TopicUpdateView, TopicDeleteView, WordDeleteView
+    TopicUpdateView, TopicDeleteView, WordDeleteView, get_filtered_words
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('topic/words/<int:topic_id>/', TopicWordsView.as_view(), name='topic_words'),
     path('topic/add-word/', add_word, name='add_word'),
     path('topic/add-word/<int:topic_id>/', add_word, name='add_word'),
+    path('topic/filter-words/', get_filtered_words, name='filter_words'),
     path('word/update/<pk>/', WordUpdateView.as_view(), name='word_update'),
     path('word/delete/<pk>/', WordDeleteView.as_view(), name='word_delete'),
     path('quiz/<int:topic_id>/', QuizView.as_view(), name='quiz'),

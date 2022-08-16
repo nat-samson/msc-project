@@ -1,6 +1,6 @@
-from crispy_bulma.layout import Submit, Reset, FormGroup
+from crispy_bulma.layout import Submit, Reset, FormGroup, Row, Column
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, HTML
+from crispy_forms.layout import Layout, Field
 from django import forms
 
 from django.forms import DateInput, ModelForm, Textarea
@@ -25,6 +25,7 @@ class TopicForm(ModelForm):
             'long_desc': Textarea(attrs={'rows': 3, 'cols': 20}),
             'available_from': DateInput(attrs={'type': 'date'}),
         }
+
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.add_input(Submit('submit', 'Save', css_class='is-success has-text-weight-semibold'))
@@ -66,3 +67,25 @@ class WordUpdateForm(ModelForm):
         FormGroup(
             Submit('submit', 'Update', css_class='is-success has-text-weight-semibold')),
     )
+
+
+class WordFilterForm(forms.Form):
+    helper = FormHelper()
+    helper.form_method = 'GET'
+    helper.form_action = reverse_lazy('filter_words')
+    helper.form_id = 'word-filter-form'
+    helper.form_show_labels = False
+    helper.layout = Layout(
+        Row(
+            Column(Field('search')),
+            Column(Field('topic'))),
+        FormGroup(
+            Reset('reset', 'Reset', css_class='is-outlined', css_id='filter-reset'),
+            Submit('submit', 'Submit', css_class='is-success has-text-weight-semibold', css_id='filter-submit')))
+
+    # Individual field settings
+    search = forms.CharField(required=False,
+                             widget=forms.TextInput(attrs={'placeholder': 'Search by Target or Origin'}))
+    topic = forms.ChoiceField(required=False,
+                              choices=[('', '** All Topics **'), (-1, '** No Topics **')] +
+                                      list(Topic.objects.order_by('name').values_list('pk', 'name')))

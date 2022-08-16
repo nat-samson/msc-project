@@ -5,15 +5,10 @@ $(function () {
    */
   $("#add-word-button").click(function () {
     const url = $(this).data('url');
-    $.ajax({
-      url: url,
-      type: 'get',
-      dataType: 'json',
-      success: function (data) {
-        // hide the button, inject the form into the page and display it
-        $("#add-word-ui #add-word-ui-form").html(data.html_form);
-        hideAndShow($('#add-word-button'), $('#add-word-ui'))
-      }
+    $.getJSON(url, function (data) {
+      // hide the button, inject the form into the page and display it
+      $("#add-word-ui #add-word-ui-form").html(data.html_form);
+      hideAndShow($('#add-word-button'), $('#add-word-ui'));
     });
   });
 
@@ -48,10 +43,30 @@ $(function () {
       hideAndShow($('#add-word-ui'), $('#add-word-button'))
     }
   }, ".word-create-form");
-});
 
-// Hide element a, show element b
-hideAndShow = (a, b) => {
-  a.hide();
-  b.show();
-};
+  // Hide element a, show element b
+  hideAndShow = (a, b) => {
+    a.hide();
+    b.show();
+  };
+
+  /**
+   * Update the Words table based on the filter settings on the 'All Topics' page.
+   */
+  $("#filter-submit").on("click", function (e) {
+    e.preventDefault();
+    let targetForm = $('#word-filter-form');
+    let url = targetForm.attr('action') + "?" + targetForm.serialize();
+    $.getJSON(url, function (data) {
+      $("#words-table tbody").html(data.html_word_rows);
+    });
+  });
+
+  /**
+   * When resetting the form, refresh its content too.
+   */
+  $("#filter-reset").on("click", function (e) {
+    $("#filter-submit").click();
+  });
+
+});
