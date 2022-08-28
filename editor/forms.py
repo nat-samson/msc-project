@@ -31,7 +31,7 @@ class TopicForm(ModelForm):
     helper.add_input(Submit('submit', 'Save', css_class='is-success has-text-weight-semibold'))
 
 
-class WordForm(ModelForm):
+class WordCreateForm(ModelForm):
     class Meta:
         model = Word
         fields = ['origin', 'target']
@@ -54,10 +54,7 @@ class WordUpdateForm(ModelForm):
         model = Word
         fields = ['origin', 'target', 'topics']
 
-    topics = CustomMultiChoiceField(
-        queryset=Topic.objects.all(),
-        widget=forms.CheckboxSelectMultiple
-    )
+    topics = CustomMultiChoiceField(required=False, queryset=Topic.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     helper = FormHelper()
     helper.layout = Layout(

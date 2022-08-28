@@ -1,19 +1,14 @@
 import datetime
 import json
 
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import FilteredRelation, Q, F, Count, ExpressionWrapper, BooleanField
-from django.db.models.functions import Lower
-from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.template.loader import render_to_string
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
-from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 
 from quizzes import quiz_builder
-from quizzes.forms import TopicForm, WordForm, WordUpdateForm, WordFilterForm
 from quizzes.models import Topic, Word, WordScore, QuizResults
 from quizzes.quiz_builder import CORRECT_ANSWER_PTS
 
@@ -75,67 +70,8 @@ class QuizView(LoginRequiredMixin, View):
         results = json.loads(data)
         student = self.request.user
 
-        results_page_data = {'words': {}}
-        today = datetime.date.today()
-        correct = 0
-        incorrect = 0
-
-        # process the results
-        # likely more efficient to cache all the WordScores of the relevant topic here, use that going forward
-        for word_id, is_correct in results.items():
-
-            # answer is correct
-            if is_correct:
-                correct += 1
-
-                word_score, is_newly_created = WordScore.objects.get_or_create(
-                    word_id=word_id, student=student,
-                    defaults={'consecutive_correct': 1, 'times_correct': 1,
-                              'next_review': today + datetime.timedelta(days=1)})
-
-                # only update score if it was due for review
-                if not is_newly_created:
-                    if word_score.next_review <= today:
-                        word_score.set_next_review()
-                        word_score.consecutive_correct = F('consecutive_correct') + 1
-                        word_score.times_seen = F('times_seen') + 1
-                        word_score.times_correct = F('times_correct') + 1
-                        word_score.save(update_fields=['consecutive_correct', 'times_seen',
-                                                       'times_correct', 'next_review'])
-
-            # answer is incorrect
-            else:
-                incorrect += 1
-
-                word_score, is_newly_created = WordScore.objects.get_or_create(word_id=word_id, student=student)
-
-                if not is_newly_created:
-                    word_score.consecutive_correct = 0
-                    word_score.times_seen = F('times_seen') + 1
-                    word_score.next_review = datetime.date.today()
-                    word_score.save(update_fields=['consecutive_correct', 'times_seen'])
-
-            # prepare data for display on the results page
-            results_page_data['words'][word_score.pk] = {
-                'origin': word_score.word.origin,
-                'target': word_score.word.target,
-                'is_correct': is_correct,
-            }
-
-        # Update user's streak if this is their first quiz taken today
-        QuizResults.update_user_streak(student)
-
-        # log quiz results in the database
-        quiz_score = correct * CORRECT_ANSWER_PTS
-        QuizResults.objects.create(student=student, topic_id=topic_id,
-                                   correct_answers=correct, incorrect_answers=incorrect,
-                                   points=quiz_score)
-
-        # record quiz score and pass it to results page
-        results_page_data['correct'] = correct
-        results_page_data['total'] = len(results)
+        results_page_data = process_results(results, student, topic_id)
         self.request.session['results'] = results_page_data
-
         return redirect(self.request.path)
 
     def get(self, *args, topic_id, **kwargs):
@@ -155,166 +91,59 @@ class QuizView(LoginRequiredMixin, View):
                 return redirect(reverse('home'))
 
 
-class TopicCreateView(UserPassesTestMixin, FormView):
-    template_name = 'quizzes/editor/topic_form.html'
-    form_class = TopicForm
-    created_topic = None
+def process_results(results, student, topic_id, today=datetime.date.today()):
+    results_page_data = {'words': {}}
+    correct = 0
+    incorrect = 0
 
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
+    # process the results
+    for word_id, is_correct in results.items():
 
-    def get_success_url(self):
-        # redirect teacher to the add words page if new topic created successfully
-        return reverse('topic_words', kwargs={'topic_id': self.created_topic.id})
+        # answer is correct
+        if is_correct:
+            correct += 1
 
-    def form_valid(self, form):
-        self.created_topic = form.save()
-        return super().form_valid(form)
+            word_score, is_newly_created = WordScore.objects.get_or_create(
+                word_id=word_id, student=student,
+                defaults={'consecutive_correct': 1, 'times_correct': 1,
+                          'next_review': today + datetime.timedelta(days=1)})
 
+            # only update score if it was due for review
+            if not is_newly_created:
+                if word_score.next_review <= today:
+                    word_score.set_next_review(today=today)
+                    word_score.consecutive_correct = F('consecutive_correct') + 1
+                    word_score.times_seen = F('times_seen') + 1
+                    word_score.times_correct = F('times_correct') + 1
+                    word_score.save(update_fields=['consecutive_correct', 'times_seen',
+                                                   'times_correct', 'next_review'])
 
-class TopicWordsView(UserPassesTestMixin, ListView):
-    model = Word
-    template_name = 'quizzes/editor/topic_words.html'
-    context_object_name = 'words'
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
-
-    def get_queryset(self):
-        qs = Word.objects.order_by(Lower('origin'))
-        topic_id = self.kwargs.get('topic_id', None)
-
-        # if user is on a topic-specific page, show them only words from that topic
-        if topic_id:
-            topic = get_object_or_404(Topic, pk=self.kwargs.get('topic_id'))
-            qs = Word.objects.filter(topics=topic).order_by(Lower('origin'))
-
-        return qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        topic_id = self.kwargs.get('topic_id', None)
-        context['topic_id'] = topic_id
-
-        if topic_id is None:
-            context['word_filter_form'] = WordFilterForm()
-
-
-
-        # store the most recently visited topic to enable the user to be redirected back here later.
-        self.request.session['recent_topic'] = topic_id
-        return context
-
-
-@user_passes_test(lambda user: user.is_authenticated and user.is_teacher)
-def add_word(request, topic_id=None):
-    """ Obtain (and validate) the HTML form to add a new word """
-    data = dict()
-
-    # Process a completed new Word form
-    if request.method == 'POST':
-        form = WordForm(request.POST)
-        if form.is_valid():
-            new_word = form.save()
-
-            if topic_id is not None:
-                topic = get_object_or_404(Topic, pk=topic_id)
-                new_word.topics.add(topic)
-                words = Word.objects.filter(topics=topic).order_by(Lower('origin'))
-            else:
-                # words assigned to no topics
-                words = Word.objects.filter(topics__isnull=True).order_by(Lower('origin'))
-            data['is_valid'] = True
-
-            data['html_word_rows'] = render_to_string('quizzes/editor/word_list.html', {'words': words})
-
+        # answer is incorrect
         else:
-            data['is_valid'] = False
+            incorrect += 1
 
-    # Otherwise, create a new blank Word form
-    else:
-        form = WordForm()
+            word_score, is_newly_created = WordScore.objects.get_or_create(word_id=word_id, student=student)
 
-    context = {'form': form}
-    data['html_form'] = render_to_string('quizzes/editor/word_include_form.html', context, request=request)
-    return JsonResponse(data)
+            if not is_newly_created:
+                word_score.consecutive_correct = 0
+                word_score.times_seen = F('times_seen') + 1
+                word_score.next_review = today
+                word_score.save(update_fields=['consecutive_correct', 'times_seen'])
 
-
-@user_passes_test(lambda user: user.is_authenticated and user.is_teacher)
-def get_filtered_words(request):
-    # get base queryset
-    words = Word.objects.order_by(Lower('origin'))
-
-    # extract filter options from GET request
-    search = request.GET.get('search', None)
-    topic_id = request.GET.get('topic', None)
-
-    # apply filters
-    if search is not None:
-        words = words.filter(Q(origin__icontains=search) | Q(target__icontains=search))
-    if topic_id is not None:
-        # special case for Words with no associated Topics
-        if topic_id == "-1":
-            words = words.filter(topics__isnull=True)
-        elif topic_id != "":
-            filter_topic = get_object_or_404(Topic, pk=topic_id)
-            words = words.filter(topics=filter_topic)
-
-    data = dict()
-    data['html_word_rows'] = render_to_string('quizzes/editor/word_list.html', {'words': words})
-    return JsonResponse(data)
-
-
-class WordUpdateView(UserPassesTestMixin, UpdateView):
-    model = Word
-    form_class = WordUpdateForm
-    template_name = 'quizzes/editor/word_form.html'
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
-
-    def get_success_url(self):
-        # redirect teacher to the most recently-visited add words page after updating a word
-        recent_topic = self.request.session.get('recent_topic', None)
-        if recent_topic:
-            url = reverse('topic_words', kwargs={'topic_id': recent_topic})
-        else:
-            url = reverse('home')
-        return url
-
-
-class TopicUpdateView(UserPassesTestMixin, UpdateView):
-    model = Topic
-    form_class = TopicForm
-    template_name = 'quizzes/editor/topic_form.html'
-    success_url = reverse_lazy('home')
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
-
-
-class TopicDeleteView(UserPassesTestMixin, DeleteView):
-    model = Topic
-    success_url = reverse_lazy('home')
-    template_name = "quizzes/editor/topic_confirm_delete.html"
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
-
-
-class WordDeleteView(UserPassesTestMixin, DeleteView):
-    model = Word
-    success_url = reverse_lazy('home')
-    template_name = "quizzes/editor/word_confirm_delete.html"
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
-
-    def get_success_url(self):
-        # redirect teacher to the most recently-visited add words page after deleting a word
-        recent_topic = self.request.session.get('recent_topic', None)
-        if recent_topic:
-            url = reverse('topic_words', kwargs={'topic_id': recent_topic})
-        else:
-            url = reverse('topic_words')
-        return url
+        # prepare data for display on the results page
+        results_page_data['words'][word_score.pk] = {
+            'origin': word_score.word.origin,
+            'target': word_score.word.target,
+            'is_correct': is_correct,
+        }
+    # Update user's streak if this is their first quiz taken today
+    QuizResults.update_user_streak(student, today=today)
+    # log quiz results in the database
+    quiz_score = correct * CORRECT_ANSWER_PTS
+    QuizResults.objects.create(student=student, topic_id=topic_id,
+                               correct_answers=correct, incorrect_answers=incorrect,
+                               points=quiz_score, date_created=today)
+    # record quiz score and pass it to results page
+    results_page_data['correct'] = correct
+    results_page_data['total'] = len(results)
+    return results_page_data

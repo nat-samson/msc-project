@@ -30,7 +30,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% include 'quizzes/editor/word_list.html' %}
+                    {% include 'editor/word_list.html' %}
                     </tbody>
                 </table>
             </div>
@@ -45,5 +45,5 @@
 {% endblock content %}
 {% block scripts %}
     <script>let topicId = {{ topic_id|default_if_none:0 }}</script>
-    <script src="{% static 'quizzes/js/editor.js' %}"></script>
+    <script src="{% static 'editor/js/editor.js' %}"></script>
 {% endblock %}
