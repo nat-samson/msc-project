@@ -80,10 +80,7 @@ def get_quiz(user, topic_id):
     # ensure both word lists have enough content with which to form a quiz
     if len(words_to_revise) == 0:
         quiz['is_due_revision'] = False
-        try:
-            words_to_revise = random.sample(copy.deepcopy(options_pool), MAX_QUIZ_LENGTH)
-        except ValueError:
-            pass
+        words_to_revise = copy.deepcopy(options_pool[:MAX_QUIZ_LENGTH])
 
     if len(options_pool) >= 4:
         for question in words_to_revise:

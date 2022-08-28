@@ -25,18 +25,15 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
-    def words_due_revision(self, user):
+    def words_due_revision(self, user, today=datetime.date.today()):
         # words due revision = all words in given topic - those words NOT due revision by given user
-        today = datetime.date.today()
         words_in_topic = Word.objects.filter(topics=self)
         words_not_due = Word.objects.filter(topics=self, wordscore__next_review__gt=today, wordscore__student=user)
         return words_in_topic.difference(words_not_due)
 
     @staticmethod
-    def all_topics_words_due_revision(user):
+    def all_topics_words_due_revision(user, today=datetime.date.today()):
         # word must part of a visible topic to be counted
-        today = datetime.date.today()
-
         all_words = Word.objects.filter(topics__is_hidden=False)
         words_not_due = Word.objects.filter(wordscore__next_review__gt=today, wordscore__student=user).order_by()
 
@@ -74,15 +71,15 @@ class WordScore(models.Model):
         # enforce a maximum score for each word
         return min(self.consecutive_correct, MAX_SCORE)
 
-    def set_next_review(self):
+    def set_next_review(self, today=datetime.date.today()):
         days_to_add = QUIZ_INTERVALS[self.score()]
-        self.next_review = datetime.date.today() + datetime.timedelta(days=days_to_add)
+        self.next_review = today + datetime.timedelta(days=days_to_add)
 
 
 class QuizResults(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    date_created = models.DateField(auto_now_add=True)
+    date_created = models.DateField(default=datetime.date.today)
     correct_answers = models.PositiveSmallIntegerField(default=0)
     incorrect_answers = models.PositiveSmallIntegerField(default=0)
     points = models.PositiveIntegerField(default=0)
@@ -91,9 +88,8 @@ class QuizResults(models.Model):
         return f"Quiz Results: {self.student.get_full_name()} / {self.topic} on {self.date_created}"
 
     @staticmethod
-    def update_user_streak(student):
+    def update_user_streak(student, today=datetime.date.today()):
         """ Updates user's streak if this is their first quiz taken today. """
-        today = datetime.date.today()
         if not QuizResults.objects.filter(student=student, date_created=today).exists():
             if QuizResults.objects.filter(student=student, date_created=today - datetime.timedelta(1)).exists():
                 # student is continuing an existing streak
