@@ -215,7 +215,7 @@ class QuizTests(TestCase):
         self.assertEquals(3, cat_score.times_correct)
         self.assertEquals(0, cat_score.consecutive_correct)
         self.assertEquals(6, cat_score.times_seen)
-        self.assertEquals(self.tomorrow, cat_score.next_review)
+        self.assertEquals(self.today, cat_score.next_review)
 
     def test_quiz_results_due_review_correct(self):
         # cat_score is due for review today, getting it correct should update its schedule and score

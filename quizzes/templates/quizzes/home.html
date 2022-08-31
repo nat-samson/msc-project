@@ -34,7 +34,7 @@
                 <!-- Topic card configuration -->
                 <div class="card {% if not topic.is_visible or topic.word_count < 4 %}has-background-grey-lighter{% endif %}">
                     <header class="card-header">
-                        <p class="card-header-title is-centered">{{ topic }}</p>
+                        <p class="card-header-title is-centered">{{ topic.name }}</p>
                     </header>
                     <div class="card-content">
                         <div class="has-text-centered">
@@ -51,10 +51,9 @@
                                         </ul>
                                     </div>
                                 {% else %}
-                                    {% to_revise topic request.user as words_due %}
-                                    {% if words_due > 0 %}
+                                    {% if topic.words_due > 0 %}
                                         <span class="tag">Words due:</span>
-                                        <span class="tag is-danger">{{ words_due }}</span>
+                                        <span class="tag is-danger">{{ topic.words_due }}</span>
                                     {% else %}
                                         <span class="tag is-success has-text-weight-semibold">Up to date!</span>
                                     {% endif %}

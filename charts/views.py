@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.db.models import Sum
+from django.db.models import Sum, Count
+from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -74,12 +75,10 @@ def get_filtered_data_student(request):
 @user_passes_test(lambda user: user.is_teacher)
 def get_filtered_data_teacher(request):
     qs = get_filtered_queryset(request)
+    data = qs.aggregate(active_students=Count('student', distinct=True),
+                        quizzes_taken=Count('id'),
+                        points_earned=Coalesce(Sum('points'), 0))
 
-    data = {
-        "active_students": qs.values_list('student', flat=True).distinct().count(),
-        "quizzes_taken": qs.count(),
-        "points_earned": qs.aggregate(total=Sum('points')).get('total') or 0,
-    }
     return JsonResponse(data)
 
 

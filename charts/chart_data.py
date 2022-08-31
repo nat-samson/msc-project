@@ -128,21 +128,25 @@ def get_points_per_day_data(student):
 
 def get_points_per_student_data(qs):
     # only includes students who have completed a quiz within date range
-    pts_per_student = list(qs.values('student').annotate(Sum('points'))
-                           .values_list('student__first_name', 'student__last_name', "points__sum")
-                           .order_by('-points__sum', 'student__last_name'))
+    present_student_data = list(qs.values('student')
+                                .annotate(total=Sum('points'),
+                                          full_name=Concat('student__first_name', Value(' '), 'student__last_name'))
+                                .values_list('full_name', 'total')
+                                .order_by('-total', 'student__last_name'))
 
-    # add in students who have no quiz data
-    missing_students = User.objects.filter(is_teacher=False).exclude(quizresults__in=qs).order_by('last_name')
+    # get students who have no quiz data
+    missing_student_data = list(User.objects.filter(is_teacher=False)
+                                .exclude(quizresults__in=qs)
+                                .annotate(full_name=Concat('first_name', Value(' '), 'last_name'), total=Value(0))
+                                .values_list('full_name', 'total')
+                                .order_by('last_name'))
 
-    present_student_data = [(f"{student[0]} {student[1]}", student[2]) for student in pts_per_student]
-    missing_student_data = [(student.get_full_name(), 0) for student in missing_students]
     final_data = present_student_data + missing_student_data
 
     if final_data:
         return final_data
     else:
-        return [["No Students Registered!", "N/A"]]
+        return [['No Students Registered!', 'N/A']]
 
 
 def prepare_data(data, label, override_colours=False):

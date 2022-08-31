@@ -27,11 +27,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for word, result in words.items %}
+                            {% for result in words %}
                                 <tr>
-                                    <td>{{ result.origin }}</td>
-                                    <td>{{ result.target }}</td>
-                                    {% if result.is_correct %}
+                                    <td>{{ result.0 }}</td>
+                                    <td>{{ result.1 }}</td>
+                                    {% if result.2 %}
                                         <td class="has-background-success has-text-centered">✅</td>
                                     {% else %}
                                         <td class="has-background-danger-light has-text-centered">❌</td>

@@ -90,8 +90,12 @@ class QuizResults(models.Model):
     @staticmethod
     def update_user_streak(student, today=datetime.date.today()):
         """ Updates user's streak if this is their first quiz taken today. """
-        if not QuizResults.objects.filter(student=student, date_created=today).exists():
-            if QuizResults.objects.filter(student=student, date_created=today - datetime.timedelta(1)).exists():
+        yesterday = today - datetime.timedelta(1)
+        quizzes_since_yesterday = QuizResults.objects.filter(
+            student=student, date_created__gte=yesterday).values_list('date_created', flat=True)
+
+        if today not in quizzes_since_yesterday:
+            if yesterday in quizzes_since_yesterday:
                 # student is continuing an existing streak
                 student.streak = F('streak') + 1
             else:

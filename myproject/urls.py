@@ -43,4 +43,5 @@ urlpatterns = [
     path('data/', include('charts.urls')),
     path('editor/', include('editor.urls')),
     path('', include('quizzes.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]

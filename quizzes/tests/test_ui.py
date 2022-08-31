@@ -2,7 +2,6 @@ import json
 import datetime
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.test import LiveServerTestCase
 from django.urls import reverse
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -11,7 +10,7 @@ from quizzes.models import Topic
 from users.models import User
 
 
-class LoginTests(LiveServerTestCase):
+class LoginTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

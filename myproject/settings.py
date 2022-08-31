@@ -48,11 +48,13 @@ INSTALLED_APPS = [
     'crispy_bulma',
     'django.contrib.humanize',
     'emoji_picker',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -150,6 +152,10 @@ else:
     EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
     EMAIL_HOST_USER = config('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 # Site code - used for verifying teachers at registration.
 SITE_CODE = config('SITE_CODE', default='teacher123')

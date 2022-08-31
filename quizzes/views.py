@@ -2,6 +2,7 @@ import datetime
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.db.models import FilteredRelation, Q, F, Count, ExpressionWrapper, BooleanField
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -23,13 +24,17 @@ class HomeView(LoginRequiredMixin, ListView):
         # topics that are hidden, future-scheduled, or have fewer than 4 words, are only visible to teachers
         today = datetime.date.today()
         topics = Topic.objects.annotate(
-            word_count=Count('words'),
+            word_count=Count('words', distinct=True),
             future_avail_from=ExpressionWrapper(Q(available_from__gt=today), output_field=BooleanField()),
             is_visible=ExpressionWrapper(Q(is_hidden=False) & Q(future_avail_from=False), output_field=BooleanField()))
 
         if not self.request.user.is_teacher:
-            # exclude such non-visible topics from students
-            topics = topics.filter(is_visible=True, word_count__gte=4)
+            # exclude non-visible topics from students' homepage, add details of words due revision
+            student = self.request.user
+            topics = topics.filter(is_visible=True, word_count__gte=4)\
+                .annotate(words_due=F('word_count') - Count('id', filter=Q(words__wordscore__next_review__gt=today) &
+                                                            Q(words__wordscore__student=student)))
+
         return topics
 
 
@@ -91,59 +96,74 @@ class QuizView(LoginRequiredMixin, View):
                 return redirect(reverse('home'))
 
 
+@transaction.atomic
 def process_results(results, student, topic_id, today=datetime.date.today()):
-    results_page_data = {'words': {}}
-    correct = 0
-    incorrect = 0
+    results_page_data = {'words': []}
+    total_correct = 0
+    total_incorrect = 0
+
+    # obtain all the database rows required for maintaining the spaced-repetition schedule
+    words_in_quiz = Word.objects.in_bulk(results, field_name='pk')
+    word_scores = {str(ws.word_id): ws for ws in
+                   WordScore.objects.select_related('word').filter(student=student, word__in=words_in_quiz)}
+    word_scores_to_create = []
+    word_scores_to_update = []
 
     # process the results
     for word_id, is_correct in results.items():
 
         # answer is correct
         if is_correct:
-            correct += 1
+            total_correct += 1
 
-            word_score, is_newly_created = WordScore.objects.get_or_create(
-                word_id=word_id, student=student,
-                defaults={'consecutive_correct': 1, 'times_correct': 1,
-                          'next_review': today + datetime.timedelta(days=1)})
+            word_score = word_scores.get(word_id, None)
 
-            # only update score if it was due for review
-            if not is_newly_created:
+            if word_score:
                 if word_score.next_review <= today:
                     word_score.set_next_review(today=today)
                     word_score.consecutive_correct = F('consecutive_correct') + 1
                     word_score.times_seen = F('times_seen') + 1
                     word_score.times_correct = F('times_correct') + 1
-                    word_score.save(update_fields=['consecutive_correct', 'times_seen',
-                                                   'times_correct', 'next_review'])
+                    word_scores_to_update.append(word_score)
+
+            else:
+                word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student, consecutive_correct=1,
+                                       times_correct=1, next_review=today + datetime.timedelta(1))
+                word_scores_to_create.append(word_score)
 
         # answer is incorrect
         else:
-            incorrect += 1
+            total_incorrect += 1
+            word_score = word_scores.get(word_id, None)
 
-            word_score, is_newly_created = WordScore.objects.get_or_create(word_id=word_id, student=student)
-
-            if not is_newly_created:
+            if word_score:
                 word_score.consecutive_correct = 0
                 word_score.times_seen = F('times_seen') + 1
                 word_score.next_review = today
-                word_score.save(update_fields=['consecutive_correct', 'times_seen'])
+                word_scores_to_update.append(word_score)
+            else:
+                word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student)
+                word_scores_to_create.append(word_score)
 
         # prepare data for display on the results page
-        results_page_data['words'][word_score.pk] = {
-            'origin': word_score.word.origin,
-            'target': word_score.word.target,
-            'is_correct': is_correct,
-        }
-    # Update user's streak if this is their first quiz taken today
+        result = (word_score.word.origin, word_score.word.target, is_correct)
+        results_page_data['words'].append(result)
+
+    # bulk create/update the WordScores
+    WordScore.objects.bulk_create(word_scores_to_create)
+    WordScore.objects.bulk_update(word_scores_to_update,
+                                  fields=['consecutive_correct', 'times_seen', 'times_correct', 'next_review'])
+
+    # update user's streak if this is their first quiz taken today
     QuizResults.update_user_streak(student, today=today)
+
     # log quiz results in the database
-    quiz_score = correct * CORRECT_ANSWER_PTS
+    quiz_score = total_correct * CORRECT_ANSWER_PTS
     QuizResults.objects.create(student=student, topic_id=topic_id,
-                               correct_answers=correct, incorrect_answers=incorrect,
+                               correct_answers=total_correct, incorrect_answers=total_incorrect,
                                points=quiz_score, date_created=today)
+
     # record quiz score and pass it to results page
-    results_page_data['correct'] = correct
+    results_page_data['correct'] = total_correct
     results_page_data['total'] = len(results)
     return results_page_data
