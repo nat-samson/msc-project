@@ -2,19 +2,18 @@ import datetime
 import http.client
 from unittest import SkipTest
 
+from django.core.exceptions import PermissionDenied
 from django.test import TestCase
 from django.urls import reverse, resolve
 
 from editor.forms import TopicForm, WordFilterForm, WordUpdateForm
-from editor.views import TopicCreateView, TopicWordsView, add_word, get_filtered_words, WordUpdateView, TopicUpdateView, \
-    TopicDeleteView, WordDeleteView
+from editor.views import TopicCreateView, TopicWordsView, add_word, get_filtered_words, WordUpdateView, \
+    TopicUpdateView, TopicDeleteView, WordDeleteView
 from quizzes.models import Topic, Word
 from users.models import User
 
 
 class BaseTestCase(TestCase):
-    fixtures = ['dump.json']
-
     @classmethod
     def setUpTestData(cls):
         cls.student = User.objects.create_user(username='test_user', password='test_user1234')
@@ -59,7 +58,13 @@ class BaseTestCase(TestCase):
         # a student attempting to access topic create are denied
         self.client.force_login(self.student)
         response = self.client.get(self.path)
-        self.assertNotEqual(response.status_code, http.client.OK)
+        response.user = self.student
+
+        if self.view_class:
+            with self.assertRaises(PermissionDenied):
+                self.view_class.as_view()(response)
+        else:
+            self.assertEqual(response.status_code, 302)
 
     def test_accessible_to_teachers(self):
         response = self.client.get(self.path)
@@ -232,7 +237,9 @@ class WordUpdateViewTests(BaseTestCase):
     @classmethod
     def setUpTestData(cls):
         super().setUpTestData()
+        cls.test_topic = Topic.objects.create(name='Test Topic', long_desc='This is a test.')
         cls.word = Word.objects.create(origin='test origin a', target='test target a')
+        cls.test_topic.words.add(cls.word)
         cls.path = reverse('word_update', args=[cls.word.pk])
         cls.view_class = WordUpdateView
         cls.template_path = 'editor/word_form.html'
@@ -310,7 +317,9 @@ class WordDeleteViewTests(BaseTestCase):
     @classmethod
     def setUpTestData(cls):
         super().setUpTestData()
+        cls.test_topic = Topic.objects.create(name='Test Topic', long_desc='This is a test.')
         cls.word = Word.objects.create(origin='test origin a', target='test target a')
+        cls.test_topic.words.add(cls.word)
         cls.path = reverse('word_delete', args=[cls.word.pk])
         cls.view_class = WordDeleteView
         cls.template_path = 'editor/word_confirm_delete.html'

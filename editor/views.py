@@ -12,13 +12,15 @@ from editor.forms import TopicForm, WordFilterForm, WordCreateForm, WordUpdateFo
 from quizzes.models import Word, Topic
 
 
-class TopicCreateView(UserPassesTestMixin, FormView):
+class TeachersOnlyMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_teacher
+
+
+class TopicCreateView(TeachersOnlyMixin, FormView):
     template_name = 'editor/topic_form.html'
     form_class = TopicForm
     created_topic = None
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
 
     def get_success_url(self):
         # redirect teacher to the add words page if new topic created successfully
@@ -29,13 +31,10 @@ class TopicCreateView(UserPassesTestMixin, FormView):
         return super().form_valid(form)
 
 
-class TopicWordsView(UserPassesTestMixin, ListView):
+class TopicWordsView(TeachersOnlyMixin, ListView):
     model = Word
     template_name = 'editor/topic_words.html'
     context_object_name = 'words'
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
 
     def get_queryset(self):
         qs = Word.objects.order_by(Lower('origin'))
@@ -120,13 +119,10 @@ def get_filtered_words(request):
     return JsonResponse(data)
 
 
-class WordUpdateView(UserPassesTestMixin, UpdateView):
+class WordUpdateView(TeachersOnlyMixin, UpdateView):
     model = Word
     form_class = WordUpdateForm
     template_name = 'editor/word_form.html'
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
 
     def get_success_url(self):
         # redirect teacher to the most recently-visited add words page after updating a word
@@ -138,32 +134,23 @@ class WordUpdateView(UserPassesTestMixin, UpdateView):
         return url
 
 
-class TopicUpdateView(UserPassesTestMixin, UpdateView):
+class TopicUpdateView(TeachersOnlyMixin, UpdateView):
     model = Topic
     form_class = TopicForm
     template_name = 'editor/topic_form.html'
     success_url = reverse_lazy('home')
 
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
 
-
-class TopicDeleteView(UserPassesTestMixin, DeleteView):
+class TopicDeleteView(TeachersOnlyMixin, DeleteView):
     model = Topic
     success_url = reverse_lazy('home')
     template_name = "editor/topic_confirm_delete.html"
 
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
 
-
-class WordDeleteView(UserPassesTestMixin, DeleteView):
+class WordDeleteView(TeachersOnlyMixin, DeleteView):
     model = Word
     success_url = reverse_lazy('home')
     template_name = "editor/word_confirm_delete.html"
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_teacher
 
     def get_success_url(self):
         # redirect teacher to the most recently-visited add words page after deleting a word

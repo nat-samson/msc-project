@@ -99,8 +99,8 @@ class QuizView(LoginRequiredMixin, View):
 @transaction.atomic
 def process_results(results, student, topic_id, today=datetime.date.today()):
     results_page_data = {'words': []}
+    total_questions = 0
     total_correct = 0
-    total_incorrect = 0
 
     # obtain all the database rows required for maintaining the spaced-repetition schedule
     words_in_quiz = Word.objects.in_bulk(results, field_name='pk')
@@ -111,41 +111,36 @@ def process_results(results, student, topic_id, today=datetime.date.today()):
 
     # process the results
     for word_id, is_correct in results.items():
+        total_questions += 1
 
-        # answer is correct
-        if is_correct:
-            total_correct += 1
+        # check if WordScore exists for this word/student pair
+        word_score = word_scores.get(word_id, None)
 
-            word_score = word_scores.get(word_id, None)
+        if word_score:
+            if word_score.next_review <= today or not is_correct:
+                word_score.times_seen = F('times_seen') + 1
 
-            if word_score:
-                if word_score.next_review <= today:
+                if is_correct:
                     word_score.set_next_review(today=today)
                     word_score.consecutive_correct = F('consecutive_correct') + 1
-                    word_score.times_seen = F('times_seen') + 1
                     word_score.times_correct = F('times_correct') + 1
-                    word_scores_to_update.append(word_score)
+                else:
+                    word_score.next_review = today
+                    word_score.consecutive_correct = 0
 
-            else:
+                word_scores_to_update.append(word_score)
+
+        else:
+            if is_correct:
                 word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student, consecutive_correct=1,
                                        times_correct=1, next_review=today + datetime.timedelta(1))
-                word_scores_to_create.append(word_score)
-
-        # answer is incorrect
-        else:
-            total_incorrect += 1
-            word_score = word_scores.get(word_id, None)
-
-            if word_score:
-                word_score.consecutive_correct = 0
-                word_score.times_seen = F('times_seen') + 1
-                word_score.next_review = today
-                word_scores_to_update.append(word_score)
             else:
                 word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student)
-                word_scores_to_create.append(word_score)
+
+            word_scores_to_create.append(word_score)
 
         # prepare data for display on the results page
+        total_correct += is_correct
         result = (word_score.word.origin, word_score.word.target, is_correct)
         results_page_data['words'].append(result)
 
@@ -160,10 +155,10 @@ def process_results(results, student, topic_id, today=datetime.date.today()):
     # log quiz results in the database
     quiz_score = total_correct * CORRECT_ANSWER_PTS
     QuizResults.objects.create(student=student, topic_id=topic_id,
-                               correct_answers=total_correct, incorrect_answers=total_incorrect,
+                               correct_answers=total_correct, incorrect_answers=total_questions-total_correct,
                                points=quiz_score, date_created=today)
 
     # record quiz score and pass it to results page
     results_page_data['correct'] = total_correct
-    results_page_data['total'] = len(results)
+    results_page_data['total'] = total_questions
     return results_page_data
