@@ -19,6 +19,7 @@ from django.contrib.auth import views as auth_views
 
 from users import views as users_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', users_views.RegisterView.as_view(), name='register'),
@@ -40,6 +41,8 @@ urlpatterns = [
     path('password-reset-complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password-reset-complete.html'),
          name='password_reset_complete'),
+    path('profile/', users_views.UserUpdateView.as_view(), name='profile'),
+    path('password/', users_views.CustomPasswordChangeView.as_view(), name='password_change'),
     path('data/', include('charts.urls')),
     path('editor/', include('editor.urls')),
     path('', include('quizzes.urls')),

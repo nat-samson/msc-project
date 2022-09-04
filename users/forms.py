@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.forms import ModelForm
 
 from myproject.settings import SITE_CODE
 from users.models import User
@@ -26,7 +27,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class StudentRegistrationForm(CustomUserCreationForm):
-    # any fields unique to students go here
+    # any fields unique to students would go here
     pass
 
 
@@ -46,3 +47,13 @@ class TeacherRegistrationForm(CustomUserCreationForm):
         user.is_staff = True
         user.save()
         return user
+
+
+class UserUpdateForm(ModelForm):
+    email = forms.EmailField()
+    first_name = forms.CharField(max_length=32)
+    last_name = forms.CharField(max_length=32)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']

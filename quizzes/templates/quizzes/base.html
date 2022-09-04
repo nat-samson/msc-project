@@ -39,9 +39,7 @@
             </div>
             <!-- right-hand side -->
             <div class="navbar-end">
-                <a class="navbar-item">
-                    {{ request.user }}
-                </a>
+                <a class="navbar-item {% if request.path == "/profile/" %}is-active{% endif %}" href="{% url 'profile' %}">{{ request.user }}</a>
                 <div class="navbar-item">
                     <div class="buttons">
                         {% if user.is_authenticated %}

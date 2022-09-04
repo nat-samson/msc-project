@@ -1,17 +1,19 @@
+from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.models import Group
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import redirect
-from django.views.generic import CreateView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, TemplateView, UpdateView
 
-from .forms import StudentRegistrationForm, TeacherRegistrationForm
+from .forms import StudentRegistrationForm, TeacherRegistrationForm, UserUpdateForm
 
 
 class RegisterView(TemplateView):
     template_name = 'users/register.html'
 
 
-class StudentRegisterView(CreateView):
-    form_class = StudentRegistrationForm
+class CreateUserView(CreateView):
     template_name = 'users/register_form.html'
 
     def form_valid(self, form):
@@ -21,17 +23,31 @@ class StudentRegisterView(CreateView):
         return redirect('home')
 
 
-class TeacherRegisterView(CreateView):
+class StudentRegisterView(CreateUserView):
+    form_class = StudentRegistrationForm
+
+
+class TeacherRegisterView(CreateUserView):
     form_class = TeacherRegistrationForm
-    template_name = 'users/register_form.html'
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UserUpdateForm
+    template_name = 'users/user_form.html'
+    success_url = reverse_lazy('home')
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
     def form_valid(self, form):
-        user = form.save()
+        messages.success(self.request, "Profile updated successfully!")
+        return super().form_valid(form)
 
-        # grant Teacher-level permissions in Admin
-        teacher_group = Group.objects.get(name='Teachers')
-        user.groups.add(teacher_group)
 
-        # log Teacher in and send them to homepage
-        login(self.request, user)
-        return redirect('home')
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'users/password_change_form.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Password updated successfully!")
+        return super().form_valid(form)

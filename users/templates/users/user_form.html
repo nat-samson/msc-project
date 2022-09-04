@@ -1,0 +1,22 @@
+{% extends "quizzes/base.html" %}
+{% block title %}{{ block.super }}: Profile{% endblock %}
+{% block content %}
+    {% load crispy_forms_filters %}
+    <div class="columns is-centered">
+        <div class="column is-three-fifths">
+
+            <header class="block">
+                <h1 class="title">Update Profile</h1>
+            </header>
+
+            <form method="post" class="block">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="control">
+                    <button class="button is-link has-text-weight-semibold" type="submit">Update Profile</button>
+                </div>
+            </form>
+            <p class="block">Need to change your password? <a href="{% url 'password_change' %}">Click here.</a></p>
+        </div>
+    </div>
+{% endblock content %}
