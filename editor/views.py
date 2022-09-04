@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
@@ -28,6 +29,7 @@ class TopicCreateView(TeachersOnlyMixin, FormView):
 
     def form_valid(self, form):
         self.created_topic = form.save()
+        messages.success(self.request, "Topic created successfully!")
         return super().form_valid(form)
 
 
@@ -140,11 +142,19 @@ class TopicUpdateView(TeachersOnlyMixin, UpdateView):
     template_name = 'editor/topic_form.html'
     success_url = reverse_lazy('home')
 
+    def form_valid(self, form):
+        messages.success(self.request, "Topic updated successfully!")
+        return super().form_valid(form)
+
 
 class TopicDeleteView(TeachersOnlyMixin, DeleteView):
     model = Topic
     success_url = reverse_lazy('home')
     template_name = "editor/topic_confirm_delete.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Topic deleted successfully!")
+        return super().form_valid(form)
 
 
 class WordDeleteView(TeachersOnlyMixin, DeleteView):

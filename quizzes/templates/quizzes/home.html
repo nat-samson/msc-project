@@ -1,7 +1,15 @@
 {% extends "quizzes/base.html" %}
 {% block title %}{{ block.super }}: Home{% endblock %}
 {% block content %}
-    {% load quiz_extras %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification is-{{message.tags}} is-light has-text-weight-semibold">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <header class="title">Topics</header>
 
     <!-- Organise page into three columns -->

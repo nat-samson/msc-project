@@ -50,7 +50,7 @@
         <div class="column">
             <div class="level box" style="height: 100%;">
                 <div class="level-item has-text-centered">
-                    <div class="filter-box" id="points-box">
+                    <div class="filter-box" id="students-box">
                         <p class="heading has-text-weight-bold">Active Students:</p>
                         <p class="title"></p>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="level-item has-text-centered">
-                    <div class="filter-box" id="pc-correct-box">
+                    <div class="filter-box" id="points-box">
                         <p class="heading has-text-weight-bold">Points Earned:</p>
                         <p class="title"></p>
                     </div>
@@ -75,7 +75,7 @@
     <div class="columns is-centered">
         <div class="column is-half">
             <div class="box has-background-primary-light table-container">
-                <p class="title is-5 m-4 has-text-centered">Top {{ student_streaks|length }} Longest Streaks:</p>
+                <p class="title is-5 m-4 has-text-centered">Longest Streaks:</p>
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="streaks-table">
                     <thead>
                     <tr>
@@ -88,6 +88,10 @@
                         <tr>
                             <td>{{student.0}}</td>
                             <td>{{student.1}} day{{ student.1|pluralize }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">No streaks to display.</td>
                         </tr>
                     {% endfor %}
                     </tbody>

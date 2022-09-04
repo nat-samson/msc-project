@@ -83,6 +83,5 @@ class WordFilterForm(forms.Form):
     # Individual field settings
     search = forms.CharField(required=False,
                              widget=forms.TextInput(attrs={'placeholder': 'Search by Target or Origin'}))
-    topic = forms.ChoiceField(required=False,
-                              choices=[('', '** All Topics **'), (-1, '** No Topics **')] +
-                                      list(Topic.objects.order_by('name').values_list('pk', 'name')))
+    topic = forms.ChoiceField(required=False, choices=[('', '** All Topics **'), (-1, '** No Topics **')] + list(
+        Topic.objects.order_by('name').values_list('pk', 'name')))
