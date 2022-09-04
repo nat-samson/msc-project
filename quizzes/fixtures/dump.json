@@ -1,0 +1,7890 @@
+[
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "topic"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "word"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "users",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "users",
+    "model": "studentprofile"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "users",
+    "model": "teacherprofile"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "course"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "users",
+    "model": "teacher"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "users",
+    "model": "student"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "wordscore"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "quizresults"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "e2loyremnnhpxzenpfkww5hz7f97m14m",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAUBe_iGlle5I2SnjNYfzE4gGwpTqqIu0OkFNC-mXmbyLAuNa-jzHlicRZanH43BHqWtgN-QLt3Sb0t84RyV-RBh7x2Lq_L4f4dVBj1WwdKVrH3EcmBY4PMKXlwhm5gI3KwBXRQzhOQUbogmRQxusLgwVon3h_64DiL:1o8R81:cHsJi_vxNWVkOyHr-b1U_-CpSA8WoILnHCZiYGLTPq4",
+    "expire_date": "2022-07-18T18:49:01.279Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "glgceue6wbjws9kctet6f3svpky2hgnd",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAUBe_iGlle5I2SnjNYfzE4gGwpTqqIu0OkFNC-mXmbyLAuNa-jzHlicRZanH43BHqWtgN-QLt3Sb0t84RyV-RBh7x2Lq_L4f4dVBj1WwdKVrH3EcmBY4PMKXlwhm5gI3KwBXRQzhOQUbogmRQxusLgwVon3h_64DiL:1oJMv3:9uCqI1Y_Js-FaEkeGvJPhKf17sNuNZqSii1Iw0HT9QE",
+    "expire_date": "2022-08-17T22:32:49.063Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qx9zm8mab6c70hamws7o8a99mf7zwjfb",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAUBe_iGlle5I2SnjNYfzE4gGwpTqqIu0OkFNC-mXmbyLAuNa-jzHlicRZanH43BHqWtgN-QLt3Sb0t84RyV-RBh7x2Lq_L4f4dVBj1WwdKVrH3EcmBY4PMKXlwhm5gI3KwBXRQzhOQUbogmRQxusLgwVon3h_64DiL:1o8R5a:6tpCYw8qKodUJ0hX2p9Ji9yKskccfMBqtUjn_P0V9GE",
+    "expire_date": "2022-07-18T18:46:30.505Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "y3eubodlt0uo0mb9surm3e26z53u9owi",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAUBe_iGlle5I2SnjNYfzE4gGwpTqqIu0OkFNC-mXmbyLAuNa-jzHlicRZanH43BHqWtgN-QLt3Sb0t84RyV-RBh7x2Lq_L4f4dVBj1WwdKVrH3EcmBY4PMKXlwhm5gI3KwBXRQzhOQUbogmRQxusLgwVon3h_64DiL:1o8RB0:oE1VHR6PVWwQuJqCQYYZsyGTGAx0gfv293-7W2-xQro",
+    "expire_date": "2022-07-18T18:52:06.466Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 1,
+  "fields": {
+    "name": "Animals",
+    "long_desc": "A menagerie of vocabulary!",
+    "short_desc": "🐶🐷🦁",
+    "is_hidden": false,
+    "available_from": "2022-07-29",
+    "date_created": "2022-06-22T12:47:58.437Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 2,
+  "fields": {
+    "name": "Colours",
+    "long_desc": "",
+    "short_desc": "👩‍🎨🎨👨‍🎨",
+    "is_hidden": false,
+    "available_from": "2022-07-29",
+    "date_created": "2022-06-22T12:47:58.442Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 3,
+  "fields": {
+    "name": "Going on Holiday",
+    "long_desc": "Why not practise your German by the beach?",
+    "short_desc": "🏝🍦🕶",
+    "is_hidden": false,
+    "available_from": "2022-07-29",
+    "date_created": "2022-06-22T12:48:01.913Z"
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 1,
+  "fields": {
+    "origin": "Cat",
+    "target": "Die Katze",
+    "date_created": "2022-06-22T13:14:56.259Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 2,
+  "fields": {
+    "origin": "Dog",
+    "target": "Der Hund",
+    "date_created": "2022-06-22T13:14:56.264Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 3,
+  "fields": {
+    "origin": "Mouse",
+    "target": "Die Maus",
+    "date_created": "2022-06-22T13:14:56.266Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 4,
+  "fields": {
+    "origin": "Fish",
+    "target": "Der Fisch",
+    "date_created": "2022-06-22T13:14:56.268Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 5,
+  "fields": {
+    "origin": "Animal",
+    "target": "Das Tier",
+    "date_created": "2022-06-22T13:14:56.270Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 6,
+  "fields": {
+    "origin": "Bear",
+    "target": "Das Bär",
+    "date_created": "2022-06-22T13:14:56.273Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 7,
+  "fields": {
+    "origin": "Fox",
+    "target": "Der Fuchs",
+    "date_created": "2022-06-22T13:14:56.275Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 8,
+  "fields": {
+    "origin": "Bird",
+    "target": "Der Vogel",
+    "date_created": "2022-06-22T13:14:56.278Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 9,
+  "fields": {
+    "origin": "Rabbit",
+    "target": "Das Kaninchen",
+    "date_created": "2022-06-22T13:14:56.280Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 10,
+  "fields": {
+    "origin": "Cow",
+    "target": "Die Kuh",
+    "date_created": "2022-06-22T13:14:56.283Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 11,
+  "fields": {
+    "origin": "Lion",
+    "target": "Der Löwe",
+    "date_created": "2022-06-22T13:14:56.285Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 12,
+  "fields": {
+    "origin": "Horse",
+    "target": "Das Pferd",
+    "date_created": "2022-06-22T13:14:56.288Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 13,
+  "fields": {
+    "origin": "Wolf",
+    "target": "Der Wolf",
+    "date_created": "2022-06-22T13:14:56.290Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 14,
+  "fields": {
+    "origin": "Worm",
+    "target": "Der Wurm",
+    "date_created": "2022-06-22T13:14:56.292Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 15,
+  "fields": {
+    "origin": "Bee",
+    "target": "Die Biene",
+    "date_created": "2022-06-22T13:14:56.296Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 16,
+  "fields": {
+    "origin": "Fly",
+    "target": "Die Fliege",
+    "date_created": "2022-06-22T13:14:56.298Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 17,
+  "fields": {
+    "origin": "Spider",
+    "target": "Die Spinne",
+    "date_created": "2022-06-22T13:14:56.300Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 18,
+  "fields": {
+    "origin": "Rat",
+    "target": "Die Ratte",
+    "date_created": "2022-06-22T13:14:56.303Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 19,
+  "fields": {
+    "origin": "Grasshopper",
+    "target": "Die Heuschrecke",
+    "date_created": "2022-06-22T13:14:56.305Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 20,
+  "fields": {
+    "origin": "Butterfly",
+    "target": "Der Schmetterling",
+    "date_created": "2022-06-22T13:14:57.082Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 21,
+  "fields": {
+    "origin": "orange",
+    "target": "orange",
+    "date_created": "2022-06-22T13:21:02.838Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 22,
+  "fields": {
+    "origin": "pink",
+    "target": "rosa",
+    "date_created": "2022-06-22T13:21:02.841Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 23,
+  "fields": {
+    "origin": "purple",
+    "target": "violett, lila",
+    "date_created": "2022-06-22T13:21:02.843Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 24,
+  "fields": {
+    "origin": "yellow",
+    "target": "gelb",
+    "date_created": "2022-06-22T13:21:02.844Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 25,
+  "fields": {
+    "origin": "blue",
+    "target": "blau",
+    "date_created": "2022-06-22T13:21:02.846Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 26,
+  "fields": {
+    "origin": "red",
+    "target": "rot",
+    "date_created": "2022-06-22T13:21:02.848Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 27,
+  "fields": {
+    "origin": "green",
+    "target": "grün",
+    "date_created": "2022-06-22T13:21:02.850Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 28,
+  "fields": {
+    "origin": "white",
+    "target": "weiß",
+    "date_created": "2022-06-22T13:21:02.852Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 29,
+  "fields": {
+    "origin": "silver",
+    "target": "silber",
+    "date_created": "2022-06-22T13:21:02.854Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 30,
+  "fields": {
+    "origin": "gold",
+    "target": "gold",
+    "date_created": "2022-06-22T13:21:02.856Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 31,
+  "fields": {
+    "origin": "black",
+    "target": "schwarz",
+    "date_created": "2022-06-22T13:21:02.858Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 32,
+  "fields": {
+    "origin": "grey",
+    "target": "grau",
+    "date_created": "2022-06-22T13:21:02.860Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 33,
+  "fields": {
+    "origin": "brown",
+    "target": "braun",
+    "date_created": "2022-06-22T13:21:02.863Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 34,
+  "fields": {
+    "origin": "turquoise",
+    "target": "türkis",
+    "date_created": "2022-06-22T13:21:02.866Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 35,
+  "fields": {
+    "origin": "beige",
+    "target": "beige",
+    "date_created": "2022-06-22T13:21:02.868Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 36,
+  "fields": {
+    "origin": "light blue",
+    "target": "hellblau",
+    "date_created": "2022-06-22T13:21:02.870Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 37,
+  "fields": {
+    "origin": "dark blue",
+    "target": "dunkelblau",
+    "date_created": "2022-06-22T13:21:02.872Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 38,
+  "fields": {
+    "origin": "colour",
+    "target": "Die Farbe",
+    "date_created": "2022-06-22T13:21:02.875Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 39,
+  "fields": {
+    "origin": "cream",
+    "target": "cremefarben",
+    "date_created": "2022-06-22T13:21:02.877Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 40,
+  "fields": {
+    "origin": "granatrot",
+    "target": "maroon",
+    "date_created": "2022-06-22T13:21:02.879Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 41,
+  "fields": {
+    "origin": "khaki",
+    "target": "kaki",
+    "date_created": "2022-06-22T13:21:02.881Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 42,
+  "fields": {
+    "origin": "jet black",
+    "target": "schwarz wie Ebenholz",
+    "date_created": "2022-06-22T13:21:02.883Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 43,
+  "fields": {
+    "origin": "Holiday",
+    "target": "der Urlaub",
+    "date_created": "2022-06-22T13:21:14.603Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 44,
+  "fields": {
+    "origin": "Passport",
+    "target": "der Pass",
+    "date_created": "2022-06-22T13:21:14.607Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 45,
+  "fields": {
+    "origin": "visa",
+    "target": "das Visum",
+    "date_created": "2022-06-22T13:21:14.609Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 46,
+  "fields": {
+    "origin": "swimsuit",
+    "target": "der Badeanzug",
+    "date_created": "2022-06-22T13:21:14.611Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 47,
+  "fields": {
+    "origin": "to ski",
+    "target": "Ski laufen",
+    "date_created": "2022-06-22T13:21:14.613Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 48,
+  "fields": {
+    "origin": "to sunbathe",
+    "target": "sonnenbaden",
+    "date_created": "2022-06-22T13:21:14.615Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 49,
+  "fields": {
+    "origin": "sun",
+    "target": "Die Sonne",
+    "date_created": "2022-06-22T13:21:14.617Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 50,
+  "fields": {
+    "origin": "postcard",
+    "target": "die Ansichtskarte",
+    "date_created": "2022-06-22T13:21:14.620Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 51,
+  "fields": {
+    "origin": "souvenir",
+    "target": "das Andenken",
+    "date_created": "2022-06-22T13:21:14.622Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 52,
+  "fields": {
+    "origin": "ice cream",
+    "target": "die Eis",
+    "date_created": "2022-06-22T13:21:14.624Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 53,
+  "fields": {
+    "origin": "to swim",
+    "target": "schwimmen",
+    "date_created": "2022-06-22T13:21:14.626Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 54,
+  "fields": {
+    "origin": "Hotel",
+    "target": "das Hotel",
+    "date_created": "2022-06-22T13:21:14.628Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 55,
+  "fields": {
+    "origin": "sunglasses",
+    "target": "die Sonnenbrille",
+    "date_created": "2022-06-22T13:21:14.630Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 56,
+  "fields": {
+    "origin": "suncream",
+    "target": "die Sonnencreme",
+    "date_created": "2022-06-22T13:21:14.633Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 57,
+  "fields": {
+    "origin": "bikini",
+    "target": "der Bikini",
+    "date_created": "2022-06-22T13:21:14.635Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 58,
+  "fields": {
+    "origin": "beach",
+    "target": "der Strand",
+    "date_created": "2022-06-22T13:21:14.637Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 59,
+  "fields": {
+    "origin": "sandcastle",
+    "target": "die Sandburg",
+    "date_created": "2022-06-22T13:21:14.639Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 60,
+  "fields": {
+    "origin": "bureau de change",
+    "target": "die Wechselstube",
+    "date_created": "2022-06-22T13:21:14.641Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 61,
+  "fields": {
+    "origin": "flight",
+    "target": "der Flug",
+    "date_created": "2022-06-22T13:21:14.643Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 62,
+  "fields": {
+    "origin": "airport",
+    "target": "der Flughafen",
+    "date_created": "2022-06-22T13:21:14.645Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 63,
+  "fields": {
+    "origin": "ferry",
+    "target": "die Fähre",
+    "date_created": "2022-06-22T13:21:14.648Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "add_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "change_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "delete_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "view_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "add_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "change_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "delete_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "view_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add student profile",
+    "content_type": [
+      "users",
+      "studentprofile"
+    ],
+    "codename": "add_studentprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change student profile",
+    "content_type": [
+      "users",
+      "studentprofile"
+    ],
+    "codename": "change_studentprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete student profile",
+    "content_type": [
+      "users",
+      "studentprofile"
+    ],
+    "codename": "delete_studentprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view student profile",
+    "content_type": [
+      "users",
+      "studentprofile"
+    ],
+    "codename": "view_studentprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add teacher profile",
+    "content_type": [
+      "users",
+      "teacherprofile"
+    ],
+    "codename": "add_teacherprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change teacher profile",
+    "content_type": [
+      "users",
+      "teacherprofile"
+    ],
+    "codename": "change_teacherprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete teacher profile",
+    "content_type": [
+      "users",
+      "teacherprofile"
+    ],
+    "codename": "delete_teacherprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view teacher profile",
+    "content_type": [
+      "users",
+      "teacherprofile"
+    ],
+    "codename": "view_teacherprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add course",
+    "content_type": [
+      "quizzes",
+      "course"
+    ],
+    "codename": "add_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change course",
+    "content_type": [
+      "quizzes",
+      "course"
+    ],
+    "codename": "change_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete course",
+    "content_type": [
+      "quizzes",
+      "course"
+    ],
+    "codename": "delete_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view course",
+    "content_type": [
+      "quizzes",
+      "course"
+    ],
+    "codename": "view_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add teacher",
+    "content_type": [
+      "users",
+      "teacher"
+    ],
+    "codename": "add_teacher"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change teacher",
+    "content_type": [
+      "users",
+      "teacher"
+    ],
+    "codename": "change_teacher"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete teacher",
+    "content_type": [
+      "users",
+      "teacher"
+    ],
+    "codename": "delete_teacher"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view teacher",
+    "content_type": [
+      "users",
+      "teacher"
+    ],
+    "codename": "view_teacher"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add student",
+    "content_type": [
+      "users",
+      "student"
+    ],
+    "codename": "add_student"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change student",
+    "content_type": [
+      "users",
+      "student"
+    ],
+    "codename": "change_student"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete student",
+    "content_type": [
+      "users",
+      "student"
+    ],
+    "codename": "delete_student"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view student",
+    "content_type": [
+      "users",
+      "student"
+    ],
+    "codename": "view_student"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "add_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "change_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "delete_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "view_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "add_quizresults"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "change_quizresults"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "delete_quizresults"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "view_quizresults"
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Teachers",
+    "permissions": [
+      [
+        "view_group",
+        "auth",
+        "group"
+      ],
+      [
+        "add_topic",
+        "quizzes",
+        "topic"
+      ],
+      [
+        "change_topic",
+        "quizzes",
+        "topic"
+      ],
+      [
+        "delete_topic",
+        "quizzes",
+        "topic"
+      ],
+      [
+        "view_topic",
+        "quizzes",
+        "topic"
+      ],
+      [
+        "add_word",
+        "quizzes",
+        "word"
+      ],
+      [
+        "change_word",
+        "quizzes",
+        "word"
+      ],
+      [
+        "delete_word",
+        "quizzes",
+        "word"
+      ],
+      [
+        "view_word",
+        "quizzes",
+        "word"
+      ],
+      [
+        "add_student",
+        "users",
+        "student"
+      ],
+      [
+        "change_student",
+        "users",
+        "student"
+      ],
+      [
+        "view_student",
+        "users",
+        "student"
+      ],
+      [
+        "view_studentprofile",
+        "users",
+        "studentprofile"
+      ],
+      [
+        "view_teacher",
+        "users",
+        "teacher"
+      ],
+      [
+        "view_teacherprofile",
+        "users",
+        "teacherprofile"
+      ],
+      [
+        "view_user",
+        "users",
+        "user"
+      ]
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$44Z7DaLBs8uM2Yiz5lnzlz$Ta8VflTAzlXnjPJCzcqXieGIWhiVbKuu7QtIyUMKxfY=",
+    "last_login": "2022-08-03T22:32:49.060Z",
+    "is_superuser": true,
+    "username": "nathaniel",
+    "first_name": "Nathaniel",
+    "last_name": "Samson",
+    "email": "natsamson1@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-06-22T12:46:43.691Z",
+    "is_teacher": true,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$VDYUqsp4pAqCq4SiRdmuGA$C8fD3vle2WcgAbht2HErA5C9HD7StE5/Z9C+tJrTdHM=",
+    "last_login": "2022-07-29T10:04:39.057Z",
+    "is_superuser": false,
+    "username": "student1",
+    "first_name": "Jill",
+    "last_name": "Scholarly",
+    "email": "student@student.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-06-22T16:54:56Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$4OESkE6P2PALXu5QcQ82Ev$fVsQ7mY7PSsSHEPstydBkWPZstxPFJ9AUxqaEGH9kL0=",
+    "last_login": "2022-07-29T20:32:57.340Z",
+    "is_superuser": false,
+    "username": "student2",
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "student2@student.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-06-22T17:11:20Z",
+    "is_teacher": false,
+    "streak": 1,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$Xm2aUTvKD1zSGuXDAxz3c3$X7NNLVPirKIHSfyE8xneIsv9yuC/jUB1lGw8B9+ZnVg=",
+    "last_login": "2022-07-27T15:02:16.196Z",
+    "is_superuser": false,
+    "username": "teacher1",
+    "first_name": "Annie",
+    "last_name": "Educator",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-06-22T17:49:38Z",
+    "is_teacher": true,
+    "streak": 0,
+    "groups": [
+      [
+        "Teachers"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$3j4rBmutlignhE5TUg7Aky$kVFYuC/oVaQ6A+Kce4AaRvGIwxFyu2y/jKu8HKPe1bE=",
+    "last_login": "2022-06-22T20:14:46Z",
+    "is_superuser": false,
+    "username": "teacher7",
+    "first_name": "Joey",
+    "last_name": "Teacherson",
+    "email": "teacher@school.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-06-22T20:14:46Z",
+    "is_teacher": true,
+    "streak": 0,
+    "groups": [
+      [
+        "Teachers"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$K5Utji8ku7fwe1BZzJY4aS$blVLNzw00g+OvBHa9glsj+1bhC35Qc0IIZ542wCAlaw=",
+    "last_login": "2022-06-22T20:20:45.515Z",
+    "is_superuser": false,
+    "username": "teacher3",
+    "first_name": "Sue",
+    "last_name": "Teacherson",
+    "email": "teacher3@teacher.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-06-22T20:20:45.307Z",
+    "is_teacher": true,
+    "streak": 0,
+    "groups": [
+      [
+        "Teachers"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$eWf88uiyO25YfcUB1WI33w$k+xzieb5SzOpEKvyLHJAV96viGlea/ixl7LfUCbBws0=",
+    "last_login": "2022-07-29T20:29:29.248Z",
+    "is_superuser": false,
+    "username": "student7",
+    "first_name": "Rose",
+    "last_name": "Rosamondson",
+    "email": "student7@student.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-06-22T20:25:35.284Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$OjH7vDFAWrfGQ1WAqYkrrm$pdAgiBGFhzYC4td9nFdoXSIQxR9+h2D+kVo8ltENK0o=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student0",
+    "first_name": "Jimmy",
+    "last_name": "Jones",
+    "email": "student0@student.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-06-22T21:41:57.284Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$Bm2j5JuyFkPB0WSalwEvwp$nf7YLr4uLVy6P40ZBkih9fKnrMlyMLkCKwzL+hbnH2c=",
+    "last_login": "2022-07-12T19:58:46Z",
+    "is_superuser": false,
+    "username": "student9",
+    "first_name": "Amy",
+    "last_name": "Studious",
+    "email": "test@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-07-12T19:58:46Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 1,
+  "fields": {
+    "word": 6,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-04T19:59:22.900Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 2,
+  "fields": {
+    "word": 15,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-04T19:59:22.900Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 3,
+  "fields": {
+    "word": 3,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 4,
+    "times_seen": 135,
+    "times_correct": 46,
+    "last_updated": "2022-07-04T19:59:22.900Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 4,
+  "fields": {
+    "word": 2,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 103,
+    "times_correct": 50,
+    "last_updated": "2022-07-06T18:56:46.396Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 5,
+  "fields": {
+    "word": 1,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 3,
+    "times_seen": 104,
+    "times_correct": 55,
+    "last_updated": "2022-07-04T19:59:22.900Z",
+    "next_review": "2022-08-05"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 6,
+  "fields": {
+    "word": 4,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 4,
+    "times_seen": 5,
+    "times_correct": 4,
+    "last_updated": "2022-07-04T19:59:22.900Z",
+    "next_review": "2022-08-08"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 7,
+  "fields": {
+    "word": 7,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 98,
+    "times_correct": 52,
+    "last_updated": "2022-07-04T19:59:22.900Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 8,
+  "fields": {
+    "word": 5,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.946Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 9,
+  "fields": {
+    "word": 8,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 13,
+    "times_correct": 7,
+    "last_updated": "2022-07-06T22:34:20.953Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 10,
+  "fields": {
+    "word": 9,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.956Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 11,
+  "fields": {
+    "word": 10,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.958Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 12,
+  "fields": {
+    "word": 11,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 4,
+    "times_seen": 4,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.960Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 13,
+  "fields": {
+    "word": 12,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 8,
+    "times_correct": 5,
+    "last_updated": "2022-07-06T22:34:20.962Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 14,
+  "fields": {
+    "word": 13,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.964Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 15,
+  "fields": {
+    "word": 14,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 4,
+    "times_seen": 4,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.967Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 16,
+  "fields": {
+    "word": 16,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 3,
+    "times_seen": 11,
+    "times_correct": 7,
+    "last_updated": "2022-07-06T22:34:20.972Z",
+    "next_review": "2022-08-03"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 17,
+  "fields": {
+    "word": 17,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 4,
+    "times_seen": 5,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.974Z",
+    "next_review": "2022-08-09"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 18,
+  "fields": {
+    "word": 18,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 6,
+    "times_correct": 5,
+    "last_updated": "2022-07-06T22:34:20.976Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 19,
+  "fields": {
+    "word": 19,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 5,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:34:20.979Z",
+    "next_review": "2022-07-20"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 20,
+  "fields": {
+    "word": 20,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 4,
+    "times_seen": 5,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:34:20.981Z",
+    "next_review": "2022-08-11"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 21,
+  "fields": {
+    "word": 21,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 3,
+    "times_seen": 3,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:33.975Z",
+    "next_review": "2022-07-20"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 22,
+  "fields": {
+    "word": 22,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 5,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:33.979Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 23,
+  "fields": {
+    "word": 23,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 9,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:59:33.981Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 24,
+  "fields": {
+    "word": 24,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 8,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:33.984Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 25,
+  "fields": {
+    "word": 25,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 8,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:59:33.986Z",
+    "next_review": "2022-07-21"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 26,
+  "fields": {
+    "word": 26,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 3,
+    "times_seen": 5,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:59:33.989Z",
+    "next_review": "2022-07-23"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 27,
+  "fields": {
+    "word": 27,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 3,
+    "times_seen": 3,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:33.991Z",
+    "next_review": "2022-07-20"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 28,
+  "fields": {
+    "word": 28,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 12,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:33.993Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 29,
+  "fields": {
+    "word": 29,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 8,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:59:33.995Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 30,
+  "fields": {
+    "word": 30,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 8,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:33.998Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 31,
+  "fields": {
+    "word": 31,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 5,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:34.000Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 32,
+  "fields": {
+    "word": 32,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 8,
+    "times_correct": 2,
+    "last_updated": "2022-07-06T22:59:34.002Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 33,
+  "fields": {
+    "word": 33,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 4,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:34.004Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 34,
+  "fields": {
+    "word": 34,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-06T22:59:34.007Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 35,
+  "fields": {
+    "word": 35,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 10,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:34.009Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 36,
+  "fields": {
+    "word": 36,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 44,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:34.012Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 37,
+  "fields": {
+    "word": 37,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 45,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:34.014Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 38,
+  "fields": {
+    "word": 38,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 7,
+    "times_correct": 2,
+    "last_updated": "2022-07-06T22:59:34.015Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 39,
+  "fields": {
+    "word": 39,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 32,
+    "times_correct": 2,
+    "last_updated": "2022-07-06T22:59:34.018Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 40,
+  "fields": {
+    "word": 40,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 9,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:34.020Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 41,
+  "fields": {
+    "word": 41,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 4,
+    "times_correct": 2,
+    "last_updated": "2022-07-06T22:59:34.023Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 42,
+  "fields": {
+    "word": 42,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 10,
+    "times_correct": 3,
+    "last_updated": "2022-07-06T22:59:34.025Z",
+    "next_review": "2022-07-19"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 43,
+  "fields": {
+    "word": 1,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.972Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 44,
+  "fields": {
+    "word": 2,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.975Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 45,
+  "fields": {
+    "word": 3,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 5,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.977Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 46,
+  "fields": {
+    "word": 4,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.980Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 47,
+  "fields": {
+    "word": 5,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 7,
+    "times_correct": 5,
+    "last_updated": "2022-07-09T08:51:51.984Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 48,
+  "fields": {
+    "word": 6,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 9,
+    "times_correct": 3,
+    "last_updated": "2022-07-09T08:51:51.986Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 49,
+  "fields": {
+    "word": 7,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 5,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.990Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 50,
+  "fields": {
+    "word": 8,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 6,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.993Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 51,
+  "fields": {
+    "word": 9,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 7,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.995Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 52,
+  "fields": {
+    "word": 10,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 6,
+    "times_correct": 4,
+    "last_updated": "2022-07-09T08:51:51.998Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 53,
+  "fields": {
+    "word": 11,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 7,
+    "times_correct": 5,
+    "last_updated": "2022-07-09T08:51:52.000Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 54,
+  "fields": {
+    "word": 12,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 3,
+    "times_seen": 5,
+    "times_correct": 3,
+    "last_updated": "2022-07-09T08:51:52.003Z",
+    "next_review": "2022-08-03"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 55,
+  "fields": {
+    "word": 43,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 6,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.218Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 56,
+  "fields": {
+    "word": 44,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 7,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.221Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 57,
+  "fields": {
+    "word": 45,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 4,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.224Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 58,
+  "fields": {
+    "word": 46,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 3,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.228Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 59,
+  "fields": {
+    "word": 47,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 2,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.232Z",
+    "next_review": "2022-07-16"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 60,
+  "fields": {
+    "word": 48,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 5,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.234Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 61,
+  "fields": {
+    "word": 49,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 3,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.237Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 62,
+  "fields": {
+    "word": 50,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 2,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.239Z",
+    "next_review": "2022-07-16"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 63,
+  "fields": {
+    "word": 51,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 2,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.243Z",
+    "next_review": "2022-07-16"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 64,
+  "fields": {
+    "word": 52,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 5,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.245Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 65,
+  "fields": {
+    "word": 53,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 6,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.248Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 66,
+  "fields": {
+    "word": 54,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 2,
+    "times_correct": 2,
+    "last_updated": "2022-07-10T16:03:50.250Z",
+    "next_review": "2022-07-16"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 67,
+  "fields": {
+    "word": 1,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.622Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 68,
+  "fields": {
+    "word": 2,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-12T20:02:00.627Z",
+    "next_review": "2022-07-13"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 69,
+  "fields": {
+    "word": 3,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-12T20:02:00.629Z",
+    "next_review": "2022-07-13"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 70,
+  "fields": {
+    "word": 4,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-12T20:02:00.632Z",
+    "next_review": "2022-07-13"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 71,
+  "fields": {
+    "word": 5,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.634Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 72,
+  "fields": {
+    "word": 6,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.636Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 73,
+  "fields": {
+    "word": 7,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.638Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 74,
+  "fields": {
+    "word": 8,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.641Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 75,
+  "fields": {
+    "word": 9,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-12T20:02:00.643Z",
+    "next_review": "2022-07-13"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 76,
+  "fields": {
+    "word": 10,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.646Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 77,
+  "fields": {
+    "word": 11,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.648Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 78,
+  "fields": {
+    "word": 12,
+    "student": [
+      "student9"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-12T20:02:00.650Z",
+    "next_review": "2022-07-12"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 80,
+  "fields": {
+    "word": 55,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 6,
+    "times_correct": 0,
+    "last_updated": "2022-07-14T20:21:28.330Z",
+    "next_review": "2022-07-14"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 81,
+  "fields": {
+    "word": 56,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 5,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T20:21:28.334Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 82,
+  "fields": {
+    "word": 57,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T20:21:28.336Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 83,
+  "fields": {
+    "word": 58,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T20:21:28.339Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 84,
+  "fields": {
+    "word": 59,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 4,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T21:53:42.966Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 85,
+  "fields": {
+    "word": 60,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T21:53:42.969Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 86,
+  "fields": {
+    "word": 61,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T21:53:42.971Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 87,
+  "fields": {
+    "word": 62,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T21:53:42.974Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 88,
+  "fields": {
+    "word": 63,
+    "student": [
+      "nathaniel"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T21:56:02.695Z",
+    "next_review": "2022-07-15"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 89,
+  "fields": {
+    "word": 13,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 6,
+    "times_correct": 3,
+    "last_updated": "2022-07-14T22:42:17.728Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 90,
+  "fields": {
+    "word": 14,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 5,
+    "times_correct": 3,
+    "last_updated": "2022-07-14T22:42:17.732Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 91,
+  "fields": {
+    "word": 15,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 3,
+    "times_seen": 3,
+    "times_correct": 3,
+    "last_updated": "2022-07-14T22:42:17.734Z",
+    "next_review": "2022-08-05"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 92,
+  "fields": {
+    "word": 16,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 4,
+    "times_correct": 3,
+    "last_updated": "2022-07-14T22:42:17.736Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 93,
+  "fields": {
+    "word": 17,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 2,
+    "last_updated": "2022-07-14T22:42:17.739Z",
+    "next_review": "2022-07-18"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 94,
+  "fields": {
+    "word": 43,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.038Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 95,
+  "fields": {
+    "word": 44,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 2,
+    "times_correct": 2,
+    "last_updated": "2022-07-14T22:47:39.043Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 96,
+  "fields": {
+    "word": 45,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.047Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 97,
+  "fields": {
+    "word": 46,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.050Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 98,
+  "fields": {
+    "word": 47,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.052Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 99,
+  "fields": {
+    "word": 48,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 2,
+    "times_correct": 0,
+    "last_updated": "2022-07-14T22:47:39.054Z",
+    "next_review": "2022-07-14"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 100,
+  "fields": {
+    "word": 49,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.057Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 101,
+  "fields": {
+    "word": 50,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.060Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 102,
+  "fields": {
+    "word": 51,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.063Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 103,
+  "fields": {
+    "word": 52,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.065Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 104,
+  "fields": {
+    "word": 53,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.068Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 105,
+  "fields": {
+    "word": 54,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-14T22:47:39.071Z",
+    "next_review": "2022-07-28"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 106,
+  "fields": {
+    "word": 18,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 3,
+    "times_correct": 2,
+    "last_updated": "2022-07-15T17:13:02.644Z",
+    "next_review": "2022-07-18"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 107,
+  "fields": {
+    "word": 19,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 3,
+    "times_correct": 2,
+    "last_updated": "2022-07-15T17:13:02.647Z",
+    "next_review": "2022-07-18"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 108,
+  "fields": {
+    "word": 20,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 2,
+    "times_correct": 2,
+    "last_updated": "2022-07-15T17:13:02.649Z",
+    "next_review": "2022-07-20"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 110,
+  "fields": {
+    "word": 21,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.027Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 111,
+  "fields": {
+    "word": 22,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 2,
+    "times_seen": 2,
+    "times_correct": 2,
+    "last_updated": "2022-07-27T13:54:21.031Z",
+    "next_review": "2022-08-01"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 112,
+  "fields": {
+    "word": 23,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.034Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 113,
+  "fields": {
+    "word": 24,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.037Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 114,
+  "fields": {
+    "word": 25,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.039Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 115,
+  "fields": {
+    "word": 26,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.042Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 116,
+  "fields": {
+    "word": 27,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.046Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 117,
+  "fields": {
+    "word": 28,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.049Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 118,
+  "fields": {
+    "word": 29,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.051Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 119,
+  "fields": {
+    "word": 30,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.054Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 120,
+  "fields": {
+    "word": 31,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.057Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 121,
+  "fields": {
+    "word": 32,
+    "student": [
+      "student1"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-27T13:54:21.060Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 122,
+  "fields": {
+    "word": 21,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.203Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 123,
+  "fields": {
+    "word": 22,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-29T20:29:45.210Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 124,
+  "fields": {
+    "word": 23,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.217Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 125,
+  "fields": {
+    "word": 24,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.221Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 126,
+  "fields": {
+    "word": 25,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.226Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 127,
+  "fields": {
+    "word": 26,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.230Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 128,
+  "fields": {
+    "word": 27,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.234Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 129,
+  "fields": {
+    "word": 28,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.237Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 130,
+  "fields": {
+    "word": 29,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.240Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 131,
+  "fields": {
+    "word": 30,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.243Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 132,
+  "fields": {
+    "word": 31,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.246Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 133,
+  "fields": {
+    "word": 32,
+    "student": [
+      "student7"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:29:45.249Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 134,
+  "fields": {
+    "word": 21,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.458Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 135,
+  "fields": {
+    "word": 22,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.461Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 136,
+  "fields": {
+    "word": 23,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.463Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 137,
+  "fields": {
+    "word": 24,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.466Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 138,
+  "fields": {
+    "word": 25,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-29T20:40:36.469Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 139,
+  "fields": {
+    "word": 26,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.472Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 140,
+  "fields": {
+    "word": 27,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.475Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 141,
+  "fields": {
+    "word": 28,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.477Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 142,
+  "fields": {
+    "word": 29,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 3,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:40:36.481Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 143,
+  "fields": {
+    "word": 30,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 3,
+    "times_correct": 1,
+    "last_updated": "2022-07-29T20:40:36.484Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 144,
+  "fields": {
+    "word": 31,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-29T20:40:36.487Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 145,
+  "fields": {
+    "word": 32,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 2,
+    "times_correct": 1,
+    "last_updated": "2022-07-29T20:40:36.489Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 146,
+  "fields": {
+    "word": 1,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-29T20:46:21.002Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 147,
+  "fields": {
+    "word": 2,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.005Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 148,
+  "fields": {
+    "word": 3,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.008Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 149,
+  "fields": {
+    "word": 4,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.011Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 150,
+  "fields": {
+    "word": 5,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.016Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 151,
+  "fields": {
+    "word": 6,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.019Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 152,
+  "fields": {
+    "word": 7,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.023Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 153,
+  "fields": {
+    "word": 8,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.027Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 154,
+  "fields": {
+    "word": 9,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.031Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 155,
+  "fields": {
+    "word": 10,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 1,
+    "times_seen": 1,
+    "times_correct": 1,
+    "last_updated": "2022-07-29T20:46:21.034Z",
+    "next_review": "2022-07-30"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 156,
+  "fields": {
+    "word": 11,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.037Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 157,
+  "fields": {
+    "word": 12,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:46:21.040Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 158,
+  "fields": {
+    "word": 33,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 2,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:51:15.117Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 159,
+  "fields": {
+    "word": 34,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 2,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:51:15.120Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.wordscore",
+  "pk": 160,
+  "fields": {
+    "word": 35,
+    "student": [
+      "student2"
+    ],
+    "consecutive_correct": 0,
+    "times_seen": 1,
+    "times_correct": 0,
+    "last_updated": "2022-07-29T20:55:04.567Z",
+    "next_review": "2022-07-29"
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 1,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 2,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 3,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 4,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 5,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 6,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 7,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 8,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 9,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 10,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 11,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 12,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 13,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 14,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 15,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 16,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 17,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 18,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 19,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 20,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 21,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 22,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 23,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 24,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 25,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 26,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 27,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 28,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 29,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 30,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 31,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 32,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 33,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 34,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 35,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 36,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 37,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 38,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 39,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 40,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 41,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 42,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 43,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 44,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 45,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 46,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 47,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 48,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 49,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 50,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 51,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 52,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 53,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 54,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 55,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 56,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 57,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 58,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 59,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-29",
+    "correct_answers": 2,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 60,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-30",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 61,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-30",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 62,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-06-30",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 63,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-01",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 64,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-01",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 65,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-01",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 66,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-01",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 67,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-01",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 68,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-01",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 69,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 70,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 71,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 72,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 73,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 74,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 75,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 2,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 76,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-04",
+    "correct_answers": 2,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 77,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 78,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 79,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 80,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 81,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 82,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 83,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 84,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 85,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 2,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 86,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 87,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 88,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 89,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-05",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 90,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-05",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 91,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 2,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 92,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 2,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 93,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 94,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 95,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 96,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 97,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 98,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 99,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 100,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 101,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 102,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 103,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 104,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 105,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 106,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 107,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 108,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 109,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 110,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 111,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 112,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 113,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 114,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 115,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 116,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 117,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 118,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 119,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 120,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 121,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-05",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 122,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-06",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 123,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-06",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 124,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-06",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 125,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-06",
+    "correct_answers": 6,
+    "incorrect_answers": 14,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 126,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-06",
+    "correct_answers": 15,
+    "incorrect_answers": 7,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 127,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-09",
+    "correct_answers": 5,
+    "incorrect_answers": 7,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 128,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-09",
+    "correct_answers": 12,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 129,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-09",
+    "correct_answers": 8,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 130,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-10",
+    "correct_answers": 12,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 131,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-10",
+    "correct_answers": 2,
+    "incorrect_answers": 0,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 132,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-10",
+    "correct_answers": 5,
+    "incorrect_answers": 7,
+    "points": 50
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 133,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-10",
+    "correct_answers": 12,
+    "incorrect_answers": 0,
+    "points": 120
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 134,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-10",
+    "correct_answers": 3,
+    "incorrect_answers": 9,
+    "points": 30
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 135,
+  "fields": {
+    "student": [
+      "student9"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-12",
+    "correct_answers": 4,
+    "incorrect_answers": 8,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 136,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-12",
+    "correct_answers": 6,
+    "incorrect_answers": 0,
+    "points": 60
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 137,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-13",
+    "correct_answers": 9,
+    "incorrect_answers": 3,
+    "points": 90
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 138,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-13",
+    "correct_answers": 9,
+    "incorrect_answers": 3,
+    "points": 90
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 139,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-13",
+    "correct_answers": 5,
+    "incorrect_answers": 0,
+    "points": 50
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 140,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-13",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 141,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-13",
+    "correct_answers": 4,
+    "incorrect_answers": 8,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 142,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-13",
+    "correct_answers": 3,
+    "incorrect_answers": 9,
+    "points": 30
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 143,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 10,
+    "incorrect_answers": 2,
+    "points": 100
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 144,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-14",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 145,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 4,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 146,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-14",
+    "correct_answers": 2,
+    "incorrect_answers": 2,
+    "points": 20
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 147,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 2,
+    "incorrect_answers": 7,
+    "points": 20
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 148,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 4,
+    "incorrect_answers": 5,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 149,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 150,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 151,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 152,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 153,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 154,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 155,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 156,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 157,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 158,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 159,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 160,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 161,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 162,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 163,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 164,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 165,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 166,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 167,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 168,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 169,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 170,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 171,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 172,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 173,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 3,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 174,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 1,
+    "incorrect_answers": 2,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 175,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 176,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 177,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 178,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 179,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 180,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 181,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 182,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 183,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 184,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 185,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 2,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 186,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 1,
+    "incorrect_answers": 1,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 187,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 188,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-14",
+    "correct_answers": 4,
+    "incorrect_answers": 8,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 189,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-14",
+    "correct_answers": 1,
+    "incorrect_answers": 0,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 190,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-14",
+    "correct_answers": 3,
+    "incorrect_answers": 9,
+    "points": 30
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 191,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-14",
+    "correct_answers": 4,
+    "incorrect_answers": 6,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 192,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-14",
+    "correct_answers": 2,
+    "incorrect_answers": 4,
+    "points": 20
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 193,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-14",
+    "correct_answers": 3,
+    "incorrect_answers": 1,
+    "points": 30
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 194,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-14",
+    "correct_answers": 0,
+    "incorrect_answers": 1,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 195,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-14",
+    "correct_answers": 5,
+    "incorrect_answers": 7,
+    "points": 50
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 196,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-14",
+    "correct_answers": 8,
+    "incorrect_answers": 4,
+    "points": 80
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 197,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-14",
+    "correct_answers": 1,
+    "incorrect_answers": 11,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 198,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-15",
+    "correct_answers": 12,
+    "incorrect_answers": 0,
+    "points": 120
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 199,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-15",
+    "correct_answers": 7,
+    "incorrect_answers": 0,
+    "points": 70
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 200,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-15",
+    "correct_answers": 3,
+    "incorrect_answers": 9,
+    "points": 30
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 201,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-15",
+    "correct_answers": 0,
+    "incorrect_answers": 12,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 202,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-16",
+    "correct_answers": 1,
+    "incorrect_answers": 0,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 203,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-16",
+    "correct_answers": 6,
+    "incorrect_answers": 6,
+    "points": 60
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 204,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-16",
+    "correct_answers": 4,
+    "incorrect_answers": 8,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 205,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-17",
+    "correct_answers": 10,
+    "incorrect_answers": 0,
+    "points": 100
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 206,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-18",
+    "correct_answers": 4,
+    "incorrect_answers": 0,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 207,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-18",
+    "correct_answers": 3,
+    "incorrect_answers": 9,
+    "points": 30
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 208,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-18",
+    "correct_answers": 4,
+    "incorrect_answers": 5,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 209,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-18",
+    "correct_answers": 7,
+    "incorrect_answers": 5,
+    "points": 70
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 210,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-18",
+    "correct_answers": 0,
+    "incorrect_answers": 5,
+    "points": 0
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 211,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-18",
+    "correct_answers": 1,
+    "incorrect_answers": 4,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 212,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-18",
+    "correct_answers": 1,
+    "incorrect_answers": 3,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 213,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-18",
+    "correct_answers": 3,
+    "incorrect_answers": 0,
+    "points": 30
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 214,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-19",
+    "correct_answers": 6,
+    "incorrect_answers": 3,
+    "points": 60
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 215,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-26",
+    "correct_answers": 4,
+    "incorrect_answers": 8,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 216,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-27",
+    "correct_answers": 11,
+    "incorrect_answers": 1,
+    "points": 110
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 217,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-27",
+    "correct_answers": 1,
+    "incorrect_answers": 11,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 218,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 3,
+    "date_created": "2022-07-27",
+    "correct_answers": 11,
+    "incorrect_answers": 1,
+    "points": 110
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 219,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-27",
+    "correct_answers": 12,
+    "incorrect_answers": 0,
+    "points": 120
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 220,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-29",
+    "correct_answers": 12,
+    "incorrect_answers": 0,
+    "points": 120
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 221,
+  "fields": {
+    "student": [
+      "student1"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-29",
+    "correct_answers": 12,
+    "incorrect_answers": 0,
+    "points": 120
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 222,
+  "fields": {
+    "student": [
+      "nathaniel"
+    ],
+    "topic": 1,
+    "date_created": "2022-07-29",
+    "correct_answers": 4,
+    "incorrect_answers": 8,
+    "points": 40
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 223,
+  "fields": {
+    "student": [
+      "student7"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-29",
+    "correct_answers": 1,
+    "incorrect_answers": 11,
+    "points": 10
+  }
+},
+{
+  "model": "quizzes.quizresults",
+  "pk": 227,
+  "fields": {
+    "student": [
+      "student2"
+    ],
+    "topic": 2,
+    "date_created": "2022-07-29",
+    "correct_answers": 1,
+    "incorrect_answers": 11,
+    "points": 10
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2022-06-22T17:49:38.638Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "4",
+    "object_repr": "teacher1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2022-06-22T17:49:50.588Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "4",
+    "object_repr": "teacher1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2022-06-22T18:08:01.952Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "object_id": "1",
+    "object_repr": "Teachers",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2022-06-22T18:08:28.138Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "4",
+    "object_repr": "teacher1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2022-06-22T20:16:08.376Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "5",
+    "object_repr": "teacher7",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2022-07-18T20:50:35.172Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "object_id": "64",
+    "object_repr": "fgfdgfdgdfg fdgdfgdfg dgdgdfgdf dfgdfgdfg dfgdf -> 34324 34324 ddsf fgdfg fgdf fdg dfgdfgdfgdfg dfg",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2022-07-18T20:51:05.200Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "9",
+    "object_repr": "test student (Student)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Staff status\", \"Groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2022-07-18T20:51:26.105Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "5",
+    "object_repr": "Joey Teacherson (Teacher)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Staff status\", \"Groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2022-07-18T20:51:49.459Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "Jill Scholarly (Student)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2022-07-18T20:52:08.449Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "9",
+    "object_repr": "Amy Studious (Student)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2022-07-18T20:52:36.318Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "4",
+    "object_repr": "Annie Educator (Student)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2022-07-18T20:55:46.305Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "3",
+    "object_repr": "Going on Holiday",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Long desc\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2022-07-18T21:06:45.258Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "object_id": "1",
+    "object_repr": "Teachers",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Permissions\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2022-07-18T21:56:39.817Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "object_id": "1",
+    "object_repr": "Cat -> Die Katze",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Topics\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2022-07-18T21:56:51.144Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "object_id": "1",
+    "object_repr": "Cat -> Die Katze",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Topics\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2022-07-18T21:59:28.320Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "object_id": "19",
+    "object_repr": "Grasshopper -> Die Heuschrecke",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Target\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2022-07-18T23:13:15.404Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "object_id": "1",
+    "object_repr": "Cat -> Die Katze",
+    "action_flag": 2,
+    "change_message": "[{\"added\": {\"name\": \"word-topic relationship\", \"object\": \"Word_topics object (67)\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2022-07-18T23:13:43.731Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "object_id": "1",
+    "object_repr": "Cat -> Die Katze",
+    "action_flag": 2,
+    "change_message": "[{\"deleted\": {\"name\": \"word-topic relationship\", \"object\": \"Word_topics object (None)\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2022-07-19T18:43:23.996Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals (Hidden)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2022-07-19T18:43:47.913Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2022-07-19T18:53:31.863Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals (Hidden)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2022-07-19T19:26:00.643Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2022-07-19T19:56:42.771Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals (HIDDEN)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2022-07-19T19:57:54.818Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2022-07-27T14:37:49.935Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "3",
+    "object_repr": "John Smith (Student)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is student\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2022-07-27T14:38:06.590Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "4",
+    "object_repr": "Annie Educator (Teacher)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is teacher\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2022-07-27T14:38:25.546Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "Jill Scholarly (Student)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is student\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2022-07-28T22:46:46.181Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals (HIDDEN)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2022-07-28T23:15:10.573Z",
+    "user": [
+      "nathaniel"
+    ],
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "object_id": "1",
+    "object_repr": "Animals",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Hide Topic\"]}}]"
+  }
+}
+]

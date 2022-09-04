@@ -17,7 +17,7 @@ def update_dropdown(dropdown, button, value):
     button.click()
 
     # Give the page time to load
-    time.sleep(1)
+    time.sleep(0.5)
 
 
 def create_quiz_data(student, topic1, topic2):
@@ -160,6 +160,18 @@ class DashboardUITests(BaseUITestCase):
         self.assertEquals('6', quizzes.text)
         self.assertEquals('2220', points.text)
 
+
+class DashboardUITestsB(BaseUITestCase):
+    # Put this into a separate class to avoid race condition with other Dashboard UI Test until a way around is found.
+    def setUp(self):
+        # Create some Quiz Results data for both students
+        create_quiz_data(self.student, self.topic1, self.topic2)
+        create_quiz_data(self.student_b, self.topic1, self.topic2)
+
+        # log the Teacher in and visit the Dashboard
+        self.login_user(self.teacher)
+        self.browser.get('%s%s' % (self.live_server_url, reverse('dashboard')))
+
     def test_points_per_student(self):
         # Get the dropdown menus and submit button
         topic_filter = Select(self.browser.find_element(By.ID, 'id_topic'))
@@ -180,7 +192,7 @@ class DashboardUITests(BaseUITestCase):
         self.assertEquals('1111', second_row[1].text)
 
         # Filter topic
-        update_dropdown(topic_filter, submit_button, '1')
+        update_dropdown(topic_filter, submit_button, str(self.topic1.pk))
         rows = table_body.find_elements(By.TAG_NAME, 'tr')
         first_row = rows[0].find_elements(By.TAG_NAME, 'td')
         self.assertEquals('test student', first_row[0].text)
