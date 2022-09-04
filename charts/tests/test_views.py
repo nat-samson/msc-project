@@ -24,7 +24,7 @@ class ProgressTests(TestCase):
 
     def test_progress_login_required(self):
         response = self.client.get(self.path)
-        redirect_url = '/login/?next=' + self.path
+        redirect_url = reverse('login') + '?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
@@ -77,7 +77,7 @@ class DashboardTests(TestCase):
 
     def test_dashboard_login_required(self):
         response = self.client.get(self.path)
-        redirect_url = '/login/?next=' + self.path
+        redirect_url = reverse('login') + '?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 

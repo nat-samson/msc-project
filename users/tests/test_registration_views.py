@@ -31,7 +31,7 @@ class RegisterLandingPageTests(TestCase):
         self.assertEquals(200, response.status_code)
 
     def test_register_view_url(self):
-        view = resolve('/register/')
+        view = resolve('/u/register/')
         self.assertIs(view.func.view_class, RegisterView)
 
 
@@ -45,7 +45,7 @@ class StudentRegisterTests(TestCase):
         self.assertEquals(200, response.status_code)
 
     def test_register_view_url(self):
-        view = resolve('/register/student/')
+        view = resolve('/u/register/student/')
         self.assertIs(view.func.view_class, StudentRegisterView)
 
     def test_register_form(self):
@@ -107,7 +107,7 @@ class TeacherRegisterTests(TestCase):
         self.assertEquals(200, response.status_code)
 
     def test_register_view_url(self):
-        view = resolve('/register/teacher/')
+        view = resolve('/u/register/teacher/')
         self.assertIs(view.func.view_class, TeacherRegisterView)
 
     def test_register_form(self):
@@ -181,7 +181,7 @@ class UserUpdateViewTests(TestCase):
         self.assertEquals(200, response.status_code)
 
     def test_register_view_url(self):
-        view = resolve('/profile/')
+        view = resolve('/u/profile/')
         self.assertIs(view.func.view_class, UserUpdateView)
 
     def test_register_form(self):
@@ -232,7 +232,7 @@ class CustomPasswordChangeViewTests(TestCase):
         self.assertEquals(200, response.status_code)
 
     def test_register_view_url(self):
-        view = resolve('/password/')
+        view = resolve('/u/password/')
         self.assertIs(view.func.view_class, CustomPasswordChangeView)
 
     def test_register_form(self):

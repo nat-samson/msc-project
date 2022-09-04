@@ -79,7 +79,7 @@ class PasswordResetTests(TestCase):
         self.assertEquals(response.status_code, 200)
 
     def test_password_reset_view_url(self):
-        view = resolve('/password-reset/')
+        view = resolve('/u/password-reset/')
         self.assertEquals(PasswordResetView, view.func.view_class)
 
     def test_form_has_intended_inputs(self):

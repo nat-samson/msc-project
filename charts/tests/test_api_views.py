@@ -23,7 +23,7 @@ class FilteredStudentDataTests(TestCase):
 
     def test_filtered_student_login_required(self):
         response = self.client.get(self.path)
-        redirect_url = '/login/?next=' + self.path
+        redirect_url = reverse('login') + '?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
@@ -82,7 +82,7 @@ class FilteredTeacherDataTests(TestCase):
 
     def test_filtered_teacher_login_required(self):
         response = self.client.get(self.path)
-        redirect_url = '/login/?next=' + self.path
+        redirect_url = reverse('login') + '?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
@@ -125,7 +125,7 @@ class FilteredDataDateTopicTests(TestCase):
 
     def test_filtered_date_topic_login_required(self):
         response = self.client.get(self.path)
-        redirect_url = '/login/?next=' + self.path
+        redirect_url = reverse('login') + '?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
@@ -188,7 +188,7 @@ class UpdatableChartsTests(TestCase):
 
     def test_updatable_charts_login_required(self):
         response = self.client.get(self.path)
-        redirect_url = '/login/?next=' + self.path
+        redirect_url = reverse('login') + '?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
@@ -248,7 +248,7 @@ class GetPointsPerDayTests(TestCase):
 
     def test_points_per_day_login_required(self):
         response = self.client.get(self.path)
-        redirect_url = '/login/?next=' + self.path
+        redirect_url = reverse('login') + '?next=' + self.path
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
 
