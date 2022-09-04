@@ -3,7 +3,7 @@ import datetime
 from django.db.models import Sum, Count, CharField, Value
 from django.db.models.functions import Concat
 
-from charts.chart_tools import unzip, get_colours
+from charts.utils.chart_tools import unzip, get_colours
 from quizzes.models import QuizResults, WordScore
 from users.models import User
 
@@ -97,10 +97,6 @@ def get_student_streaks_data():
                    .values('student', 'full_name', 'student__streak').distinct()
                    .values_list('full_name', 'student__streak')
                    .order_by('-student__streak')[:MAX_STREAKS])
-
-    while len(streaks) < MAX_STREAKS:
-        streaks.append(("N/A", "N/A"))
-
     return streaks
 
 

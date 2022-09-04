@@ -1,7 +1,7 @@
 from django.test import SimpleTestCase
 
-from charts import chart_tools
-from charts.chart_tools import unzip, get_colours
+from charts.utils import chart_tools
+from charts.utils.chart_tools import unzip, get_colours
 
 
 class ChartToolsTests(SimpleTestCase):

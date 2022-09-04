@@ -4,7 +4,7 @@ from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from charts.chart_data import get_points_per_day_data, get_updatable_charts_data, get_filtered_queryset, \
+from charts.utils.chart_data import get_points_per_day_data, get_updatable_charts_data, get_filtered_queryset, \
     get_points_per_student_data, get_weakest_words_data, get_student_streaks_data
 from charts.forms import DateFilterForm, StudentDateFilterForm, TopicDateFilterForm
 from quizzes.models import Topic, WordScore, MAX_SCORE, Word, QuizResults

@@ -5,7 +5,7 @@ from unittest import SkipTest
 from django.test import TestCase
 from django.urls import reverse
 
-from charts.chart_data import PTS_PER_DAY_DATERANGE
+from charts.utils.chart_data import PTS_PER_DAY_DATERANGE
 from quizzes.models import QuizResults, Topic
 from users.models import User
 
