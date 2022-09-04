@@ -6,18 +6,15 @@ from django.core.management import BaseCommand
 from django.db.models import Count
 
 from quizzes.models import Topic
-from quizzes.quiz_builder import MAX_QUIZ_LENGTH
-from quizzes.views import process_results
+from quizzes.utils.quiz_builder import MAX_QUIZ_LENGTH
+from quizzes.utils.quiz_logger import process_results
 from users.models import User
-
 
 MAX_QUIZZES_PER_DAY = 10
 
 
 class Command(BaseCommand):
-    """
-    Terminal command for generating the specified days worth of quiz results data.
-    """
+    """ Terminal command for generating the specified days worth of quiz results data. """
     help = 'Generate x days worth of quiz results data for all active students.'
 
     def add_arguments(self, parser):

@@ -4,8 +4,8 @@ from django.http import Http404
 from django.test import TestCase
 
 from quizzes.models import Topic, Word
-from quizzes.quiz_builder import choose_direction, get_quiz, get_options, CORRECT_ANSWER_PTS, ORIGIN_ICON, \
-    TARGET_ICON, get_dummy_data
+from quizzes.utils.quiz_builder import _choose_direction, get_quiz, _get_options, CORRECT_ANSWER_PTS, ORIGIN_ICON, \
+    TARGET_ICON, _get_dummy_data
 from users.models import User
 
 
@@ -22,7 +22,7 @@ class QuizBuilderTests(TestCase):
         cls.all_topic_words = Word.objects.filter(topics=animals)
 
     def test_choose_direction(self):
-        self.assertIsInstance(choose_direction(), bool)
+        self.assertIsInstance(_choose_direction(), bool)
 
     def test_get_quiz_empty_topic(self):
         empty_topic = Topic.objects.create(name='Empty')
@@ -113,12 +113,12 @@ class QuizBuilderTests(TestCase):
 
     def test_get_options(self):
         options_pool = list(self.all_topic_words.values('id', 'origin', 'target'))
-        options = get_options(options_pool, 1, True)
+        options = _get_options(options_pool, 1, True)
         self.assertIsInstance(options, list)
 
     def test_get_dummy_data(self):
         # validate the basic format of the dummy data
-        dummy_data = get_dummy_data()
+        dummy_data = _get_dummy_data()
         questions = dummy_data.pop('questions')
 
         quiz_metadata = {'correct_pts': CORRECT_ANSWER_PTS, 'origin_icon': ORIGIN_ICON,

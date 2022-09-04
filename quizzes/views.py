@@ -2,16 +2,15 @@ import datetime
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import transaction
 from django.db.models import FilteredRelation, Q, F, Count, ExpressionWrapper, BooleanField
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView
 
-from quizzes import quiz_builder
-from quizzes.models import Topic, Word, WordScore, QuizResults
-from quizzes.quiz_builder import CORRECT_ANSWER_PTS
+from quizzes.utils import quiz_builder
+from quizzes.models import Topic, Word
+from quizzes.utils.quiz_logger import process_results
 
 
 class HomeView(LoginRequiredMixin, ListView):
@@ -94,71 +93,3 @@ class QuizView(LoginRequiredMixin, View):
             # handle the race condition if a topic doesn't have enough words after the quiz is requested
             else:
                 return redirect(reverse('home'))
-
-
-@transaction.atomic
-def process_results(results, student, topic_id, today=datetime.date.today()):
-    results_page_data = {'words': []}
-    total_questions = 0
-    total_correct = 0
-
-    # obtain all the database rows required for maintaining the spaced-repetition schedule
-    words_in_quiz = Word.objects.in_bulk(results, field_name='pk')
-    word_scores = {str(ws.word_id): ws for ws in
-                   WordScore.objects.select_related('word').filter(student=student, word__in=words_in_quiz)}
-    word_scores_to_create = []
-    word_scores_to_update = []
-
-    # process the results
-    for word_id, is_correct in results.items():
-        total_questions += 1
-
-        # check if WordScore exists for this word/student pair
-        word_score = word_scores.get(word_id, None)
-
-        if word_score:
-            if word_score.next_review <= today or not is_correct:
-                word_score.times_seen = F('times_seen') + 1
-
-                if is_correct:
-                    word_score.set_next_review(today=today)
-                    word_score.consecutive_correct = F('consecutive_correct') + 1
-                    word_score.times_correct = F('times_correct') + 1
-                else:
-                    word_score.next_review = today
-                    word_score.consecutive_correct = 0
-
-                word_scores_to_update.append(word_score)
-
-        else:
-            if is_correct:
-                word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student, consecutive_correct=1,
-                                       times_correct=1, next_review=today + datetime.timedelta(1))
-            else:
-                word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student)
-
-            word_scores_to_create.append(word_score)
-
-        # prepare data for display on the results page
-        total_correct += is_correct
-        result = (word_score.word.origin, word_score.word.target, is_correct)
-        results_page_data['words'].append(result)
-
-    # bulk create/update the WordScores
-    WordScore.objects.bulk_create(word_scores_to_create)
-    WordScore.objects.bulk_update(word_scores_to_update,
-                                  fields=['consecutive_correct', 'times_seen', 'times_correct', 'next_review'])
-
-    # update user's streak if this is their first quiz taken today
-    QuizResults.update_user_streak(student, today=today)
-
-    # log quiz results in the database
-    quiz_score = total_correct * CORRECT_ANSWER_PTS
-    QuizResults.objects.create(student=student, topic_id=topic_id,
-                               correct_answers=total_correct, incorrect_answers=total_questions-total_correct,
-                               points=quiz_score, date_created=today)
-
-    # record quiz score and pass it to results page
-    results_page_data['correct'] = total_correct
-    results_page_data['total'] = total_questions
-    return results_page_data
