@@ -1,5 +1,5 @@
-import json
 import datetime
+import json
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
@@ -170,13 +170,11 @@ class TestsThatRequireLogin(StaticLiveServerTestCase):
 
         quiz_data = self.browser.find_element(By.ID, value='quiz-data').get_attribute('innerHTML')
         quiz = json.loads(quiz_data)
-        origin_icon = quiz['origin_icon']
-        target_icon = quiz['target_icon']
         correct_pts = quiz['correct_pts']
         questions = quiz['questions']
 
         # answer each quiz question in turn
-        for _ in range(len(questions)):
+        for num in range(len(questions)):
             current_word = self.browser.find_element(By.ID, value='question-detail').text
 
             # determine correct answer
@@ -196,6 +194,10 @@ class TestsThatRequireLogin(StaticLiveServerTestCase):
                 else:
                     self.assertIn("is-success", options[i].get_attribute("class"))
 
+            score = self.browser.find_element(By.ID, value='score').text
+            self.assertEquals(score, f"{(num + 1) * correct_pts} pts")
+
+            # next question!
             self.browser.find_element(By.ID, value="continue").click()
 
     def test_answering_quiz_questions_incorrectly(self):
@@ -208,9 +210,6 @@ class TestsThatRequireLogin(StaticLiveServerTestCase):
 
         quiz_data = self.browser.find_element(By.ID, value='quiz-data').get_attribute('innerHTML')
         quiz = json.loads(quiz_data)
-        origin_icon = quiz['origin_icon']
-        target_icon = quiz['target_icon']
-        correct_pts = quiz['correct_pts']
         questions = quiz['questions']
 
         # answer each quiz question in turn
@@ -238,4 +237,8 @@ class TestsThatRequireLogin(StaticLiveServerTestCase):
                     self.assertNotIn("is-success", options[i].get_attribute("class"))
                     self.assertNotIn("is-danger", options[i].get_attribute("class"))
 
+            score = self.browser.find_element(By.ID, value='score').text
+            self.assertEquals(score, "0 pts")
+
+            # next question!
             self.browser.find_element(By.ID, value="continue").click()

@@ -204,14 +204,14 @@ class GetFilteredWordsTests(BaseTestCase):
         cls.test_topic.words.add(word_a)
 
     def test_search_for_words(self):
-        filtered_path = reverse('filter_words') + "?search=test%20target&topic="
+        filtered_path = self.path + "?search=test%20target&topic="
         response = self.client.get(filtered_path)
         self.assertContains(response, 'test target a')
         self.assertContains(response, 'test target b')
         self.assertContains(response, 'test target c')
 
     def test_search_for_word(self):
-        filtered_path = reverse('filter_words') + "?search=test%20target%20a&topic="
+        filtered_path = self.path + "?search=test%20target%20a&topic="
         response = self.client.get(filtered_path)
         self.assertContains(response, 'test target a')
         self.assertNotContains(response, 'test target b')
@@ -219,7 +219,7 @@ class GetFilteredWordsTests(BaseTestCase):
 
     def test_search_for_words_in_topic(self):
         filter_string = f'?search=&topic={self.test_topic.pk}'
-        filtered_path = reverse('filter_words') + filter_string
+        filtered_path = self.path + filter_string
         response = self.client.get(filtered_path)
         self.assertContains(response, 'test target a')
         self.assertNotContains(response, 'test target b')
