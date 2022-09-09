@@ -10,10 +10,13 @@ class TopicWordsInline(admin.TabularInline):
     model = Word.topics.through
     extra = 0
     ordering = ('word__origin',)
-    #raw_id_fields = ('word', 'topic')
     autocomplete_fields = ('word',)
     verbose_name = "Word registered to this topic"
     verbose_name_plural = "Words registered to this topic"
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('word')
 
 
 @admin.register(Topic)
@@ -25,6 +28,10 @@ class TopicAdmin(admin.ModelAdmin):
     list_editable = ('is_hidden', 'available_from',)
     ordering = ('date_created', 'available_from',)
     inlines = [TopicWordsInline]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('words')
 
     def link_to_words(self, obj):
         count = obj.words.count()
@@ -46,20 +53,21 @@ class WordAdmin(admin.ModelAdmin):
     search_fields = ('origin', 'target', 'topics__name')
     search_help_text = "Search by Origin, Target, Topic..."
     list_editable = ('origin', 'target',)
-    list_display_links = ('id','get_topics_list_str',)
+    list_display_links = ('id', 'get_topics_list_str',)
     ordering = ('date_created',)
 
-    #inlines = [TopicWordsInline]
-    #exclude = ('topics',)
-
-    # re-enable this to change ManyToMany field to a horizontal filter (rather than checkboxes)
-    #filter_horizontal = ('topics',)
+    # displays Topics using a horizontal filter (rather than checkboxes)
+    filter_horizontal = ('topics',)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.prefetch_related('topics')
 
-    def get_topics_list_str(self, obj):
-        return ', '.join([x.name for x in obj.topics.all()])
+    def get_topics_list_str(self, word):
+        topics = word.topics.all()
+        if topics.exists():
+            return ', '.join([x.name for x in topics])
+        else:
+            return '** No Topics **'
 
     get_topics_list_str.short_description = 'Topics List'
