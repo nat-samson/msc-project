@@ -4,9 +4,9 @@ from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from charts.forms import DateFilterForm, StudentDateFilterForm, TopicDateFilterForm
 from charts.utils.chart_data import get_points_per_day_data, get_updatable_charts_data, get_filtered_queryset, \
     get_points_per_student_data, get_weakest_words_data, get_student_streaks_data
-from charts.forms import DateFilterForm, StudentDateFilterForm, TopicDateFilterForm
 from quizzes.models import Topic, WordScore, MAX_SCORE, Word, QuizResults
 from users.models import User
 
@@ -17,7 +17,7 @@ TEMPLATE VIEWS
 
 @login_required
 def progress(request):
-    # obtain non-filterable data
+    """View function responsible for passing all the initial data required by the Progress page."""
     context = {
         "words_due_revision": Topic.all_topics_words_due_revision(request.user).count(),
         "words_memorised": WordScore.objects.filter(student=request.user,
@@ -32,10 +32,10 @@ def progress(request):
 @login_required
 @user_passes_test(lambda user: user.is_teacher)
 def dashboard(request):
-    # obtain non-filterable data
+    """Django view function responsible for passing all the initial data required by the Dashboard page."""
     context = {
-        "live_topics": Topic.objects.filter(is_hidden=False).count(),
-        "live_words": Word.objects.count(),
+        "live_topics": Topic.live_topics().count(),
+        "live_words": Word.objects.filter(topics__in=Topic.live_topics().values_list('id')).distinct().count(),
         "students_registered": User.objects.filter(is_teacher=False, is_active=True).count(),
         "date_filter": DateFilterForm("filter-date-teacher"),
         "student_filter": StudentDateFilterForm("data-updatable-charts"),

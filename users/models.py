@@ -3,6 +3,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    """A Django model representing a User of the application.
+
+    Users are either students or teachers, indicated via the is_teacher flag.
+    """
+
     is_teacher = models.BooleanField(default=False)
     streak = models.PositiveIntegerField(default=0)
 

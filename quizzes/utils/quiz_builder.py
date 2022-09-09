@@ -4,16 +4,12 @@ import random
 
 from django.shortcuts import get_object_or_404
 
+from myproject.settings import CORRECT_ANSWER_PTS, ORIGIN_ICON, TARGET_ICON, MAX_QUIZ_LENGTH
 from quizzes.models import Topic
-
-MAX_QUIZ_LENGTH = 12
-CORRECT_ANSWER_PTS = 10
-ORIGIN_ICON = "🇬🇧"
-TARGET_ICON = "🇩🇪"
 
 
 def get_quiz(user, topic_id):
-    """ Create quiz for given Topic and current User, based on Words that are due to be revised. """
+    """Create quiz for given Topic and current User, based on Words that are due to be revised."""
 
     # teachers can still do quizzes if topic is hidden, or not yet launched
     if user.is_teacher:
@@ -60,7 +56,7 @@ def get_quiz(user, topic_id):
 
 
 def _get_dummy_data():
-    """ Get dummy data in the ideal format for debugging purposes. """
+    """Get dummy data in the ideal format for debugging purposes."""
     data = {
         'correct_pts': CORRECT_ANSWER_PTS,
         'origin_icon': ORIGIN_ICON,
@@ -101,7 +97,7 @@ def _get_dummy_data():
 
 
 def _get_quiz_template():
-    """ Get the basic data structure used for passing a Quiz to the frontend. """
+    """Get the basic data structure used for passing a Quiz to the frontend."""
     return {
         'correct_pts': CORRECT_ANSWER_PTS,
         'origin_icon': ORIGIN_ICON,
@@ -111,7 +107,7 @@ def _get_quiz_template():
 
 
 def _get_options(options_pool, word_id, direction):
-    """ Build the multiple-choice options for the question currently being generated. """
+    """Build the multiple-choice options for the question currently being generated."""
     if not direction:
         option_text = 'origin'
     else:
@@ -125,5 +121,5 @@ def _get_options(options_pool, word_id, direction):
 
 
 def _choose_direction():
-    """ Return a random Boolean, used to determine whether a question is origin -> target or vice versa. """
+    """Return a random Boolean, used to determine whether a question is origin -> target or vice versa."""
     return bool(random.randrange(2))

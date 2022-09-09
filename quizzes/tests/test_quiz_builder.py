@@ -3,9 +3,9 @@ import datetime
 from django.http import Http404
 from django.test import TestCase
 
+from myproject.settings import CORRECT_ANSWER_PTS, ORIGIN_ICON, TARGET_ICON
 from quizzes.models import Topic, Word
-from quizzes.utils.quiz_builder import _choose_direction, get_quiz, _get_options, CORRECT_ANSWER_PTS, ORIGIN_ICON, \
-    TARGET_ICON, _get_dummy_data
+from quizzes.utils.quiz_builder import _choose_direction, get_quiz, _get_options, _get_dummy_data
 from users.models import User
 
 

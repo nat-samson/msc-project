@@ -3,13 +3,13 @@ import datetime
 from django.db import transaction
 from django.db.models import F
 
+from myproject.settings import CORRECT_ANSWER_PTS
 from quizzes.models import WordScore, QuizResults, Word
-from quizzes.utils.quiz_builder import CORRECT_ANSWER_PTS
 
 
 @transaction.atomic
 def process_results(results, student, topic_id, today=datetime.date.today()):
-    """ Update the spaced repetition schedule for the User with the latest Quiz data """
+    """Update the spaced repetition schedule for the User with the latest Quiz data."""
     results_page_data = {'words': []}
     total_questions = 0
     total_correct = 0
@@ -69,7 +69,7 @@ def process_results(results, student, topic_id, today=datetime.date.today()):
 
 
 def _log_results(student, today, topic_id, total_correct, total_questions):
-    """ Log quiz results in the database """
+    """Log quiz results in the database."""
     quiz_score = total_correct * CORRECT_ANSWER_PTS
     QuizResults.objects.create(student=student, topic_id=topic_id,
                                correct_answers=total_correct, incorrect_answers=total_questions - total_correct,

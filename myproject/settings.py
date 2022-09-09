@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+
 from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -157,9 +158,15 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-# Site code - used for verifying teachers at registration.
-SITE_CODE = config('SITE_CODE', default='teacher123')
-
 # Settings for Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bulma"
 CRISPY_TEMPLATE_PACK = "bulma"
+
+# Site code - used for verifying teachers at registration.
+SITE_CODE = config('SITE_CODE', default='birkbeck')
+
+# Quiz settings
+MAX_QUIZ_LENGTH = config('MAX_QUIZ_LENGTH', default=12, cast=int)
+CORRECT_ANSWER_PTS = config('CORRECT_ANSWER_PTS', default=10, cast=int)
+ORIGIN_ICON = config('ORIGIN_ICON', default='🇬🇧')
+TARGET_ICON = config('TARGET_ICON', default='🇩🇪')

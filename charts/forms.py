@@ -3,7 +3,6 @@ from datetime import datetime
 from crispy_bulma.layout import Submit, Reset, FormGroup
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
-
 from django import forms
 from django.forms import DateInput
 from django.urls import reverse_lazy
@@ -13,7 +12,7 @@ from users.models import User
 
 
 class BaseFilterForm(forms.Form):
-    """ Template for designing new forms used to filter Dashboard/Progress template data. """
+    """Template for designing new forms used to filter Dashboard/Progress template data."""
     def __init__(self, url, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
@@ -43,7 +42,7 @@ class BaseFilterForm(forms.Form):
 
 
 class DateFilterForm(BaseFilterForm):
-    """ Custom form to enable filtering by date range from a list of common presets. """
+    """Custom form to enable filtering by date range from a list of common presets."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper.form_id = 'date-filter-form'
@@ -54,7 +53,7 @@ class DateFilterForm(BaseFilterForm):
 
 
 class StudentDateFilterForm(BaseFilterForm):
-    """ Custom form to enable teachers to filter the charts on the Dashboard by student and date range. """
+    """Custom form to enable teachers to filter the charts on the Dashboard by student and date range."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper.form_id = 'student-filter-form'
@@ -70,7 +69,7 @@ class StudentDateFilterForm(BaseFilterForm):
 
 
 class TopicDateFilterForm(BaseFilterForm):
-    """ Custom form to enable teachers to filter the charts on the Dashboard by topic and date range. """
+    """Custom form to enable teachers to filter the charts on the Dashboard by topic and date range."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper.form_id = 'topic-filter-form'
