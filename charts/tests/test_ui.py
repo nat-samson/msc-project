@@ -1,6 +1,7 @@
 import datetime
 import time
 
+import chromedriver_autoinstaller
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 from selenium import webdriver
@@ -44,18 +45,19 @@ class BaseUITestCase(StaticLiveServerTestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        # create a student and a teacher
+        # create a student and a teacher, Topics
         cls.student = User.objects.create_user(username='seleniumstudent', password='test_password',
                                                first_name='test', last_name='student')
         cls.student_b = User.objects.create_user(username='seleniumstudentb', password='test_password',
                                                  first_name='test_b', last_name='student_b')
         cls.teacher = User.objects.create_user(username='seleniumteacher', password='test_password',
                                                first_name='test', last_name='teacher', is_teacher=True)
-
         cls.topic1 = Topic.objects.create(name='Selenium Test Topic 1')
         cls.topic2 = Topic.objects.create(name='Selenium Test Topic 2')
 
-        cls.browser = webdriver.Chrome('./chromedriver')
+        # set up automated Selenium browser
+        chromedriver_autoinstaller.install()
+        cls.browser = webdriver.Chrome()
         cls.browser.implicitly_wait(10)
 
     @classmethod

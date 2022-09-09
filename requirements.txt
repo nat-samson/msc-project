@@ -1,4 +1,5 @@
 asgiref==3.5.2
+chromedriver-autoinstaller==0.4.0
 coverage==6.4.2
 crispy-bulma==0.8.0
 Django==4.0.5

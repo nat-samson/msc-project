@@ -1,6 +1,7 @@
 import datetime
 import json
 
+import chromedriver_autoinstaller
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 from selenium import webdriver
@@ -10,11 +11,12 @@ from quizzes.models import Topic
 from users.models import User
 
 
-class LoginTests(StaticLiveServerTestCase):
+class BaseUITestCase(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.browser = webdriver.Chrome('./chromedriver')
+        chromedriver_autoinstaller.install()
+        cls.browser = webdriver.Chrome()
         cls.browser.implicitly_wait(10)
 
     @classmethod
@@ -22,6 +24,8 @@ class LoginTests(StaticLiveServerTestCase):
         cls.browser.close()
         super().tearDownClass()
 
+
+class LoginTests(BaseUITestCase):
     def setUp(self):
         self.student = User.objects.create_user(username='test_user', password='test_password',
                                                 first_name='test', last_name='user')
@@ -68,19 +72,8 @@ class LoginTests(StaticLiveServerTestCase):
         self.assertTrue("Please enter a correct username and password" in warning.text)
 
 
-class TestsThatRequireLogin(StaticLiveServerTestCase):
+class TestsThatRequireLogin(BaseUITestCase):
     fixtures = ['dump.json']
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.browser = webdriver.Chrome('./chromedriver')
-        cls.browser.implicitly_wait(10)
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.browser.close()
-        super().tearDownClass()
 
     def create_and_login_user(self, is_teacher=False):
         # Create a user and log them into the Selenium session
