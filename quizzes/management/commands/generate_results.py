@@ -14,7 +14,7 @@ MAX_QUIZZES_PER_DAY = 10
 
 
 class Command(BaseCommand):
-    """ Terminal command for generating the specified days worth of quiz results data. """
+    """Terminal command for generating the specified days worth of quiz results data."""
     help = 'Generate x days worth of quiz results data for all active students.'
 
     def add_arguments(self, parser):
@@ -37,7 +37,7 @@ class Command(BaseCommand):
 
             while quiz_date <= today:
                 # randomly decide how many quizzes to do today, and in which topics
-                quizzes_today = get_quiz_today_count()
+                quizzes_today = _get_quiz_today_count()
 
                 topic_list = list(Topic.objects.annotate(word_count=Count('words'))
                                   .filter(is_hidden=False, word_count__gte=4))
@@ -46,7 +46,7 @@ class Command(BaseCommand):
                 for topic in topics_to_quiz:
                     # do the quizzes!
                     words_to_quiz = topic.words_due_revision(student, quiz_date)[:MAX_QUIZ_LENGTH]
-                    results = {word.id: correct_or_incorrect() for word in words_to_quiz}
+                    results = {word.id: _correct_or_incorrect() for word in words_to_quiz}
 
                     if results:
                         process_results(results, student, topic.id, quiz_date)
@@ -57,8 +57,8 @@ class Command(BaseCommand):
         print(f"{student_count} students took {quiz_count} quizzes covering {days_to_generate} days.")
 
 
-def get_quiz_today_count():
-    """ Helper method to provide a more natural randomised count of quizzes to be taken 'today'."""
+def _get_quiz_today_count():
+    """Helper method to provide a more natural randomised count of quizzes to be taken 'today'."""
     quiz_count = -1
     keep_quizzing = True
     quiz_pc = 90
@@ -71,7 +71,7 @@ def get_quiz_today_count():
     return quiz_count
 
 
-def correct_or_incorrect():
-    """ Helper method to provide a boolean that is 60% likely to be True """
+def _correct_or_incorrect():
+    """Helper method to provide a boolean that is 60% likely to be True."""
     pc_accurate = 60
     return random.randint(1, 100) <= pc_accurate
