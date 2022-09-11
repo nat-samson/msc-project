@@ -1,3 +1,8 @@
+/**
+ * @file Single-page application logic for running the multiple-choice quiz.
+ * @author Nathaniel Samson
+ */
+
 // DOM elements manipulated by the quiz
 const quizLandingBlock = document.getElementById("quiz-landing");
 const quizBlock = document.getElementById("quiz");
@@ -31,106 +36,33 @@ let results = {};
 let availableQuestions = [];
 let allowUserAnswer = false;
 
-// CSRF token, required when posting back the results
-const csrftoken = getCookie('csrftoken');
-// const alsotoken = $("input[name=csrfmiddlewaretoken]").val() jQuery version if also using CSRF in template
-
-// getCookie() taken from Django docs, see https://docs.djangoproject.com/en/4.0/ref/csrf/
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-startQuiz = () => {
-    availableQuestions = [... questions];
-    progressBar.setAttribute("max", totalQuestions)
-    getNextQuestion();
-};
-
-getNextQuestion = () => {
-    if(availableQuestions.length === 0) {
-        console.log("Shouldn't be able to get here! Quiz tried to run with no questions");
-        return;
-    }
-    continueButton.style.display = "none";
-
-    // question order is shuffled on the client side
-    let questionIndex = Math.floor(Math.random() * availableQuestions.length);
-    currentQuestion = availableQuestions[questionIndex];
-
-    // update the question in the DOM
-    question.firstElementChild.innerText = getDirectionStr(currentQuestion["origin_to_target"]);
-    question.lastElementChild.innerText = currentQuestion["word"];
-
-    options.forEach(option => {
-            const optionNum = option.dataset['num'];
-            option.innerText = currentQuestion['options'][optionNum];
-        }
-    )
-    availableQuestions.splice(questionIndex, 1);
-
-    allowUserAnswer = true;
-};
-
-resetState = () => {
-    options.forEach(option => {
-        option.classList.remove(correctClass, incorrectClass);
-    })
-}
-
-// INACTIVE
-submitResults = () => {
-    $.ajax({
-        url: '',
-        type: "POST",
-        headers: {'X-CSRFToken': csrftoken},
-        dataType: "json",
-        data: {results: JSON.stringify(results)},
-        success: function () {
-            // any process in data
-            //alert("success")
-        },
-        failure: function () {
-            alert("failure");
-        }
-    });
-}
-
+/** Clicking the 'Let's Go!' button hides the landing page and starts the quiz. */
 quizStartButton.addEventListener("click", () => {
     quizLandingBlock.style.display = "none";
     quizBlock.style.display = "block";
     startQuiz();
 });
 
+/** Clicking the 'Continue...' button moves the quiz onto the next question, or ends the quiz if no more questions. */
 continueButton.addEventListener("click", () => {
-    // check if the quiz has ended
     if(availableQuestions.length === 0) {
-        resultsData.value = JSON.stringify(results)
+        // if the quiz is over, submit the results
+        resultsData.value = JSON.stringify(results);
         resultsForm.submit();
         return;
     }
-    resetState()
-    getNextQuestion()
+    resetState();
+    getNextQuestion();
 });
 
+/** Logic for handling the user answering the current question. */
 options.forEach(option => {
     option.addEventListener("click", event => {
+        // Only permit user input once per question (user cannot change their answer)
         if(!allowUserAnswer) return;
-
         allowUserAnswer = false;
 
-        // track quiz results in order to send back to Django View
+        // check if user is correct, record their answer
         const selectedOption = event.target;
         const selectedAnswer = selectedOption.dataset["num"];
         const isCorrect = parseInt(selectedAnswer) === currentQuestion["correct_answer"];
@@ -154,20 +86,70 @@ options.forEach(option => {
             updateScore(CORRECT_ANSWER_PTS);
         }
 
-        // update progress bar
-        progressBar.innerText = (questionCounter++).toString();
-        progressBar.setAttribute("value", (questionCounter).toString())
-
+        // update progress bar and get ready for the next question / end of quiz
+        updateProgress();
         continueButton.style.display = "block";
         continueButton.innerText = availableQuestions.length > 0 ? "Continue..." : "Submit Your Results";
     });
 });
 
+/** Start the Quiz! Set up the questions to come and the initial Quiz UI. */
+startQuiz = () => {
+    availableQuestions = [... questions];
+    progressBar.setAttribute("max", totalQuestions);
+    getNextQuestion();
+};
+
+/** Refresh the Quiz UI with the next question and update the list of questions to come. */
+getNextQuestion = () => {
+    if(availableQuestions.length === 0) {
+        console.log("ERROR: Shouldn't be able to get here! Quiz tried to run with no questions.");
+        return;
+    }
+    continueButton.style.display = "none";
+
+    // pick a random question from the pile
+    let questionIndex = Math.floor(Math.random() * availableQuestions.length);
+    currentQuestion = availableQuestions[questionIndex];
+
+    // update the question and associated options displayed in the UI
+    question.firstElementChild.innerText = getDirectionStr(currentQuestion["origin_to_target"]);
+    question.lastElementChild.innerText = currentQuestion["word"];
+    options.forEach(option => {
+            const optionNum = option.dataset['num'];
+            option.innerText = currentQuestion['options'][optionNum];
+        }
+    )
+
+    // remove the question from the pile
+    availableQuestions.splice(questionIndex, 1);
+    allowUserAnswer = true;
+};
+
+/** Reset the highlighting of the options when proceeding to the next question. */
+resetState = () => {
+    options.forEach(option => {
+        option.classList.remove(correctClass, incorrectClass);
+    })
+}
+
+/** Update the current score and display it in the Quiz UI. */
 updateScore = num => {
     score += num;
     scoreBar.innerText = `${score} pts`;
 }
 
+/** Update the progress bar and display it in the Quiz UI. */
+updateProgress = () => {
+    progressBar.innerText = (questionCounter++).toString();
+    progressBar.setAttribute("value", (questionCounter).toString());
+}
+
+/**
+ * Get a string that represents the direction of the current question, i.e. "Flag1 -> Flag2".
+ * @param {boolean} is_forwards - A boolean indicating the question direction.
+ * @returns {string} - A string representing the question direction in a human-readable format.
+ */
 getDirectionStr = is_forwards => {
     return is_forwards ? `${originIcon} → ${targetIcon}`: `${targetIcon} → ${originIcon}`;
 }

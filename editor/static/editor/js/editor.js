@@ -1,5 +1,9 @@
-$(function () {
+/**
+ * @file Functions for asynchronous handling of the Add Word and Word Filter forms.
+ * @author Nathaniel Samson
+ */
 
+$(document).ready(function () {
   /**
    * Inject the Add Word form into the page each time the 'Add Word' button is clicked.
    */
@@ -23,7 +27,7 @@ $(function () {
         url: url,
         data: form.serialize(),
         type: form.attr("method"),
-        dataType: 'json',
+        dataType: "json",
         success: function (data) {
           if (data.is_valid) {
             // If the new word is valid, refresh the word table to show the newly added word
@@ -45,7 +49,7 @@ $(function () {
   }, ".word-create-form");
 
   // Hide element a, show element b
-  hideAndShow = (a, b) => {
+  let hideAndShow = (a, b) => {
     a.hide();
     b.show();
   };
@@ -63,10 +67,12 @@ $(function () {
   });
 
   /**
-   * When resetting the form, refresh its content too.
+   * When the 'All Topics' form is reset, also resubmit it, refreshing the contents of the word table in one go.
    */
-  $("#filter-reset").on("click", function (e) {
-    $("#filter-submit").click();
+  $("#word-filter-form").on("reset", function() {
+    setTimeout(function() {
+      $("#filter-submit").click();
+    });
   });
 
 });

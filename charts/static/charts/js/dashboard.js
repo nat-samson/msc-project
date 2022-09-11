@@ -5,23 +5,16 @@
 
 /**
  * Asynchronously retrieves data from the server and hands it to an Updater function to display.
- *
  * @param {(Chart[]|Chart|Element[])} target - An HTML element (or array of HTML elements) to be updated with new data.
  * @param {String} url - A String representing a URL to use for the GET request.
  * @param {Function} updaterFunc - A Function that updates the target with the retrieved data.
  */
 function updateData(target, url, updaterFunc) {
-    $.ajax({
-        method: "GET",
-        dataType: "json",
-        url: url,
-        success: (data) => {
-            updaterFunc(target, data);
-        },
-        failure: (error) => {
-            console.log("Failed to retrieve data from server.", error)
-        }
-    })
+    $.getJSON(url, function(data) {
+        updaterFunc(target, data);
+    }).fail(function() {
+        console.log("Failed to retrieve data from server.");
+    });
 }
 
 /**
