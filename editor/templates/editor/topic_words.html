@@ -1,12 +1,9 @@
 {% extends "quizzes/base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
-{% block title %}{{ block.super }}: {{ object.name }}{% endblock %}
 {% block content %}
     <div class="columns is-centered">
         <div class="column is-three-fifths">
-        {{ o }}
-
             {% if not topic_id %}
                 <div class="block">
                     {% crispy word_filter_form %}
