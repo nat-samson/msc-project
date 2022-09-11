@@ -1,0 +1,3128 @@
+[
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "users",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "topic"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "word"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "wordscore"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "quizzes",
+    "model": "quizresults"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "desof87f4xcbqo5zgj287p1hl2xoxmwj",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQRO_iGlnrTxw7JT1nsDbrDQkgGyVOhbg7WEoB5cy8eS8Rca9z3Dde45LEIJQWp99yRLpzbku6Yb4WSSXXdRllQ-SxbvJSEj_OB_snmHGb21tPwXmrJgi688SBXALEDkCB-kZNTBqVt8H1vZ6cAWdNSMgGvbG2SVcmzjXW8lxIDAreHxSQPX0:1oXOxu:ERxm312IEC5D9saIjxuMCVgjNLgUiIR9IPKqCxE9x28",
+    "expire_date": "2022-09-25T15:33:46.465Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 1,
+  "fields": {
+    "name": "Animals",
+    "long_desc": "A menagerie of vocabulary!",
+    "short_desc": "🐈🕷️🐕🐟",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 2,
+  "fields": {
+    "name": "Colours",
+    "long_desc": "All the colours of the Regenbogen.",
+    "short_desc": "👩‍🎨🌈🎨👨‍🎨",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 3,
+  "fields": {
+    "name": "Going on Holiday",
+    "long_desc": "Why not practise your German by the Strand?",
+    "short_desc": "🏖️😎🏄‍♂️",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 4,
+  "fields": {
+    "name": "Greetings",
+    "long_desc": "Fit in with the crowd!",
+    "short_desc": "👋🙌👍",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 5,
+  "fields": {
+    "name": "Questions",
+    "long_desc": "How do I say...?",
+    "short_desc": "⁉️😕❓",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 6,
+  "fields": {
+    "name": "Weather",
+    "long_desc": "Is it raining Katzen and Hunde?",
+    "short_desc": "☔️🌨☀️",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 7,
+  "fields": {
+    "name": "Careers",
+    "long_desc": "Discuss the new opportunities you're opening up with German.",
+    "short_desc": "👩‍🔬👨‍🍳👩‍🚀",
+    "is_hidden": false,
+    "available_from": "2023-01-01",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 8,
+  "fields": {
+    "name": "Materials",
+    "long_desc": "Describe what things are made from.",
+    "short_desc": "👚👞🐑",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 9,
+  "fields": {
+    "name": "Vehicles",
+    "long_desc": "Move around from here to there.",
+    "short_desc": "🚙⛵️✈️",
+    "is_hidden": false,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:25:38.377Z"
+  }
+},
+{
+  "model": "quizzes.topic",
+  "pk": 10,
+  "fields": {
+    "name": "New Topic in Progress!",
+    "long_desc": "Placeholder text",
+    "short_desc": "❓🧠❓",
+    "is_hidden": true,
+    "available_from": "2022-09-11",
+    "date_created": "2022-09-11T15:33:46.359Z"
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 1,
+  "fields": {
+    "origin": "Cat",
+    "target": "Die Katze",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 2,
+  "fields": {
+    "origin": "Dog",
+    "target": "Der Hund",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 3,
+  "fields": {
+    "origin": "Mouse",
+    "target": "Die Maus",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 4,
+  "fields": {
+    "origin": "Fish",
+    "target": "Der Fisch",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 5,
+  "fields": {
+    "origin": "Animal",
+    "target": "Das Tier",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 6,
+  "fields": {
+    "origin": "Bear",
+    "target": "Das Bär",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 7,
+  "fields": {
+    "origin": "Fox",
+    "target": "Der Fuchs",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 8,
+  "fields": {
+    "origin": "Bird",
+    "target": "Der Vogel",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 9,
+  "fields": {
+    "origin": "Rabbit",
+    "target": "Das Kaninchen",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 10,
+  "fields": {
+    "origin": "Cow",
+    "target": "Die Kuh",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 11,
+  "fields": {
+    "origin": "Lion",
+    "target": "Der Löwe",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 12,
+  "fields": {
+    "origin": "Horse",
+    "target": "Das Pferd",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 13,
+  "fields": {
+    "origin": "Wolf",
+    "target": "Der Wolf",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 14,
+  "fields": {
+    "origin": "Worm",
+    "target": "Der Wurm",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 15,
+  "fields": {
+    "origin": "Bee",
+    "target": "Die Biene",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 16,
+  "fields": {
+    "origin": "Fly",
+    "target": "Die Fliege",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 17,
+  "fields": {
+    "origin": "Spider",
+    "target": "Die Spinne",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 18,
+  "fields": {
+    "origin": "Rat",
+    "target": "Die Ratte",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 19,
+  "fields": {
+    "origin": "Grasshopper",
+    "target": "Die Heuschrecke",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 20,
+  "fields": {
+    "origin": "Butterfly",
+    "target": "Der Schmetterling",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      1
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 21,
+  "fields": {
+    "origin": "orange",
+    "target": "orange",
+    "date_created": "2022-09-11T15:25:38.381Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 22,
+  "fields": {
+    "origin": "pink",
+    "target": "rosa",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 23,
+  "fields": {
+    "origin": "purple",
+    "target": "violett, lila",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 24,
+  "fields": {
+    "origin": "yellow",
+    "target": "gelb",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 25,
+  "fields": {
+    "origin": "blue",
+    "target": "blau",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 26,
+  "fields": {
+    "origin": "red",
+    "target": "rot",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 27,
+  "fields": {
+    "origin": "green",
+    "target": "grün",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 28,
+  "fields": {
+    "origin": "white",
+    "target": "weiß",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 29,
+  "fields": {
+    "origin": "silver",
+    "target": "silber",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 30,
+  "fields": {
+    "origin": "gold",
+    "target": "gold",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 31,
+  "fields": {
+    "origin": "black",
+    "target": "schwarz",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 32,
+  "fields": {
+    "origin": "grey",
+    "target": "grau",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 33,
+  "fields": {
+    "origin": "brown",
+    "target": "braun",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 34,
+  "fields": {
+    "origin": "turquoise",
+    "target": "türkis",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 35,
+  "fields": {
+    "origin": "beige",
+    "target": "beige",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 36,
+  "fields": {
+    "origin": "light blue",
+    "target": "hellblau",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 37,
+  "fields": {
+    "origin": "dark blue",
+    "target": "dunkelblau",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 38,
+  "fields": {
+    "origin": "colour",
+    "target": "Die Farbe",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 39,
+  "fields": {
+    "origin": "cream",
+    "target": "cremefarben",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 40,
+  "fields": {
+    "origin": "granatrot",
+    "target": "maroon",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 41,
+  "fields": {
+    "origin": "khaki",
+    "target": "kaki",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 42,
+  "fields": {
+    "origin": "jet black",
+    "target": "schwarz wie Ebenholz",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 43,
+  "fields": {
+    "origin": "Holiday",
+    "target": "Der Urlaub",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 44,
+  "fields": {
+    "origin": "Passport",
+    "target": "Der Pass",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 45,
+  "fields": {
+    "origin": "visa",
+    "target": "Das Visum",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 46,
+  "fields": {
+    "origin": "swimsuit",
+    "target": "Der Badeanzug",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 47,
+  "fields": {
+    "origin": "to ski",
+    "target": "Ski laufen",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 48,
+  "fields": {
+    "origin": "to sunbathe",
+    "target": "sonnenbaden",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 49,
+  "fields": {
+    "origin": "sun",
+    "target": "Die Sonne",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 50,
+  "fields": {
+    "origin": "postcard",
+    "target": "Die Ansichtskarte",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 51,
+  "fields": {
+    "origin": "souvenir",
+    "target": "Das Andenken",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 52,
+  "fields": {
+    "origin": "ice cream",
+    "target": "Die Eis",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 53,
+  "fields": {
+    "origin": "to swim",
+    "target": "schwimmen",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 54,
+  "fields": {
+    "origin": "Hotel",
+    "target": "Das Hotel",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 55,
+  "fields": {
+    "origin": "sunglasses",
+    "target": "Die Sonnenbrille",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 56,
+  "fields": {
+    "origin": "suncream",
+    "target": "Die Sonnencreme",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 57,
+  "fields": {
+    "origin": "bikini",
+    "target": "Der Bikini",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 58,
+  "fields": {
+    "origin": "beach",
+    "target": "Der Strand",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 59,
+  "fields": {
+    "origin": "sandcastle",
+    "target": "Die Sandburg",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 60,
+  "fields": {
+    "origin": "bureau de change",
+    "target": "Die Wechselstube",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 61,
+  "fields": {
+    "origin": "flight",
+    "target": "Der Flug",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3,
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 62,
+  "fields": {
+    "origin": "airport",
+    "target": "Der Flughafen",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3,
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 63,
+  "fields": {
+    "origin": "ferry",
+    "target": "Die Fähre",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      3,
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 64,
+  "fields": {
+    "origin": "All the best",
+    "target": "Alles Gute!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 65,
+  "fields": {
+    "origin": "See you later",
+    "target": "Bis bald!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 66,
+  "fields": {
+    "origin": "Excuse me",
+    "target": "Entschuldigung!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 67,
+  "fields": {
+    "origin": "Merry Christmas",
+    "target": "Frohe Weihnachten!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 68,
+  "fields": {
+    "origin": "Don't mention it",
+    "target": "Gern geschehen!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 69,
+  "fields": {
+    "origin": "Welcome",
+    "target": "Herzlich willkommen!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 70,
+  "fields": {
+    "origin": "Congratulations",
+    "target": "Herzlichen Glückwunsch!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 71,
+  "fields": {
+    "origin": "Cheers",
+    "target": "Prost!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 72,
+  "fields": {
+    "origin": "Have a good/nice holiday",
+    "target": "Schöne Ferien!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 73,
+  "fields": {
+    "origin": "Good luck",
+    "target": "Viel Glück!",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      4
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 74,
+  "fields": {
+    "origin": "When?",
+    "target": "Wann?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 75,
+  "fields": {
+    "origin": "Why?",
+    "target": "Warum?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 76,
+  "fields": {
+    "origin": "What sort/type of...?",
+    "target": "Was für...?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 77,
+  "fields": {
+    "origin": "What?",
+    "target": "Was?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 78,
+  "fields": {
+    "origin": "Which?",
+    "target": "Welcher/Welche/Welches?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 79,
+  "fields": {
+    "origin": "Who?",
+    "target": "Wer?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 80,
+  "fields": {
+    "origin": "How long?",
+    "target": "Wie lang(e)?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 81,
+  "fields": {
+    "origin": "How much/many?",
+    "target": "Wie viel(e)?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 82,
+  "fields": {
+    "origin": "How?",
+    "target": "Wie?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 83,
+  "fields": {
+    "origin": "Why? How come?",
+    "target": "Wieso?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 84,
+  "fields": {
+    "origin": "Where?",
+    "target": "Wo?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 85,
+  "fields": {
+    "origin": "Where from?",
+    "target": "Woher?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 86,
+  "fields": {
+    "origin": "Where to?",
+    "target": "Wohin?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 87,
+  "fields": {
+    "origin": "What with?",
+    "target": "Womit?",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 88,
+  "fields": {
+    "origin": "overcast, cloudy",
+    "target": "bedeckt",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      5
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 89,
+  "fields": {
+    "origin": "lightning",
+    "target": "Der Blitz",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 90,
+  "fields": {
+    "origin": "thunder",
+    "target": "Der Donner",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 91,
+  "fields": {
+    "origin": "it's lightning",
+    "target": "es blitzt",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 92,
+  "fields": {
+    "origin": "it's thundering",
+    "target": "es donnert",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 93,
+  "fields": {
+    "origin": "it's hailing",
+    "target": "es hagelt",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 94,
+  "fields": {
+    "origin": "damp",
+    "target": "feucht",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 95,
+  "fields": {
+    "origin": "to freeze",
+    "target": "frieren",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 96,
+  "fields": {
+    "origin": "fresh",
+    "target": "frisch",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 97,
+  "fields": {
+    "origin": "thunderstorm",
+    "target": "Das Gewitter",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 98,
+  "fields": {
+    "origin": "degree",
+    "target": "Der Grad",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 99,
+  "fields": {
+    "origin": "hail",
+    "target": "Der Hagel",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 100,
+  "fields": {
+    "origin": "heavy, severe",
+    "target": "heftig",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 101,
+  "fields": {
+    "origin": "bright, fine, clear, fair",
+    "target": "heiter",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 102,
+  "fields": {
+    "origin": "sky",
+    "target": "Der Himmel",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 103,
+  "fields": {
+    "origin": "climate",
+    "target": "Das Klima",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 104,
+  "fields": {
+    "origin": "cool",
+    "target": "kühl",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 105,
+  "fields": {
+    "origin": "moon",
+    "target": "Der Mond",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 106,
+  "fields": {
+    "origin": "wet",
+    "target": "nass",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 107,
+  "fields": {
+    "origin": "fog",
+    "target": "Der Nebel",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 108,
+  "fields": {
+    "origin": "foggy",
+    "target": "nebelig",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 109,
+  "fields": {
+    "origin": "precipitation",
+    "target": "Der Niederschlag",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 110,
+  "fields": {
+    "origin": "rain",
+    "target": "Der Regen",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 111,
+  "fields": {
+    "origin": "to rain",
+    "target": "regnen",
+    "date_created": "2022-09-11T15:25:38.382Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 112,
+  "fields": {
+    "origin": "shadow",
+    "target": "Der Schatten",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 113,
+  "fields": {
+    "origin": "shady",
+    "target": "schattig",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 114,
+  "fields": {
+    "origin": "shower",
+    "target": "Der Schauer",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 115,
+  "fields": {
+    "origin": "shine",
+    "target": "scheinen",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 116,
+  "fields": {
+    "origin": "to snow",
+    "target": "schneien",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 117,
+  "fields": {
+    "origin": "storm",
+    "target": "Der Sturm",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 118,
+  "fields": {
+    "origin": "stormy",
+    "target": "stürmisch",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 119,
+  "fields": {
+    "origin": "dry",
+    "target": "trocken",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 120,
+  "fields": {
+    "origin": "weather report",
+    "target": "Der Wetterbericht",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 121,
+  "fields": {
+    "origin": "weather forecast",
+    "target": "Die Wettervorhersage",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 122,
+  "fields": {
+    "origin": "cloud",
+    "target": "Die Wolke",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 123,
+  "fields": {
+    "origin": "cloudy",
+    "target": "wolkig",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      6
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 124,
+  "fields": {
+    "origin": "boss",
+    "target": "Der Chef",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 125,
+  "fields": {
+    "origin": "experience",
+    "target": "Die Erfahrung",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 126,
+  "fields": {
+    "origin": "driving licence",
+    "target": "Der Führerschein",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7,
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 127,
+  "fields": {
+    "origin": "colleague",
+    "target": "Der Kollege",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 128,
+  "fields": {
+    "origin": "CV",
+    "target": "Der Lebenslauf",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 129,
+  "fields": {
+    "origin": "apprenticeship",
+    "target": "Die Lehre",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 130,
+  "fields": {
+    "origin": "wage",
+    "target": "Der Lohn",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 131,
+  "fields": {
+    "origin": "minimum wage",
+    "target": "Der Mindestlohn",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 132,
+  "fields": {
+    "origin": "part-time job",
+    "target": "Der Nebenjob",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 133,
+  "fields": {
+    "origin": "to earn",
+    "target": "verdienen",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 134,
+  "fields": {
+    "origin": "pharmacist",
+    "target": "Der Apotheker",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 135,
+  "fields": {
+    "origin": "work hours",
+    "target": "Die Arbeitszeit",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 136,
+  "fields": {
+    "origin": "baker",
+    "target": "Der Bäcker",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 137,
+  "fields": {
+    "origin": "builder",
+    "target": "Der Bauarbeiter",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 138,
+  "fields": {
+    "origin": "farmer",
+    "target": "Der Bauer",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 139,
+  "fields": {
+    "origin": "job, occupation",
+    "target": "Der Beruf",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 140,
+  "fields": {
+    "origin": "postman",
+    "target": "Der Briefträger",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 141,
+  "fields": {
+    "origin": "office",
+    "target": "Das Büro",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 142,
+  "fields": {
+    "origin": "fire fighter",
+    "target": "Der Feuerwehrmann",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 143,
+  "fields": {
+    "origin": "butcher",
+    "target": "Der Fleischer",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 144,
+  "fields": {
+    "origin": "hairdresser",
+    "target": "Der Friseur",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 145,
+  "fields": {
+    "origin": "salary",
+    "target": "Das Gehalt",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 146,
+  "fields": {
+    "origin": "career",
+    "target": "Die Karriere",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 147,
+  "fields": {
+    "origin": "plumber",
+    "target": "Der Klempner",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 148,
+  "fields": {
+    "origin": "chef, cook",
+    "target": "Der Koch",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 149,
+  "fields": {
+    "origin": "nurse",
+    "target": "Die Krankenschwester",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 150,
+  "fields": {
+    "origin": "policeman",
+    "target": "Der Polizist",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 151,
+  "fields": {
+    "origin": "actor",
+    "target": "Der Schauspieler",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      7
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 152,
+  "fields": {
+    "origin": "cotton",
+    "target": "Die Baumwolle",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 153,
+  "fields": {
+    "origin": "to be made of",
+    "target": "bestehen aus",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 154,
+  "fields": {
+    "origin": "iron",
+    "target": "Das Eisen",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 155,
+  "fields": {
+    "origin": "wood",
+    "target": "Das Holz",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 156,
+  "fields": {
+    "origin": "leather",
+    "target": "Das Leder",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 157,
+  "fields": {
+    "origin": "cardboard",
+    "target": "Die Pappe",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 158,
+  "fields": {
+    "origin": "silk",
+    "target": "Die Seide",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 159,
+  "fields": {
+    "origin": "material",
+    "target": "Der Stoff",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 160,
+  "fields": {
+    "origin": "wool",
+    "target": "Die Wolle",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      8
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 161,
+  "fields": {
+    "origin": "airplane",
+    "target": "Das Flugzeug",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 162,
+  "fields": {
+    "origin": "bicycle",
+    "target": "Das Fahrrad",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 163,
+  "fields": {
+    "origin": "car",
+    "target": "Das Auto",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 164,
+  "fields": {
+    "origin": "helicopter",
+    "target": "Der Hubschrauber",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 165,
+  "fields": {
+    "origin": "motorbike",
+    "target": "Das Motorrad",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 166,
+  "fields": {
+    "origin": "taxi",
+    "target": "Das Taxi",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 167,
+  "fields": {
+    "origin": "train",
+    "target": "Die Bahn",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 168,
+  "fields": {
+    "origin": "the truck",
+    "target": "Der Lastwagen",
+    "date_created": "2022-09-11T15:25:38.383Z",
+    "topics": [
+      9
+    ]
+  }
+},
+{
+  "model": "quizzes.word",
+  "pk": 169,
+  "fields": {
+    "origin": "Under construction",
+    "target": "TBC",
+    "date_created": "2022-09-11T15:33:57.967Z",
+    "topics": [
+      10
+    ]
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "add_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "change_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "delete_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view topic",
+    "content_type": [
+      "quizzes",
+      "topic"
+    ],
+    "codename": "view_topic"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "add_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "change_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "delete_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view word",
+    "content_type": [
+      "quizzes",
+      "word"
+    ],
+    "codename": "view_word"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "add_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "change_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "delete_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view word score",
+    "content_type": [
+      "quizzes",
+      "wordscore"
+    ],
+    "codename": "view_wordscore"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "add_quizresults"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "change_quizresults"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "delete_quizresults"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view quiz results",
+    "content_type": [
+      "quizzes",
+      "quizresults"
+    ],
+    "codename": "view_quizresults"
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$PggIB3LeCYe1lW6FBt9az4$LZeLQwIabk8bbtNgoqJO9NNVA9XiLWct0MmLkpJ1bRI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student1",
+    "first_name": "Mary",
+    "last_name": "Earps",
+    "email": "m.earps@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:08.648Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$vmHvoEclBuOFHGHZ0qF6if$r37p8yGE4stfon2YIfY/BszD+vgbGtXM/VmPDx/e+sA=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student2",
+    "first_name": "Lucy",
+    "last_name": "Bronze",
+    "email": "l.bronze@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:08.813Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$2ZStFBIUaEB5SeRxeIZkE1$ArBVuR0i5c5onOUyPZeBpjPsD7C1m464oBgfqYmIwUI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student3",
+    "first_name": "Rachel",
+    "last_name": "Daly",
+    "email": "r.daly@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:08.984Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$ZeOGyJzdZljksh5yufZ8Rj$F2UViRpvvu0GkFdz/tT+VV7lduk3h0UQ6iKj6lucS6g=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student4",
+    "first_name": "Keira",
+    "last_name": "Walsh",
+    "email": "k.walsh@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:09.150Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$mvTZofqeFeDHySF3ybmabf$ivohnbObI4dHOqpyVAlAJgAlXwDsqQscC24s0Wm8V0g=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student5",
+    "first_name": "Millie",
+    "last_name": "Bright",
+    "email": "m.bright@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:09.317Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$4fmYrBGCd8MyNDPDzNYX5i$YqReoVanADou8d8XQ+2OQjdKLcqDybCFHEFSd2L4T/g=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student6",
+    "first_name": "Beth",
+    "last_name": "Mead",
+    "email": "b.mead@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:09.483Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$RItyPQ4EM1rtlzUVSn3S0l$TupkniJUODKOIfH8sVk6UmzaRhk9i6ST/BJOeT/86pE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student7",
+    "first_name": "Leah",
+    "last_name": "Williamson",
+    "email": "l.williamson@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:09.648Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$X1iceS2yTBaEGeDJjJPfv1$mIwwfvCVVPaKolsdIJcYHh7WRHztYCm/RXGNBN6fqC0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student8",
+    "first_name": "Ellen",
+    "last_name": "White",
+    "email": "e.white@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:09.813Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$BzLqMMd9JFczhgEoSvpkHJ$9FVryf+dl03AV/VnMBtCMENNu0xtQPHOU1Put8RNaC4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student9",
+    "first_name": "Georgia",
+    "last_name": "Stanway",
+    "email": "g.stanway@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:09.980Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$iH4ppt5QIRr9bHQq7p9kNl$oItXKOlNToFQNApSQFeh7OKg+8V+So7HeER4waK52b0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student10",
+    "first_name": "Lauren",
+    "last_name": "Hemp",
+    "email": "l.hemp@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:10.145Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$YxOuMOaLWQb2Z8aArH9dWd$g9R0BECI310VdJh7e5uYbNH8NznQbK5Rnwn5tnmFohg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student11",
+    "first_name": "Francesca",
+    "last_name": "Kirby",
+    "email": "f.kirby@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:10.310Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$1ujSuHhzPN8miHHOIJRCSH$sNG7K75xIVu5KJcVu6hUvuyHbE2xtmpFM06W5d9B02A=",
+    "last_login": "2022-09-11T15:26:19.246Z",
+    "is_superuser": false,
+    "username": "teacher1",
+    "first_name": "Sarina",
+    "last_name": "Wiegman",
+    "email": "s.wiegman@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:10.476Z",
+    "is_teacher": true,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$5uIRkzAVAg5YtOIz2avHAr$F7A373oJ5i7sODKDcrXV+AvsnyKKHthVs9mMnjJplE4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student12",
+    "first_name": "Jordan",
+    "last_name": "Pickford",
+    "email": "j.pickford@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:10.641Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$i390Wd5tQ4hsaOCeojy2sE$5T9oStymeSqGbBtbWeBkBgTgS3hKitchwcjejNoI/4s=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student13",
+    "first_name": "Kyle",
+    "last_name": "Walker",
+    "email": "k.walker@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:10.806Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$MXGu7Ld7yrENTSZRN9PBMp$BSZBpESYuSAegIbBGGjf/8tbnmwJzfofbHoH1xl8Tqw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student14",
+    "first_name": "John",
+    "last_name": "Stones",
+    "email": "j.stones@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:10.972Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$G87uakVkJgiHackoespVVM$riPjt1O8Rr/XfYAzqbmo/12pxlf9P4QE1o2jDzFfhuQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student15",
+    "first_name": "Tyrone",
+    "last_name": "Mings",
+    "email": "t.mings@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:11.138Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$LuR1hbMEmXO2XyHbt4Ou2r$OpvCm6w1Ea4OWdndCHvN2dJLzTkNhCxS7VDeB1Jj+Cg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student16",
+    "first_name": "Kieran",
+    "last_name": "Trippier",
+    "email": "k.trippier@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:11.303Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$fObQNGoBH22zWpRbv9HefA$qUa8sO0+YV8PJWDXM+GOxMDHDQ6L9FV6RIJ7L0iEcKA=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student17",
+    "first_name": "Kalvin",
+    "last_name": "Phillips",
+    "email": "k.phillips@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:11.469Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$BwB3CSAfReO8Ro0yVlk9zQ$uzGcf6n7YXfXeMjX9kSuHYMXcSk3Ff/uS7eyRaowSMA=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student18",
+    "first_name": "Declan",
+    "last_name": "Rice",
+    "email": "d.rice@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:11.633Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$WL9sJoXiQh7mwhc6ye4MJz$7bgxlLhy/ZdZf3z4G0vumxj/pUTgrWCWoavawGyFwzM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student19",
+    "first_name": "Raheem",
+    "last_name": "Sterling",
+    "email": "r.sterling@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:11.798Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$c4v0wZMaVsZLH8hO96pNyS$2zYJ323m0zDidC/ltTibb34Ns8xQHQFx0dVd26ZUjrM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student20",
+    "first_name": "Mason",
+    "last_name": "Mount",
+    "email": "m.mount@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:11.965Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$IyawPElsXgm27bKqYIEaU8$dO3v6C8/jXo5lUV2kdxGBJgU2aGOjwwD2qKKYOZX420=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student21",
+    "first_name": "Phil",
+    "last_name": "Foden",
+    "email": "p.foden@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:12.131Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$dWWsKNIhOnwzLId8ctDiNu$JxtR8xoTg0eQwuPCcyCT+qrotB38ciDLzLB7RTcWY6U=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student22",
+    "first_name": "Harry",
+    "last_name": "Kane",
+    "email": "h.kane@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:12.297Z",
+    "is_teacher": false,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$320000$YevYcCA7dXHzHZc1qWLYnS$TVT5cHubF6Sv6dvrMDQCTvy/u7jlfsRcfU+E2y19axM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "teacher2",
+    "first_name": "Gareth",
+    "last_name": "Southgate",
+    "email": "g.southgate@fake.email",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-11T15:25:12.464Z",
+    "is_teacher": true,
+    "streak": 0,
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

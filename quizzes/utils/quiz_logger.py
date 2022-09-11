@@ -72,11 +72,10 @@ def process_results(results, student, topic_id, today=datetime.date.today()):
 
 
 def _log_results(student, today, topic_id, total_correct, total_questions):
-    """Log quiz results in the database."""
+    """Log quiz results in the database and update the user's streak."""
+    QuizResults.update_user_streak(student, today=today)  # only updates streak if this is user's first quiz taken today
+
     quiz_score = total_correct * CORRECT_ANSWER_PTS
     QuizResults.objects.create(student=student, topic_id=topic_id,
                                correct_answers=total_correct, incorrect_answers=total_questions - total_correct,
                                points=quiz_score, date_created=today)
-
-    # update user's streak if this is their first quiz taken today
-    QuizResults.update_user_streak(student, today=today)

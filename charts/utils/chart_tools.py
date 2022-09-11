@@ -1,9 +1,7 @@
 """This module provides functions for adapting Django queryset data into a format suitable for Chart.JS."""
 
-"""Colours for use with Chart.JS in rgba format. Each is a tuple of (area-colour, border-colour).
-
-e.g. [(area-colour1, border-colour1), (area-colour2, border-colour2)... etc]
-"""
+# Colours for use with Chart.JS in rgba format. Each is a tuple of (area-colour, border-colour).
+# e.g. [(area-colour1, border-colour1), (area-colour2, border-colour2)... etc]
 DEFAULT_CHART_PALETTE = (
     ('rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 1)'),
     ('rgba(54, 162, 235, 0.5)', 'rgba(54, 162, 235, 1)'),
@@ -13,6 +11,10 @@ DEFAULT_CHART_PALETTE = (
     ('rgba(255, 159, 64, 0.5)', 'rgba(255, 159, 64, 1)'),
     ('rgba(129, 133, 137, 0.5)', 'rgba(129, 133, 137, 1)'),
     ('rgba(50, 205, 50, 0.5)', 'rgba(50, 205, 50, 1)'),
+    ('rgba(227, 83, 53, 0.5)', 'rgba(227, 83, 53, 1)'),
+    ('rgba(78, 121, 238, 0.5)', 'rgba(78, 121, 238, 1)'),
+    ('rgba(173, 199, 155, 0.5)', 'rgba(173, 199, 155, 1)'),
+    ('rgba(224, 115, 176, 0.5)', 'rgba(224, 115, 176, 1)'),
 )
 
 
