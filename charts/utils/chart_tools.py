@@ -1,4 +1,9 @@
-# [(area-colour1, border-colour1), (area-colour2, border-colour2)... etc]
+"""This module provides functions for adapting Django queryset data into a format suitable for Chart.JS."""
+
+"""Colours for use with Chart.JS in rgba format. Each is a tuple of (area-colour, border-colour).
+
+e.g. [(area-colour1, border-colour1), (area-colour2, border-colour2)... etc]
+"""
 DEFAULT_CHART_PALETTE = (
     ('rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 1)'),
     ('rgba(54, 162, 235, 0.5)', 'rgba(54, 162, 235, 1)'),
@@ -11,8 +16,20 @@ DEFAULT_CHART_PALETTE = (
 )
 
 
-def get_colours(count, palette=DEFAULT_CHART_PALETTE):
-    # cycle through the available colours in the palette
+def prepare_data(data, label, override_colours=False):
+    """Prepares queryset data for use with Chart.JS by adding chart labels, colours and adapting into dictionary."""
+    labels_and_data = _unzip(data)
+
+    if override_colours:
+        colours = override_colours
+    else:
+        colours = _get_colours(len(labels_and_data[0]))
+
+    return _format_for_chart_js(labels_and_data, colours, label)
+
+
+def _get_colours(count, palette=DEFAULT_CHART_PALETTE):
+    """Cycles through the available colours defined above, creating a list matching the length of the dataset."""
     colours = []
 
     if len(palette) > 0:
@@ -21,10 +38,30 @@ def get_colours(count, palette=DEFAULT_CHART_PALETTE):
             colour = palette[rolling_index]
             colours.append((colour[0], colour[1]))
 
-    return unzip(colours)
+    return _unzip(colours)
 
 
-def unzip(zipped):
-    # takes QuerySet tuples: [(x1, y1), (x2, y2) ... (xn, yn)]
-    # returns [(x1, x2 ... xn), (y1, y2 ... yn)]
+def _unzip(zipped):
+    """Unzips the queryset tuples for use with Chart.JS.
+
+    i.e.
+    [(x1, y1), (x2, y2) ... (xn, yn)]
+    becomes...
+    [(x1, x2 ... xn), (y1, y2 ... yn)]
+    """
     return list(zip(*zipped))
+
+
+def _format_for_chart_js(labels_and_data, colours, label):
+    """Set up some common chart data for Chart.JS and insert the data derived from the queryset."""
+    return {
+        "labels": labels_and_data[0],
+        "datasets": [{
+            "label": label,
+            "data": labels_and_data[1],
+            "backgroundColor": colours[0],
+            "borderColor": colours[1],
+            "borderWidth": 2,
+            "tension": 0.2,
+        }]
+    }

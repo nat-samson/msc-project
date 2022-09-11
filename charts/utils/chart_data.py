@@ -1,12 +1,13 @@
+"""This module defines the specific queries required by the Charts Views."""
+
 import datetime
 
 from django.db.models import Sum, Count, CharField, Value
 from django.db.models.functions import Concat
 
-from charts.utils.chart_tools import unzip, get_colours
+from charts.utils.chart_tools import prepare_data
 from quizzes.models import QuizResults, WordScore
 from users.models import User
-
 
 PTS_PER_DAY_DATERANGE = 14  # number of days to display on Progress template linechart
 MAX_WEAKEST_WORDS = 10  # maximum number of the weakest words to display
@@ -14,7 +15,7 @@ MAX_STREAKS = 3  # maximum number of students to display in the longest streaks 
 
 
 def get_filtered_queryset(request):
-    # obtain base queryset
+    """Get the base QuizResults queryset for the data visualisations, applying the desired GET URL parameters."""
     qs = QuizResults.objects.filter(student__is_teacher=False)
 
     # extract filter settings from GET request, apply to queryset
@@ -46,32 +47,33 @@ def get_filtered_queryset(request):
 
 
 def get_updatable_charts_data(qs):
+    """Get the data required for the updatable charts data based on the filtered Queryset."""
     if not qs.exists():
         return {'points_per_topic': [], 'quizzes_per_topic': []}
 
-    points_per_topic_data = get_points_per_topic_data(qs)
-    quizzes_per_topic_data = get_quizzes_per_topic_data(qs)
+    points_per_topic_data = _get_points_per_topic_data(qs)
+    quizzes_per_topic_data = _get_quizzes_per_topic_data(qs)
 
     return {'points_per_topic': points_per_topic_data, 'quizzes_per_topic': quizzes_per_topic_data}
 
 
-def get_points_per_topic_data(qs):
+def _get_points_per_topic_data(qs):
+    """Helper function that actually performs the Points Per Topic query, packages it up with labels."""
     points_per_topic = qs.values('topic__name').annotate(Sum('points')).values_list("topic__name", "points__sum")
     label = "Points"
-
     return prepare_data(points_per_topic, label)
 
 
-def get_quizzes_per_topic_data(qs):
+def _get_quizzes_per_topic_data(qs):
+    """Helper function that actually performs the Quizzes Per Topic query, packages it up with labels."""
     quizzes_per_topic = qs.values('topic__name').annotate(quizzes_taken=Count('id'))\
         .values_list("topic__name", "quizzes_taken")
     label = "Quizzes"
-
     return prepare_data(quizzes_per_topic, label)
 
 
 def get_weakest_words_data(student=False):
-    # rank words by % incorrect answers
+    """Get a list of the Words with the worst % incorrect attempts, either for individual student or whole class."""
     scores = WordScore.objects.all()
     if student:
         scores = WordScore.objects.filter(student=student)
@@ -80,6 +82,7 @@ def get_weakest_words_data(student=False):
                          .order_by('incorrect_pc')
                          .values_list('word__origin', 'word__target', 'incorrect_pc')[:MAX_WEAKEST_WORDS])
 
+    # Top up the data so there are enough rows to fill the intended table
     while len(weakest_words) < MAX_WEAKEST_WORDS:
         weakest_words.append(("N/A", "N/A", "N/A"))
 
@@ -87,7 +90,7 @@ def get_weakest_words_data(student=False):
 
 
 def get_student_streaks_data():
-    # top 5 students ranked by longest streaks
+    """Get a list of the students with the longest streaks."""
     yesterday = datetime.date.today() - datetime.timedelta(1)
 
     # concatenates first and last names within the query itself
@@ -101,6 +104,7 @@ def get_student_streaks_data():
 
 
 def get_points_per_day_data(student):
+    """Helper function that actually performs the Points Per Day query, packages it up with labels."""
     today = datetime.date.today()
     date_from = today - datetime.timedelta(PTS_PER_DAY_DATERANGE)
     student_results = QuizResults.objects.filter(student=student, date_created__gte=date_from)
@@ -123,6 +127,7 @@ def get_points_per_day_data(student):
 
 
 def get_points_per_student_data(qs):
+    """Helper function that actually performs the Points Per Student Per Topic query, packages it up with labels."""
     # only includes students who have completed a quiz within date range
     present_student_data = list(qs.values('student')
                                 .annotate(total=Sum('points'),
@@ -143,29 +148,3 @@ def get_points_per_student_data(qs):
         return final_data
     else:
         return [['No Students Registered!', 'N/A']]
-
-
-def prepare_data(data, label, override_colours=False):
-    labels_and_data = unzip(data)
-
-    if override_colours:
-        colours = override_colours
-    else:
-        colours = get_colours(len(labels_and_data[0]))
-
-    return format_for_chart_js(labels_and_data, colours, label)
-
-
-def format_for_chart_js(labels_and_data, colours, label):
-    # set up some common chart data and insert specific chart data
-    return {
-        "labels": labels_and_data[0],
-        "datasets": [{
-            "label": label,
-            "data": labels_and_data[1],
-            "backgroundColor": colours[0],
-            "borderColor": colours[1],
-            "borderWidth": 2,
-            "tension": 0.2,
-        }]
-    }
