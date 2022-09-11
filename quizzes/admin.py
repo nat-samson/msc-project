@@ -7,6 +7,7 @@ from .models import Topic, Word
 
 
 class TopicWordsInline(admin.TabularInline):
+    """Allow inline editing of a Topic's Words."""
     model = Word.topics.through
     extra = 0
     ordering = ('word__origin',)
@@ -21,6 +22,7 @@ class TopicWordsInline(admin.TabularInline):
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
+    """Display Topic model in the Django admin."""
     list_display = ('name', 'is_hidden', 'available_from', 'link_to_words',)
     fields = ('name', 'short_desc', 'long_desc', 'is_hidden', 'available_from',)
     search_fields = ('name', 'long_desc', 'words__origin', 'words__target')
@@ -47,6 +49,7 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Word)
 class WordAdmin(admin.ModelAdmin):
+    """Display the Word model in the Django admin."""
     list_display = ('id', 'origin', 'target', 'get_topics_list_str',)
     list_filter = ('topics',)
     fields = ('origin', 'target', 'topics',)
@@ -64,6 +67,7 @@ class WordAdmin(admin.ModelAdmin):
         return qs.prefetch_related('topics')
 
     def get_topics_list_str(self, word):
+        """Display all the Topics for a given word as a String."""
         topics = word.topics.all()
         if topics.exists():
             return ', '.join([x.name for x in topics])

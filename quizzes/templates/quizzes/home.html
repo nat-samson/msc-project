@@ -82,6 +82,10 @@
                     </div>
                 </div>
             </div>
+        {% empty %}
+            {% if not request.user.is_teacher %}
+                <p class="box has-background-warning">No Topics are currently available, come back later or ask your Teacher!</p>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock content %}

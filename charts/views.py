@@ -32,7 +32,7 @@ def progress(request):
 @login_required
 @user_passes_test(lambda user: user.is_teacher)
 def dashboard(request):
-    """Django view function responsible for passing all the initial data required by the Dashboard page."""
+    """View function responsible for passing all the initial data required by the Dashboard page."""
     context = {
         "live_topics": Topic.live_topics().count(),
         "live_words": Word.objects.filter(topics__in=Topic.live_topics().values_list('id')).distinct().count(),
@@ -53,6 +53,7 @@ API VIEWS
 
 @login_required()
 def get_filtered_data_student(request):
+    """Get the student's filtered data required for the 'databoxes' on the Progress page in JSON format."""
     qs = get_filtered_queryset(request)
 
     # calculate percentage of correct answers (or "N/A" if no quizzes completed in timeframe)
@@ -74,6 +75,7 @@ def get_filtered_data_student(request):
 @login_required
 @user_passes_test(lambda user: user.is_teacher)
 def get_filtered_data_teacher(request):
+    """Get the filtered data required for the 'databoxes' on the Dashboard page in JSON format."""
     qs = get_filtered_queryset(request)
     data = qs.aggregate(active_students=Count('student', distinct=True),
                         quizzes_taken=Count('id'),
@@ -85,6 +87,7 @@ def get_filtered_data_teacher(request):
 @login_required
 @user_passes_test(lambda user: user.is_teacher)
 def get_filtered_data_topic(request):
+    """Get the filtered data required for the Points Per Student table on the Dashboard page in JSON format."""
     qs = get_filtered_queryset(request)
 
     data = get_points_per_student_data(qs)
@@ -93,6 +96,7 @@ def get_filtered_data_topic(request):
 
 @login_required
 def get_updatable_charts(request):
+    """Get the filtered data required for the updatable charts on the Dashboard and Progress pages in JSON format."""
     qs = get_filtered_queryset(request)
 
     data = get_updatable_charts_data(qs)
@@ -101,5 +105,6 @@ def get_updatable_charts(request):
 
 @login_required
 def get_points_per_day(request):
+    """Get the student points per day data required for the Progress page's line chart in JSON format."""
     chart_data = get_points_per_day_data(request.user)
     return JsonResponse(chart_data)

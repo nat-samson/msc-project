@@ -1,3 +1,6 @@
+"""This module is the counterpart to quiz_builder. It processes the quiz results and updates the spaced repetition
+schedule accordingly."""
+
 import datetime
 
 from django.db import transaction
@@ -26,7 +29,7 @@ def process_results(results, student, topic_id, today=datetime.date.today()):
         total_questions += 1
 
         # if WordScore exists for this word/student pair, update it...
-        word_score = word_scores.get(word_id, None)
+        word_score = word_scores.get(str(word_id), None)
 
         if word_score:
             if word_score.next_review <= today or not is_correct:

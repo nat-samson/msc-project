@@ -5,7 +5,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    """ Add user management tools to the Django Admin site """
+    """Add user management tools to the Django Admin site."""
     model = User
     list_display = ('last_name', 'first_name', 'is_teacher', 'is_superuser', 'is_active',)
     list_filter = ('is_teacher', 'is_superuser', 'is_active')

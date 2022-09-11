@@ -2,8 +2,8 @@ import datetime
 
 from django.test import TestCase
 
-from users.models import User
 from quizzes.models import Topic, Word, WordScore, MAX_SCORE, QuizResults, QUIZ_INTERVALS
+from users.models import User
 
 
 class TopicModelTests(TestCase):

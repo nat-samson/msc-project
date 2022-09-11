@@ -10,10 +10,12 @@ from .forms import StudentRegistrationForm, TeacherRegistrationForm, UserUpdateF
 
 
 class RegisterView(TemplateView):
+    """View for registration landing page - letting a user indicate if they are a student or teacher."""
     template_name = 'users/register.html'
 
 
 class CreateUserView(CreateView):
+    """Base view that processes the actual registration of a new user."""
     template_name = 'users/register_form.html'
 
     def form_valid(self, form):
@@ -24,14 +26,17 @@ class CreateUserView(CreateView):
 
 
 class StudentRegisterView(CreateUserView):
+    """Student version of the CreateUserView."""
     form_class = StudentRegistrationForm
 
 
 class TeacherRegisterView(CreateUserView):
+    """Teacher version of the CreateUserView."""
     form_class = TeacherRegistrationForm
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
+    """View for updating a user's details according to the UserUpdateForm."""
     form_class = UserUpdateForm
     template_name = 'users/user_form.html'
     success_url = reverse_lazy('home')
@@ -45,6 +50,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class CustomPasswordChangeView(PasswordChangeView):
+    """View for updating a user's password."""
     template_name = 'users/password_change_form.html'
     success_url = reverse_lazy('home')
 

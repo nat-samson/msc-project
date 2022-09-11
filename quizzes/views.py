@@ -43,9 +43,10 @@ class TopicDetailView(LoginRequiredMixin, DetailView):
     fields = ['name', 'long_desc', 'short_desc']
 
     def get_context_data(self, **kwargs):
+        """Get the user's scores for all Words in the Topic, including Words where no WordScore currently exists."""
         context = super().get_context_data(**kwargs)
 
-        # get the queryset for all words in Topic and their scores, even if no WordScore exists yet
+        # get the ORM to perform an outer join in order to add Words without WordScores
         qs = Word.objects.filter(topics=context['topic'])\
             .annotate(joinscore=FilteredRelation('wordscore', condition=Q(wordscore__student=self.request.user)),)\
             .order_by('origin')\

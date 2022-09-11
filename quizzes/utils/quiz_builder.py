@@ -1,3 +1,5 @@
+"""This module generates all the questions needed for a Quiz and returning it in the expected format."""
+
 import copy
 import datetime
 import random
