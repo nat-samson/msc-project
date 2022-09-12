@@ -1,5 +1,16 @@
 # MSc Computer Science Project 2021-22: Nathaniel Samson
 
+### Overview
+
+This repo defines a language-learning web app intended to promote the memorisation of vocabulary terms using spaced-repetition.
+
+The app is designed to complement classroom-based teaching by providing tools for both teachers and their students:
+
+* For **teachers**, the app tracks the progress of all students in their class, helping to identify any subject areas that may need further reinforcement. 
+* For **students**, the app delivers multiple-choice quizzes, tailored to the individual and scheduled according to the principles of spaced repetition, making learning both enjoyable and efficient.
+
+***
+
 ### Installation Guide
 
 Navigate to your desired directory and clone the GitHub repo:
@@ -24,11 +35,13 @@ Set up the database:
 
     python manage.py migrate
 
-Everything is now installed, but there is no data in the database. I have supplied some example `Word`, `Topic` and `User` data to demonstrate the application’s features:
+Everything is now installed, but there is no data in the database. I have supplied some example `Word`, `Topic` and `User` data to demonstrate the application’s features. Load the fixture:
 
     python manage.py loaddata demo.json
 
-Next, you can simulate all the students taking 32 days’ worth of quizzes (you can specify any number of days as desired, but please note larger numbers will take longer to process):
+Next, you can simulate all the students taking 32 days’ worth of quizzes (you can specify any number of days, but please note larger numbers will take longer to process). 
+
+This command will confirm that the data has been successfully created once it finishes executing:
 
     python manage.py generate_results 32
 
