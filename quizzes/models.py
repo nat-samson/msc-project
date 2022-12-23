@@ -6,7 +6,7 @@ from django.db.models import F, Count
 from users.models import User
 
 QUIZ_INTERVALS = (1, 3, 7, 13, 21, 30)
-MAX_SCORE = len(QUIZ_INTERVALS)
+MAX_SCORE = len(QUIZ_INTERVALS) - 1
 
 
 class Topic(models.Model):
@@ -94,7 +94,7 @@ class WordScore(models.Model):
         return f'{self.student} / {self.word}: {self.score()}'
 
     def score(self):
-        """ Enforce a maximum score for each word. """
+        """Enforce a maximum score for each word."""
         return min(self.consecutive_correct, MAX_SCORE)
 
     def set_next_review(self, today=datetime.date.today()):

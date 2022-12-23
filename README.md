@@ -2,7 +2,7 @@
 
 ### Overview
 
-This repo defines a language-learning web app intended to promote the memorisation of vocabulary terms using spaced-repetition.
+This repo defines a language-learning web app intended to promote the memorisation of vocabulary terms using spaced repetition.
 
 The app is designed to complement classroom-based teaching by providing tools for both teachers and their students:
 
