@@ -1,4 +1,4 @@
-# MSc Computer Science Project 2021-22: Nathaniel Samson
+# A Django Wep App for Vocabulary Memorisation in the Classroom
 
 ### Overview
 
@@ -9,17 +9,19 @@ The app is designed to complement classroom-based teaching by providing tools fo
 * For **teachers**, the app tracks the progress of all students in their class, helping to identify any subject areas that may need further reinforcement. 
 * For **students**, the app delivers multiple-choice quizzes, tailored to the individual and scheduled according to the principles of spaced repetition, making learning both enjoyable and efficient.
 
+Please [see here for a video demonstration](https://youtu.be/-NliM8Hd-YE) of the app's key features.
+
 ***
 
 ### Installation Guide
 
 Navigate to your desired directory and clone the GitHub repo:
 
-    git clone https://github.com/Birkbeck/msc-computer-science-project-2021_22-nat-samson.git
+    git clone https://github.com/nat-samson/msc-project.git
 
 Enter the project directory, set up and activate the virtual environment:
 
-    cd msc-computer-science-project-2021_22-nat-samson
+    cd msc-project
     python3 -m venv venv
     source venv/bin/activate
 

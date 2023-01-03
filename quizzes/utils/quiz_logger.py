@@ -16,20 +16,21 @@ def process_results(results, student, topic_id, today=datetime.date.today()):
     results_page_data = {'words': []}
     total_questions = 0
     total_correct = 0
-
-    # obtain all the database entries required for maintaining the spaced-repetition schedule
-    words_in_quiz = Word.objects.in_bulk(results, field_name='pk')
-    word_scores = {str(ws.word_id): ws for ws in
-                   WordScore.objects.select_related('word').filter(student=student, word__in=words_in_quiz)}
     word_scores_to_create = []
     word_scores_to_update = []
 
+    # obtain the necessary database entries for maintaining the spaced-repetition schedule
+    words_in_quiz = Word.objects.in_bulk(results, field_name='pk')
+    word_scores = {ws.word_id: ws for ws in
+                   WordScore.objects.select_related('word').filter(student=student, word__in=words_in_quiz)}
+
     # process the results
-    for word_id, is_correct in results.items():
+    for word_id in words_in_quiz:
+        is_correct = results.get(str(word_id))
         total_questions += 1
 
         # if WordScore exists for this word/student pair, update it...
-        word_score = word_scores.get(str(word_id), None)
+        word_score = word_scores.get(word_id, None)
 
         if word_score:
             if word_score.next_review <= today or not is_correct:
@@ -47,10 +48,10 @@ def process_results(results, student, topic_id, today=datetime.date.today()):
         # ...otherwise, create the WordScore
         else:
             if is_correct:
-                word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student, consecutive_correct=1,
+                word_score = WordScore(word=words_in_quiz.get(word_id), student=student, consecutive_correct=1,
                                        times_correct=1, next_review=today + datetime.timedelta(1))
             else:
-                word_score = WordScore(word=words_in_quiz.get(int(word_id)), student=student)
+                word_score = WordScore(word=words_in_quiz.get(word_id), student=student)
             word_scores_to_create.append(word_score)
 
         # prepare data for display on the results page
