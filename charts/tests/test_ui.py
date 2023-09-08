@@ -1,10 +1,10 @@
 import datetime
 import time
 
-import chromedriver_autoinstaller
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
@@ -56,8 +56,9 @@ class BaseUITestCase(StaticLiveServerTestCase):
         cls.topic2 = Topic.objects.create(name='Selenium Test Topic 2')
 
         # set up automated Selenium browser
-        chromedriver_autoinstaller.install()
-        cls.browser = webdriver.Chrome()
+        service = Service()
+        options = webdriver.ChromeOptions()
+        cls.browser = webdriver.Chrome(service=service, options=options)
         cls.browser.implicitly_wait(10)
 
     @classmethod
