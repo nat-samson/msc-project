@@ -10,11 +10,18 @@
  * @param {Function} updaterFunc - A Function that updates the target with the retrieved data.
  */
 function updateData(target, url, updaterFunc) {
-    $.getJSON(url, function(data) {
-        updaterFunc(target, data);
-    }).fail(function() {
-        console.log("Failed to retrieve data from server.");
-    });
+    fetch(url, {
+        headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest', // necessary to work with request.is_ajax()
+        },
+    })
+        .then(response => {
+            return response.json(); // convert response to JSON
+        })
+        .then(data => {
+            updaterFunc(target, data);
+        })
 }
 
 /**

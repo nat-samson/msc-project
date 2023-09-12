@@ -141,24 +141,36 @@
         let pointsPerDayChart = new Chart(pointsPerDayCtx, getChartSettings('line'));
         const updatableCharts = [topicPointsChart, topicsQuizzesChart];
 
+        /**
+         * Ensure the DOM is fully loaded and set up the JS logic.
+         * @param {Function} fn - a function to be invoked once the DOM is fully loaded.
+         */
+        function ready(fn) {
+            if (document.readyState !== 'loading') {
+                fn();
+            } else {
+                document.addEventListener('DOMContentLoaded', fn, {once: true});
+            }
+        }
+
         function updateAllCharts() {
             filterButton.click();
-            updateData(updatableCharts, "{% url "data-updatable-charts" %}", chartsUpdater)
+            updateData(updatableCharts, "{% url "data-updatable-charts" %}", chartsUpdater);
             updateData(pointsPerDayChart, "{% url "data-points-per-day" %}", chartUpdater);
         }
 
         // trigger data update when Submit is clicked
         filterButton.addEventListener("click", (e) => {
-            e.preventDefault()
-            let targetForm = $('#date-filter-form');
-            let url = targetForm.attr('action') + "?" + targetForm.serialize();
+            e.preventDefault();
+            const targetForm = document.getElementById("date-filter-form");
+            const url = targetForm.getAttribute("action") + "?" + new URLSearchParams(new FormData(targetForm));
             updateData(filterableBoxes, url, boxesUpdater);
         });
 
-        $(document).ready(function(){
+        window.ready(function() {
             // populate initial data into boxes and charts
-            updateAllCharts()
-        })
+            updateAllCharts();
+        });
     </script>
 
 {% endblock %}

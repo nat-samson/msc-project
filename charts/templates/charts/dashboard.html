@@ -182,48 +182,66 @@
         const filterableBoxes = Array.from(document.getElementsByClassName("filter-box"));
 
         // filterable chart set up
-        let topicPointsCtx = document.getElementById("topicPointsChart").getContext("2d");
-        let topicPointsChart = new Chart(topicPointsCtx, getChartSettings('bar'));
-        let topicsQuizzesCtx = document.getElementById("topicsQuizzesChart").getContext("2d");
-        let topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
+        const topicPointsCtx = document.getElementById("topicPointsChart").getContext("2d");
+        const topicPointsChart = new Chart(topicPointsCtx, getChartSettings('bar'));
+        const topicsQuizzesCtx = document.getElementById("topicsQuizzesChart").getContext("2d");
+        const topicsQuizzesChart = new Chart(topicsQuizzesCtx, getChartSettings('pie'));
         const updatableCharts = [topicPointsChart, topicsQuizzesChart];
 
         // table set up
-        let pointsPerStudentTable = document.querySelector('#points-table tbody');
+        const pointsPerStudentTable = document.querySelector('#points-table tbody');
 
-        function updateAllCharts() {
+        /**
+         * Ensure the DOM is fully loaded and set up the JS logic.
+         * @param {Function} fn - a function to be invoked once the DOM is fully loaded.
+         */
+        function ready(fn) {
+            if (document.readyState !== 'loading') {
+                fn();
+            } else {
+                document.addEventListener('DOMContentLoaded', fn, {once: true});
+            }
+        }
+
+        /**
+         * Populate the updatable elements with some initial data.
+         */
+        function getInitialData() {
+            // submit the button controlling each form
             filterButton.click();
             filterButtonStudent.click();
             filterButtonTable.click();
         }
 
-        // trigger data update when Submit is clicked (DATABOXES)
-        filterButton.addEventListener("click", (e) => {
-            e.preventDefault()
-            let targetForm = $('#date-filter-form');
-            let url = targetForm.attr('action') + "?" + targetForm.serialize();
-            updateData(filterableBoxes, url, boxesUpdater);
-        });
+        /**
+         * Set a listener function to the specified button for when it is submitted. This will refresh the data.
+         * @param button
+         * @param formId
+         * @param target
+         * @param updaterFunc
+         */
+        function setButtonListener(button, formId, target, updaterFunc) {
+            button.addEventListener(("click"), e => {
+                e.preventDefault();
+                const form = document.getElementById(formId);
+                const url = form.getAttribute("action") + "?" + new URLSearchParams(new FormData(form));
+                updateData(target, url, updaterFunc);
+            })
+        }
 
-        // trigger data update when Submit is clicked (CHARTS)
-        filterButtonStudent.addEventListener("click", (e) => {
-            e.preventDefault()
-            let targetForm = $('#student-filter-form');
-            let url = targetForm.attr('action') + "?" + targetForm.serialize();
-            updateData(updatableCharts, url, chartsUpdater);
-        });
+        /**
+         * Attach the various Event Handlers to their associated button.
+         */
+        function setButtonListeners() {
+            setButtonListener(filterButton, "date-filter-form", filterableBoxes, boxesUpdater);
+            setButtonListener(filterButtonStudent, "student-filter-form", updatableCharts, chartsUpdater);
+            setButtonListener(filterButtonTable, "topic-filter-form", pointsPerStudentTable, tableUpdater);
+        }
 
-        // trigger data update when Submit is clicked (TABLE)
-        filterButtonTable.addEventListener("click", (e) => {
-            e.preventDefault()
-            let targetForm = $('#topic-filter-form');
-            let url = targetForm.attr('action') + "?" + targetForm.serialize();
-            updateData(pointsPerStudentTable, url, tableUpdater);
-        });
-
-        $(document).ready(function(){
+        window.ready(function() {
             // populate initial data into boxes and charts
-            updateAllCharts()
-        })
+            setButtonListeners();
+            getInitialData();
+        });
     </script>
 {% endblock %}
