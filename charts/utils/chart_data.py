@@ -1,4 +1,4 @@
-"""This module defines the specific queries required by the Charts Views."""
+"""This module defines functions that represent the specific Django ORM queries used by the Charts Views."""
 
 import datetime
 
@@ -58,14 +58,14 @@ def get_updatable_charts_data(qs):
 
 
 def _get_points_per_topic_data(qs):
-    """Helper function that actually performs the Points Per Topic query, packages it up with labels."""
+    """Helper function that defines the Points Per Topic query, packages it up with labels."""
     points_per_topic = qs.values('topic__name').annotate(Sum('points')).values_list("topic__name", "points__sum")
     label = "Points"
     return prepare_data(points_per_topic, label)
 
 
 def _get_quizzes_per_topic_data(qs):
-    """Helper function that actually performs the Quizzes Per Topic query, packages it up with labels."""
+    """Helper function that defines the Quizzes Per Topic query, packages it up with labels."""
     quizzes_per_topic = qs.values('topic__name').annotate(quizzes_taken=Count('id'))\
         .values_list("topic__name", "quizzes_taken")
     label = "Quizzes"

@@ -37,15 +37,15 @@ class TopicWordsView(TeachersOnlyMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        topic_id = self.kwargs.get('topic_id', None)
+
+        # store the most recently visited topic to enable the user to be sent back here after adding/editing a word
+        topic_id = self.kwargs.get('topic_id', '')
         context['topic_id'] = topic_id
 
-        if topic_id is None:
-            # if user is on the 'All Topics' page, display the filter form
+        # if user is on the 'All Topics' page, display the filter form
+        if topic_id == '':
             context['word_filter_form'] = WordFilterForm()
 
-        # store the most recently visited topic to enable the user to be redirected back here later.
-        self.request.session['recent_topic'] = topic_id
         return context
 
 
@@ -69,7 +69,7 @@ def add_word(request, topic_id=None):
                 words = Word.objects.filter(topics__isnull=True).order_by(Lower('origin'))
             data['is_valid'] = True
 
-            data['html_word_rows'] = render_to_string('editor/word_list.html', {'words': words})
+            data['html_word_rows'] = render_to_string('editor/word_list.html', {'words': words, 'topic_id': topic_id})
 
         else:
             data['is_valid'] = False
@@ -157,9 +157,10 @@ class WordUpdateView(TeachersOnlyMixin, UpdateView):
 
     def get_success_url(self):
         # redirect teacher to the most recently-visited add words page after updating a word
-        recent_topic = self.request.session.get('recent_topic', None)
-        if recent_topic:
-            url = reverse('topic_words', kwargs={'topic_id': recent_topic})
+        next_topic = self.request.GET.get('next')
+
+        if next_topic:
+            url = reverse('topic_words', kwargs={'topic_id': next_topic})
         else:
             url = reverse('topic_words')
         return url
@@ -168,14 +169,14 @@ class WordUpdateView(TeachersOnlyMixin, UpdateView):
 class WordDeleteView(TeachersOnlyMixin, DeleteView):
     """View for deleting a specified Word."""
     model = Word
-    success_url = reverse_lazy('home')
     template_name = "editor/word_confirm_delete.html"
 
     def get_success_url(self):
         # redirect teacher to the most recently-visited add words page after deleting a word
-        recent_topic = self.request.session.get('recent_topic', None)
-        if recent_topic:
-            url = reverse('topic_words', kwargs={'topic_id': recent_topic})
+        next_topic = self.request.GET.get('next')
+
+        if next_topic:
+            url = reverse('topic_words', kwargs={'topic_id': next_topic})
         else:
             url = reverse('topic_words')
         return url

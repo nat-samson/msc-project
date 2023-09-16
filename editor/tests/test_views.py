@@ -256,16 +256,15 @@ class WordUpdateViewTests(BaseTestCase):
         self.assertEquals(self.word.target, 'test target a UPDATED')
 
     def test_redirect_after_updating_from_all_topics_page(self):
-        response = self.client.post(self.path, {'origin': 'test origin a UPDATED', 'target': 'test target a UPDATED'},
+        path_with_next = self.path + "?next="
+        response = self.client.post(path_with_next, {'origin': 'test origin a UPDATED', 'target': 'test target a UPDATED'},
                                     follow=True)
         self.assertRedirects(response, reverse('topic_words'), status_code=302)
 
     def test_redirect_after_deleting_from_single_topic_page(self):
-        # when a user updates a Word having located it via a single Topic page, they are redirected there after update.
-        session = self.client.session
-        session['recent_topic'] = 1
-        session.save()
-        response = self.client.post(self.path, {'origin': 'test origin a UPDATED', 'target': 'test target a UPDATED'},
+        # when user updates a Word having arrived via a single Topic page, they are redirected back there after update
+        path_with_next = f"{self.path}?next={self.test_topic.pk}"
+        response = self.client.post(path_with_next, {'origin': 'test origin a UPDATED', 'target': 'test target a UPDATED'},
                                     follow=True)
         self.assertRedirects(response, reverse('topic_words', kwargs={'topic_id': 1}), status_code=302)
 
@@ -304,11 +303,11 @@ class TopicDeleteViewTests(BaseTestCase):
         response = self.client.get(self.path, follow=True)
         self.assertContains(response, 'Are you sure you want to')
 
-    def test_actually_deleting_object(self):
+    def test_actually_deleting_topic(self):
         self.client.post(self.path, follow=True)
         self.assertFalse(Topic.objects.filter(name='Test Topic').exists())
 
-    def test_redirect_after_deleting_object(self):
+    def test_redirect_after_deleting_topic(self):
         response = self.client.post(self.path, follow=True)
         self.assertRedirects(response, reverse('home'), status_code=302)
 
@@ -333,13 +332,12 @@ class WordDeleteViewTests(BaseTestCase):
         self.assertFalse(Word.objects.filter(origin='test origin a').exists())
 
     def test_redirect_after_deleting_from_all_topics_page(self):
-        response = self.client.post(self.path, follow=True)
+        path_with_next = self.path + "?next="
+        response = self.client.post(path_with_next, follow=True)
         self.assertRedirects(response, reverse('topic_words'), status_code=302)
 
     def test_redirect_after_deleting_from_single_topic_page(self):
         # when a user deletes a Word having located it via a single Topic page, they are redirected there after delete.
-        session = self.client.session
-        session['recent_topic'] = 1
-        session.save()
-        response = self.client.post(self.path, follow=True)
+        path_with_next = f"{self.path}?next={self.test_topic.pk}"
+        response = self.client.post(path_with_next, follow=True)
         self.assertRedirects(response, reverse('topic_words', kwargs={'topic_id': 1}), status_code=302)

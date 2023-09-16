@@ -2,8 +2,8 @@
     <tr>
         <td>{{word.origin}}</td>
         <td>{{word.target}}</td>
-        <td class="has-text-centered"><a class="button is-info is-small has-text-weight-bold" href="{% url 'word_update' word.id %}">Edit</a></td>
-        <td class="has-text-centered"><a class="button is-danger is-small has-text-weight-bold" href="{% url 'word_delete' word.id %}">Delete</a></td>
+        <td class="has-text-centered"><a class="button is-info is-small has-text-weight-bold" href="{% url 'word_update' word.id %}?next={{ topic_id }}">Edit</a></td>
+        <td class="has-text-centered"><a class="button is-danger is-small has-text-weight-bold" href="{% url 'word_delete' word.id %}?next={{ topic_id }}">Delete</a></td>
     </tr>
 {% empty %}
     <tr>
