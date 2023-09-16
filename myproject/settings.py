@@ -170,3 +170,6 @@ MAX_QUIZ_LENGTH = config('MAX_QUIZ_LENGTH', default=12, cast=int)
 CORRECT_ANSWER_PTS = config('CORRECT_ANSWER_PTS', default=10, cast=int)
 ORIGIN_ICON = config('ORIGIN_ICON', default='🇬🇧')
 TARGET_ICON = config('TARGET_ICON', default='🇩🇪')
+
+# Hide the Django Debug Toolbar by uncommenting the below:
+# DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
